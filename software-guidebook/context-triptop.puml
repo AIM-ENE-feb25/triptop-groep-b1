@@ -1,0 +1,40 @@
+@startuml
+
+title
+TripTop - System Context Diagram
+<font size="12">System Context diagram for the TripTop vacation planning application</font>
+end title
+
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+'LAYOUT_WITH_LEGEND()
+
+' People/Actors
+Person(traveler, "<Person>\nTraveler", "Person planning and booking a vacation trip")
+
+' Systems
+System(triptop, "<System>\nTriptop", "Vacation Planning Application. Allows users to plan, book, and manage their vacation trips")
+
+' External Systems
+System_Ext(bookingService, "<External API>\nBooking Services", "Allows Triptop to search for and book accommodations (e.g., Booking.com, Airbnb)")
+System_Ext(transportService, "<External API>\nTransport Services", "Allows Triptop to search for and book transportation (e.g., NS, Deutsche Bahn, KLM)")
+System_Ext(carRentalService, "<External API>\nCar Rental Services", "Allows Triptop to search for and book car rentals (e.g., Sixt, Hertz)")
+System_Ext(activityService, "<External API>\nActivity Services", "Allows Triptop to search for and book activities and excursions (e.g., GetYourGuide, Tripadvisor)")
+System_Ext(foodService, "<External API>\nFood Services", "Allows Triptop to search for and book restaurants (e.g., Takeaway, Eet.nu)")
+System_Ext(identityProvider, "<External API>\nIdentity Providers", "Allows Triptop to authenticate users (e.g., Google, Microsoft, Airbnb)")
+System_Ext(paymentSystem, "<External API>\nPayment Systems", "Allows Triptop to process payments")
+
+' Relationships
+Rel(traveler, triptop, "Plans trips, makes bookings")
+Rel(triptop, bookingService, "Books accommodations")
+Rel(triptop, transportService, "Checks transportation options")
+Rel(triptop, carRentalService, "Checks car rental options")
+Rel(triptop, activityService, "Books activities and excursions")
+Rel(triptop, foodService, "Provides restaurant recommendations")
+Rel(triptop, identityProvider, "Allows users to login")
+Rel(triptop, paymentSystem, "Processes payments")
+
+SHOW_LEGEND()
+
+@enduml
