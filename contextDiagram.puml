@@ -1,0 +1,35 @@
+@startuml
+
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+'LAYOUT_WITH_LEGEND()
+
+' People/Actors
+Person(traveler, "Traveler", "Person planning and booking a vacation trip")
+
+' Systems
+System(triptop, "Triptop", "Vacation Planning Application", "Allows users to plan, book, and manage their vacation trips")
+
+' External Systems
+System_Ext(bookingService, "Booking Services", "External accommodation booking services (e.g., Booking.com, Airbnb)")
+System_Ext(transportService, "Transport Services", "External transportation services (e.g., NS, Deutsche Bahn, KLM)")
+System_Ext(carRentalService, "Car Rental Services", "External car rental services (e.g., Sixt, Hertz)")
+System_Ext(activityService, "Activity Services", "External activity and excursion services (e.g., GetYourGuide, Tripadvisor)")
+System_Ext(foodService, "Food Services", "External food and dining services (e.g., Takeaway, Eet.nu)")
+System_Ext(identityProvider, "Identity Providers", "External authentication services (e.g., Google, Microsoft, Airbnb)")
+System_Ext(paymentSystem, "Payment Systems", "External payment processing services")
+
+' Relationships
+Rel(traveler, triptop, "Plans trips, makes bookings, manages itinerary")
+Rel(triptop, bookingService, "Books accommodations")
+Rel(triptop, transportService, "Books transportation")
+Rel(triptop, carRentalService, "Rents vehicles")
+Rel(triptop, activityService, "Books activities and excursions")
+Rel(triptop, foodService, "Makes dining reservations")
+Rel(triptop, identityProvider, "Authenticates users")
+Rel(triptop, paymentSystem, "Processes payments")
+
+SHOW_LEGEND()
+
+@enduml
