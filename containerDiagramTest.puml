@@ -1,0 +1,25 @@
+@startuml ANS Container Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(student, "Student", "A student who uses the system to make exams")
+Person(teacher, "Teacher", "A teacher who uses the system to create and grade exams")
+
+System_Boundary(ans, "ANS System") {
+    Container(web_app, "Web Application", "JavaScript, React", "Provides all the ANS functionality via web browser")
+    Container(api, "API", "Java Spring Boot", "Handles business logic and data processing")
+    Container(database, "Database", "PostgreSQL", "Stores exam data, student records, and grades")
+}
+
+System_Ext(osiris, "Osiris", "Contains registered students for exams")
+System_Ext(schoolyear, "SchoolYear", "Secures ANS so it can only be used in a safe browser")
+
+Rel(student, web_app, "Navigates to the exams", "HTTPS")
+Rel(teacher, web_app, "Navigates to the exams", "HTTPS")
+Rel(web_app, api, "Makes API calls to", "JSON/HTTPS")
+Rel(api, database, "Reads from and writes to", "JDBC")
+Rel(api, osiris, "Checks if student is registered for exams", "API")
+Rel(web_app, schoolyear, "Checks if ANS is used in a safe browser", "API")
+
+@enduml
