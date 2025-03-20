@@ -1,0 +1,26 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+'Container(WebApp, "Webapplicatie", $techn="javascript ofzo", $descr="Provides Triptop functionalities to a traveller using the webbrowser")
+
+
+
+Person(Traveller, "Traveller", $descr="A traveller who wants to plan their trip using TripTop")
+System_Boundary("key_boundary", "triptop", $tags="") {
+
+Container(Backend, "Backend API", $techn="Java Spring", $descr="Provides Triptop functionalities to a traveller")
+ContainerDb(Database, "Database", $techn="SQL", $descr="Contains all planned trips and their status")
+
+ }
+Container(ExternalAPI1, "API1", $techn="", $descr="")
+Container(ExternalAPI2, "API2", $techn="", $descr="", $tags="", $link="")
+
+Rel(Traveller, Backend, "Plans trip using")
+Rel(Backend, Database, "Stores data in- and gets data from")
+Rel(Backend, ExternalAPI1, "Gets or stores some kinda data")
+Rel(Backend, ExternalAPI2, "Ditto")
+@enduml
+
