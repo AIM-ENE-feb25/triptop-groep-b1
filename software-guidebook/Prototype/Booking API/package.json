@@ -1,0 +1,12 @@
+{
+  "name": "triptop-booking-api-prototype",
+  "version": "1.0.0",
+  "description": "A prototype for integrating the Booking.com API with the Triptop domain model",
+  "main": "booking-api-client.js",
+  "scripts": {
+    "test": "node test-booking-api.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+} 

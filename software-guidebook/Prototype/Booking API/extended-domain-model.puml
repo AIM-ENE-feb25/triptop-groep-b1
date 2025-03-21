@@ -1,0 +1,76 @@
+@startuml Extended Domain Model for Booking.com API
+!include https://raw.githubusercontent.com/craft-coder/plantuml-styles/main/styles/modern-style.plantuml
+'https://plantuml.com/class-diagram
+
+' Original classes from domain model
+class Reiziger {
+    -telefoonnummer: Telefoonnummer
+    -postcode: Postcode
+    -huisnummer: Huisnummer
+    +maakTrip(): Trip
+}
+
+class TriptopGebruiker {
+    -voornaam:String
+    -tussenvoegsels:String
+    -achternaam:String
+    -email:Email
+    -wachtwoord:Wachtwoord
+}
+
+class Trip {
+    -startDatum:Datum
+    -eindDatum:Datum
+    -budget:double
+    ' Added attributes for Booking.com API
+    -aantalVolwassenen:int
+    -aantalKamers:int
+    -valuta:String
+    -taal:String
+    +berekenDuur(): int
+    +berekenPrijs(): double
+    +bepaalDuurzaamheidsScore():DuurzaamheidsScore
+}
+
+class Verblijf {
+    -startDatum:Datum
+    -eindDatum:Datum
+    ' Added attribute for Booking.com API
+    -aantalKamers:int
+    +berekenVerblijfsduur(): int
+}
+
+class Verblijfplaats {
+    -locatie:Locatie
+    -prijs:double
+    ' Added attributes for Booking.com API
+    -hotelId:String
+    -sterrenClassificatie:double
+    -reviewScore:double
+    -beschikbareKamers:int
+    -fotoUrl:String
+}
+
+class Locatie {
+    -lat:Coordinaat
+    -lon:Coordinaat
+    ' Added attributes for Booking.com API
+    -naam:String
+    -adres:String
+    -stad:String
+    -land:String
+    -locationId:String  ' Booking.com location ID
+    -locationType:String ' Booking.com location type (city, district, etc.)
+}
+
+' Relationships
+TriptopGebruiker <|-- Reiziger
+Trip "1" -- "0..*"  Verblijf : verblijf
+Trip "1" -- "1..*"  Reiziger : plannen
+Verblijf "1" -- "1"  Verblijfplaats : verblijfplaats
+Verblijfplaats "1" -- "1" Locatie : locatie
+
+' Added note for extensions
+note "Attributes in italics are extensions\nto support the Booking.com API" as N1
+
+@enduml 
