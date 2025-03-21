@@ -18,20 +18,18 @@ Key requirements:
 
 ## Considered Options
 
-| Force | Build Own Database | Booking.com API | Expedia API | Hotels.com API | Airbnb API |
-|-------|-------------------|----------------|-------------|---------------|------------|
-| **Data Completeness** | - | ++ | + | + | 0 |
-| **Global Coverage** | -- | ++ | + | + | 0 |
-| **Development Effort** | -- | + | 0 | 0 | - |
-| **Integration Complexity** | ++ | + | 0 | 0 | - |
-| **Cost** | -- | 0 | 0 | 0 | 0 |
-| **Maintenance Burden** | -- | + | + | + | + |
-| **Control Over Data** | ++ | - | - | - | - |
-| **Update Frequency** | -- | ++ | + | + | + |
-| **API Stability** | ++ | + | 0 | 0 | - |
-| **Variety of Accommodations** | - | + | + | 0 | ++ |
-| **Documentation Quality** | 0 | ++ | + | 0 | - |
-| **Multi-language Support** | - | ++ | + | + | 0 |
+| Force | Booking.com API | Expedia API | Hotels.com API | Airbnb API |
+|-------|----------------|-------------|---------------|------------|
+| **Data Completeness** | ++ | + | + | 0 |
+| **Global Coverage** | ++ | + | + | 0 |
+| **Development Effort** | + | 0 | 0 | - |
+| **Integration Complexity** | + | 0 | 0 | - |
+| **Maintenance Burden** | + | + | + | + |
+| **Update Frequency** | ++ | + | + | + |
+| **API Stability** | + | 0 | 0 | - |
+| **Variety of Accommodations** | + | + | 0 | ++ |
+| **Documentation Quality** | ++ | + | 0 | - |
+| **Multi-language Support** | ++ | + | + | 0 |
 
 Legend:
 - ++ : Excellent fit / Strong advantage
