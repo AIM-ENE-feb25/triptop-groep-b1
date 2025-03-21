@@ -1,5 +1,5 @@
 @startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+'!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 !include <C4/C4>
 !include <C4/C4_Context>
 !include <C4/C4_Container>
@@ -15,12 +15,15 @@ Container(Backend, "Backend API", $techn="Java Spring", $descr="Provides Triptop
 ContainerDb(Database, "Database", $techn="SQL", $descr="Contains all planned trips and their status")
 
  }
-Container(ExternalAPI1, "API1", $techn="", $descr="")
-Container(ExternalAPI2, "API2", $techn="", $descr="", $tags="", $link="")
+Container(Booking, "Booking.com ofzo", $techn="API", $descr="Provides houses idk what else")
+Container(NS, "NS", $techn="API", $descr="Has travel-data of all trains in the Netherlands")
+Container(IdentityProvider, "Identity Provider", "Has login functionality")
 
+
+Rel(Backend, IdentityProvider, "Allows login via")
 Rel(Traveller, Backend, "Plans trip using")
 Rel(Backend, Database, "Stores data in- and gets data from")
-Rel(Backend, ExternalAPI1, "Gets or stores some kinda data")
-Rel(Backend, ExternalAPI2, "Ditto")
+Rel(Backend, Booking, "Gets houses from")
+Rel(Backend, NS, "Gets train schedule from")
 @enduml
 
