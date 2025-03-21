@@ -55,6 +55,10 @@ Als gebruiker wil ik de bouwstenen van mijn reis flexibel kunnen uitbreiden met 
 
 ![Domain Model](../opdracht-diagrammen/Domain%20Model.png)
 
+| class: attribute | is input voor API+endpoint | wordt gevuld door API+endpoint | wordt geleverd door eindgebruiker | moet worden opgeslagen in de applicatie |
+|------------------|----------------------------|--------------------------------|-----------------------------------|-----------------------------------------|
+|                  |                            |                                |                                   |                                         |
+
 ## 4. Quality Attributes
 
 Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgende ISO 25010 kwaliteitsattributen benoemd als belangrijk:
