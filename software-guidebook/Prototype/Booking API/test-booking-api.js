@@ -1,8 +1,8 @@
 // Import the BookingApiClient class from the main file
 require('./booking-api-client');
 
-// API key from command line argument or use the default one
-const API_KEY = process.argv[2] || '815ae4d42amshbace0e99000ee2bp18e38bjsnd54caac934e1';
+// API key from environment variable, with fallback to command line argument
+const API_KEY = process.env.BOOKING_API_KEY || process.argv[2];
 
 // Helper function to get dates for testing
 function getFutureDates() {

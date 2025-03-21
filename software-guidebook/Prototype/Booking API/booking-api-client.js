@@ -6,10 +6,11 @@
 // For Node.js compatibility
 const nodeFetch = typeof fetch !== 'undefined' ? fetch : require('node-fetch');
 
-const API_KEY = '815ae4d42amshbace0e99000ee2bp18e38bjsnd54caac934e1';
+// Use environment variable instead of hardcoded key
+const DEFAULT_API_KEY = process.env.BOOKING_API_KEY;
 
 class BookingApiClient {
-  constructor(apiKey) {
+  constructor(apiKey = DEFAULT_API_KEY) {
     this.apiKey = apiKey;
     this.baseUrl = 'https://booking-com.p.rapidapi.com/v1/hotels';
     this.headers = {
@@ -155,7 +156,7 @@ class BookingApiClient {
 
 // Example usage:
 async function searchHotelsExample() {
-  const client = new BookingApiClient(API_KEY);
+  const client = new BookingApiClient();
   
   // Example domain model objects
   const trip = {
