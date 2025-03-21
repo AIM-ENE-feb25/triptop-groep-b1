@@ -1,0 +1,21 @@
+@startuml
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+Person(Student, "Student")
+
+Person("Docent", "Docent")
+
+
+System_Boundary("key_boundary", "ANS", $tags=""){
+
+    Container(backend, "backend", $techn='java', $descr='', $tags="", $links="")
+    Container(frontend, "webapplicatie", $techn='js', $descr='', $tags="", $links="")
+}
+
+Rel(Student, backend, "gebruikt")
+
+
+@enduml
