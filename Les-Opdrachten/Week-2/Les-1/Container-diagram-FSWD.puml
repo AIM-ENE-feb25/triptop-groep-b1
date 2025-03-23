@@ -1,0 +1,38 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+Person(User, "User", "user")
+System_Boundary(System, "FSWD Application"){
+Component(AuthController, "AuthController", "Java Spring controller", "has the endpoints for athentication")
+Component(DeclarationController, "DeclarationController","Java Spring controller", "has endpoints for handling declarations")
+Component(AuthService, "AuthService", "Java Spring service", handles authentication logic)
+Component(DeclarationService, "DeclarationService","Java Spring service", "Handles declaration logic")
+Component(JWTService, "JWTService", "Java Spring service","handles JWToken logic")
+Component(RefreshTokenService, "RefreshTokenService", "Java Spring service","handles token refresh logic")
+Component(DeclarationRepo, "DeclarationRepo","Java Spring Repo", "gets declaration data from and sends data to database")
+Component(AuthRepo, "AuthRepo","Java Spring Repo", "gets userdata from and sends data to database")
+ComponentDb(Database, "Database", "MariaDB", "Contains all data surounding the application")
+}
+
+Rel(User, AuthController, "")
+Rel(User, DeclarationController, "")
+Rel(AuthController, AuthService, "")
+Rel(AuthController, "JWTService", "")
+Rel(DeclarationController, DeclarationService, "")
+Rel(JWTService, RefreshTokenService, "")
+Rel(DeclarationService, DeclarationRepo, "")
+Rel(AuthService, AuthRepo, "")
+Rel(AuthRepo, Database, "")
+Rel(DeclarationRepo, Database, "")
+Rel(RefreshTokenService, "AuthRepo", "")
+Rel(JWTService, AuthRepo, "")
+
+
+
+@enduml
+
+
