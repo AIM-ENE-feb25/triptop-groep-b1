@@ -8,17 +8,17 @@ top to bottom direction
 
 Container_Boundary(Backend, "Backend") {
 
-Component(AuthController, "Auth Controller", "Handles user authentication")
-Component(ExpenseController, "Expense Controller", "Handles expense management")
+Component(AuthController, "Auth Controller", "Java Spring Controller", "Handles user authentication")
+Component(ExpenseController, "Expense Controller", "Java Spring Controller", "Handles expense management")
 
-Component(AuthenticationService, "Authentication Service", "Handles user authentication logic")
-Component(ExpenseService, "Expense Service", "Handles expense management logic")
-Component(UserService, "User Service", "Handles user management logic")
+Component(AuthenticationService, "Authentication Service", "Java Spring Service", "Handles user authentication logic")
+Component(ExpenseService, "Expense Service", "Java Spring Service", "Handles expense management logic")
+Component(UserService, "User Service", "Java Spring Service", "Handles user management logic")
 
-Component(UserRepository, "User Repository", "Handles user data storage and retrieval")
-Component(ExpenseRepository, "Expense Repository", "Handles expense data storage and retrieval")
-Component(LoginRequest, "Login Request", "Handles login request")
-Component(LoginResponse, "Login Response", "Handles login response")
+Component(UserRepository, "User Repository", "Java Spring Repository", "Handles user data storage and retrieval")
+Component(ExpenseRepository, "Expense Repository", "Java Spring Repository", "Handles expense data storage and retrieval")
+Component(LoginRequest, "Login Request", "Java DTO", "Handles login request")
+Component(LoginResponse, "Login Response", "Java DTO", "Handles login response")
 
 Rel(AuthController, AuthenticationService, "Uses")
 Rel(AuthController, LoginRequest, "Creates")
