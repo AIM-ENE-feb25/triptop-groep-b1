@@ -6,6 +6,7 @@
 !include <C4/C4_Component>
 
 Person(User, "User", "user")
+Container(Frontend, "Frontend", "JS React", "webpage")
 System_Boundary(System, "FSWD Application"){
 Component(AuthController, "AuthController", "Java Spring controller", "has the endpoints for athentication")
 Component(DeclarationController, "DeclarationController","Java Spring controller", "has endpoints for handling declarations")
@@ -15,19 +16,20 @@ Component(JWTService, "JWTService", "Java Spring service","handles JWToken logic
 Component(RefreshTokenService, "RefreshTokenService", "Java Spring service","handles token refresh logic")
 Component(DeclarationRepo, "DeclarationRepo","Java Spring Repo", "gets declaration data from and sends data to database")
 Component(AuthRepo, "AuthRepo","Java Spring Repo", "gets userdata from and sends data to database")
-ComponentDb(Database, "Database", "MariaDB", "Contains all data surounding the application")
 }
+ComponentDb(Database, "Database", "MariaDB", "Contains all data surounding the application")
 
-Rel(User, AuthController, "")
-Rel(User, DeclarationController, "")
+Rel(User, Frontend, "")
+Rel(Frontend, AuthController, "HTTP")
+Rel(Frontend, DeclarationController, "HTTP")
 Rel(AuthController, AuthService, "")
 Rel(AuthController, "JWTService", "")
 Rel(DeclarationController, DeclarationService, "")
 Rel(JWTService, RefreshTokenService, "")
 Rel(DeclarationService, DeclarationRepo, "")
 Rel(AuthService, AuthRepo, "")
-Rel(AuthRepo, Database, "")
-Rel(DeclarationRepo, Database, "")
+Rel(AuthRepo, Database, "SQL")
+Rel(DeclarationRepo, Database, "SQL")
 Rel(RefreshTokenService, "AuthRepo", "")
 Rel(JWTService, AuthRepo, "")
 
