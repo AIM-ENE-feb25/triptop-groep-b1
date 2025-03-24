@@ -88,6 +88,43 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ###     7.2. Components
 
+#### Component Structure
+
+De applicatie is opgebouwd uit de volgende componenten:
+
+1. **Frontend Componenten** (week1)
+   - User Interface
+   - Reisplanner
+   - Boekingsformulier
+   - Reisstatus weergave
+
+2. **Backend Componenten** (week2)
+   - API Gateway
+   - Reis Service
+   - Boekings Service
+   - Betalings Service
+   - Externe Integraties (Booking.com, TripAdvisor, etc.)
+
+3. **Data Layer**
+   - Database
+   - Caching
+   - Message Queue
+
+De componenten communiceren met elkaar via REST APIs en event-driven architecture:
+
+```mermaid
+graph TD
+    A[Frontend] -->|HTTP/REST| B[API Gateway]
+    B -->|HTTP/REST| C[Reis Service]
+    B -->|HTTP/REST| D[Boekings Service]
+    B -->|HTTP/REST| E[Betalings Service]
+    C -->|Events| F[Message Queue]
+    D -->|Events| F
+    E -->|Events| F
+    C -->|HTTP/REST| G[Externe APIs]
+    D -->|HTTP/REST| G
+```
+
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
 

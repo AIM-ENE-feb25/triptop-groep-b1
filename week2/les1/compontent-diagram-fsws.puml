@@ -1,0 +1,38 @@
+@startuml
+
+!include https://raw.githubusercontent.com/craft-coder/plantuml-styles/main/styles/modern-style.plantuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+top to bottom direction
+
+Container_Boundary(FSWD, "FSWD") {
+
+Component(AuthController, "Auth Controller", "Handles user authentication")
+Component(ExpenseController, "Expense Controller", "Handles expense management")
+
+Component(AuthenticationService, "Authentication Service", "Handles user authentication logic")
+Component(ExpenseService, "Expense Service", "Handles expense management logic")
+Component(UserService, "User Service", "Handles user management logic")
+
+Component(UserRepository, "User Repository", "Handles user data storage and retrieval")
+Component(ExpenseRepository, "Expense Repository", "Handles expense data storage and retrieval")
+Component(LoginRequest, "Login Request", "Handles login request")
+Component(LoginResponse, "Login Response", "Handles login response")
+
+Rel(AuthController, AuthenticationService, "Uses")
+Rel(AuthController, LoginRequest, "Creates")
+Rel(AuthController, LoginResponse, "Returns")
+
+Rel(ExpenseController, ExpenseService, "Uses")
+
+Rel(AuthenticationService, UserService, "Uses")
+Rel(AuthenticationService, LoginRequest, "Processes")
+Rel(AuthenticationService, LoginResponse, "Creates")
+
+Rel(ExpenseService, ExpenseRepository, "Uses")
+Rel(UserService, UserRepository, "Uses")
+
+}
+
+@enduml
