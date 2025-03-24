@@ -6,7 +6,7 @@
 
 top to bottom direction
 
-Container_Boundary(FSWD, "FSWD") {
+Container_Boundary(Backend, "Backend") {
 
 Component(AuthController, "Auth Controller", "Handles user authentication")
 Component(ExpenseController, "Expense Controller", "Handles expense management")
