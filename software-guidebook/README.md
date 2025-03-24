@@ -11,6 +11,9 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 
 > [!IMPORTANT]
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
+### context diagram
+
+![context diagram](context-diagram/context-triptop.puml)
 
 Toelichting op de context van de software inclusief System Context Diagram:
 * Functionaliteit
@@ -54,6 +57,32 @@ Als gebruiker wil ik de bouwstenen van mijn reis flexibel kunnen uitbreiden met 
 ### 3.4 Domain Model
 
 ![Domain Model](../opdracht-diagrammen/Domain%20Model.png)
+
+| class: attribute | is input voor API+endpoint | wordt gevuld door API+endpoint | wordt geleverd door eindgebruiker | moet worden opgeslagen in de applicatie |
+|------------------|----------------------------|--------------------------------|-----------------------------------|-----------------------------------------|
+| Trip::startDatum | Booking /search (POST), FlightScraper /flights (GET) |  | x | x |
+| Trip::eindDatum | Booking /search (POST), FlightScraper /flights (GET) |  | x | x |
+| Trip::budget |  |  | x | x |
+| Excursie::titel |  | TripAdvisor /search |  | x |
+| Excursie::datum |  | TripAdvisor /search |  | x |
+| Excursie::startTijd |  | TripAdvisor /search |  | x |
+| Excursie::eindTijd |  | TripAdvisor /search |  | x |
+| Excursie::prijs |  | TripAdvisor /search |  | x |
+| Reis::startDatum | FlightScraper /flights (GET) |  | x | x |
+| Reis::eindDatum | FlightScraper /flights (GET) |  | x | x |
+| Reis::prijs |  | FlightScraper /flights (GET) |  | x |
+| Reis::vervoer |  |  | x | x |
+| Verblijf::startDatum | Booking /search (POST) |  | x | x |
+| Verblijf::eindDatum | Booking /search (POST) |  | x | x |
+| Verblijfplaats::locatie |  | Booking /search (POST) |  | x |
+| Verblijfplaats::prijs |  | Booking /search (POST) |  | x |
+| Locatie::lat |  | Booking /search (POST), TripAdvisor /search |  | x |
+| Locatie::lon |  | Booking /search (POST), TripAdvisor /search |  | x |
+| Reiziger::voornaam |  |  | x | x |
+| Reiziger::achternaam |  |  | x | x |
+| Reiziger::telefoonnummer |  |  | x | x |
+| Reservering::reserveringsnummer |  | Booking /confirm (POST), FlightScraper /book (POST) |  | x |
+| Reservering::status |  | Booking /status (GET), FlightScraper /status (GET) |  | x |
 
 ## 4. Quality Attributes
 

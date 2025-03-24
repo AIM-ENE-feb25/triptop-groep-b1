@@ -1,0 +1,94 @@
+@startuml
+
+title
+TripTop - Container Diagram
+<font size="12">Container diagram for the TripTop vacation planning application</font>
+end title
+
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+' Layout settings
+LAYOUT_TOP_DOWN()
+LAYOUT_WITH_LEGEND()
+
+
+' People/Actors
+Person(traveler, "<Person>\nTraveler", "Person planning and booking a vacation trip")
+Person(travelAgent, "<Person>\nTravel Agent", "Second-line support who assists travelers with complex planning and discusses risks")
+
+' External Systems - Top/Bottom Rows
+System_Ext(identityProviderExt, "<External API>\nIdentity Providers", "Allows TripTop to authenticate users (e.g., Google, Microsoft, Airbnb)")
+System_Ext(paymentSystemExt, "<External API>\nPayment Systems", "Allows TripTop to process payments")
+
+' External Systems - Grouped at Bottom
+System_Ext(bookingServiceExt, "<External API>\nBooking Services", "Allows TripTop to search for and book accommodations (e.g., Booking.com, Airbnb)")
+System_Ext(transportServiceExt, "<External API>\nTransport Services", "Allows TripTop to search for and book transportation (e.g., NS, Deutsche Bahn, KLM)")
+System_Ext(carRentalServiceExt, "<External API>\nCar Rental Services", "Allows TripTop to search for and book car rentals (e.g., Sixt, Hertz)")
+System_Ext(activityServiceExt, "<External API>\nActivity Services", "Allows TripTop to search for and book activities and excursions (e.g., GetYourGuide, Tripadvisor)")
+System_Ext(foodServiceExt, "<External API>\nFood Services", "Allows TripTop to search for and book restaurants (e.g., Takeaway, Eet.nu)")
+
+' TripTop System Boundary
+System_Boundary(triptop, "TripTop Vacation Planning System") {
+    ' Front-end layer
+    Container(webApplication, "<Container>\nTripTop Web Application", "JavaScript, React", "Provides users with the ability to plan trips, combine building blocks, and manage their vacation plans through a web browser")
+    Container(mobileApp, "<Container>\nTripTop Mobile App", "React Native", "Provides users with the ability to plan trips, combine building blocks, and manage their vacation plans on mobile devices")
+
+    ' API Gateway layer
+    Container(apiGateway, "<Container>\nAPI Gateway", "Spring Cloud Gateway", "Serves as a central entry point for API requests, handles routing, rate limiting, and authentication")
+
+    ' Core Services layer
+    Container(identityService, "<Container>\nIdentity Service", "Java, Spring Boot", "Manages user authentication through external identity providers")
+    Container(supportService, "<Container>\nSupport Service", "Java, Spring Boot", "Facilitates communication between travelers and travel agents for assistance with complex trip planning")
+    Container(tripPlanningService, "<Container>\nTrip Planning Service", "Java, Spring Boot", "Allows users to create and manage trip plans by combining different building blocks (accommodations, transport, activities)")
+    Container(bookingService, "<Container>\nBooking Service", "Java, Spring Boot", "Handles the booking process for all building blocks, manages booking status")
+    Container(paymentService, "<Container>\nPayment Service", "Java, Spring Boot", "Handles payment processing for bookings")
+    Container(integrationsService, "<Container>\nIntegrations Service", "Java, Spring Boot", "Manages communication with external services through service adapters and translators")
+
+    ' Database layer
+    ContainerDb(tripDatabase, "<Container>\nTrip Database", "MongoDB", "Stores information about trip plans, building blocks, and their status as documents")
+    ContainerDb(userDatabase, "<Container>\nUser Database", "MongoDB", "Stores user preferences and saved trips as documents")
+}
+
+' Relationships - External User to TripTop
+Rel_D(traveler, webApplication, "Plans and books trips through", "HTTPS")
+Rel_D(traveler, mobileApp, "Plans and manages trips on-the-go with", "HTTPS")
+Rel_D(travelAgent, webApplication, "Reviews travelers' plans and provides advice through", "HTTPS")
+
+' Web and Mobile App to API Gateway
+Rel_D(webApplication, apiGateway, "Sends trip planning and booking requests to", "JSON/HTTPS")
+Rel_D(mobileApp, apiGateway, "Sends trip planning and booking requests to", "JSON/HTTPS")
+
+' API Gateway to Containers
+Rel_D(apiGateway, identityService, "Forwards authentication requests to", "JSON/HTTPS")
+Rel_D(apiGateway, supportService, "Forwards support and consultation requests to", "JSON/HTTPS")
+Rel_D(apiGateway, tripPlanningService, "Forwards trip creation and management requests to", "JSON/HTTPS")
+Rel_D(apiGateway, bookingService, "Forwards booking creation and status requests to", "JSON/HTTPS")
+Rel_D(apiGateway, paymentService, "Forwards payment processing requests to", "JSON/HTTPS")
+Rel_D(apiGateway, integrationsService, "Forwards external service requests to", "JSON/HTTPS")
+
+' Containers to Databases
+Rel_D(tripPlanningService, tripDatabase, "Stores and retrieves trip plans and building blocks from", "MongoDB Driver")
+Rel_D(tripPlanningService, userDatabase, "Retrieves user preferences for trip planning from", "MongoDB Driver")
+Rel_D(bookingService, tripDatabase, "Updates building block status and booking details in", "MongoDB Driver")
+Rel_D(identityService, userDatabase, "Stores and verifies user authentication details in", "MongoDB Driver")
+Rel_D(supportService, tripDatabase, "Accesses trip details for agent consultation from", "MongoDB Driver")
+
+' Containers interdependencies
+Rel_R(tripPlanningService, bookingService, "Requests booking creation and status updates from", "JSON/HTTPS")
+Rel_R(bookingService, paymentService, "Initiates payment processing for bookings through", "JSON/HTTPS")
+Rel_R(bookingService, integrationsService, "Requests external service bookings through", "JSON/HTTPS")
+Rel_L(supportService, tripPlanningService, "Retrieves and shares trip planning information with agents through", "JSON/HTTPS")
+
+' External Services Integration
+Rel_D(integrationsService, bookingServiceExt, "Fetches accommodation availability and processes bookings with", "REST/HTTPS")
+Rel_D(integrationsService, transportServiceExt, "Searches transportation options and books tickets with", "REST/HTTPS")
+Rel_D(integrationsService, carRentalServiceExt, "Checks car availability and processes rental bookings with", "REST/HTTPS")
+Rel_D(integrationsService, activityServiceExt, "Discovers activities and books excursions through", "REST/HTTPS")
+Rel_D(integrationsService, foodServiceExt, "Searches dining options and makes reservations via", "REST/HTTPS")
+Rel_U(identityService, identityProviderExt, "Verifies user identity and retrieves authentication tokens from", "OAuth/HTTPS")
+Rel_U(paymentService, paymentSystemExt, "Securely processes customer payments through", "REST/HTTPS")
+
+SHOW_LEGEND()
+
+@enduml
