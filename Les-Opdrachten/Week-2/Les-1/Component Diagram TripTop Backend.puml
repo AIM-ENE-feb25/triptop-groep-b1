@@ -1,0 +1,25 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+Container(Frontend, "Frontend", "Javascript React", "Allows user to interact with the app")
+
+Container_Boundary(Backend, "Backend"){
+Component(BookingController, "Booking Controller", "Java Sprint Controller", "Allows an user to book a place to stay at")
+Component(SupportController, "Support Controller","Java Sprint Controller", "Allows an user to request support")
+Component(PaymentController, "Payment Controller" ,"Java Spring Controller", "Allows a user to pay")
+Component(IdentityProviderController, "Identity Provider Controller", "Java Spring Controller", "Allows a user to login")
+Component(TripplanningController, "Trip Planning Controller", "Java Spring Controller", "Allows a user to plan their trip")
+
+}
+Component(IdentityProvider, "Identity Provider", "External system", "Allows logging in through external means")
+Component(PaymentProvider, "Payment Provider", "External system", "Allows a user to pay using external means")
+
+Rel(Frontend, BookingController, "")
+Rel(Frontend, )
+
+
+@enduml

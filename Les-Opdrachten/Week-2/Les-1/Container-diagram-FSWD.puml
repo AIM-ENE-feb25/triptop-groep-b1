@@ -5,9 +5,9 @@
 !include <C4/C4_Container>
 !include <C4/C4_Component>
 
-Person(User, "User", "user")
+
 Container(Frontend, "Frontend", "JS React", "webpage")
-System_Boundary(System, "FSWD Application"){
+Container_Boundary(System, "FSWD Application"){
 Component(AuthController, "AuthController", "Java Spring controller", "has the endpoints for athentication")
 Component(DeclarationController, "DeclarationController","Java Spring controller", "has endpoints for handling declarations")
 Component(AuthService, "AuthService", "Java Spring service", handles authentication logic)
@@ -19,7 +19,6 @@ Component(AuthRepo, "AuthRepo","Java Spring Repo", "gets userdata from and sends
 }
 ComponentDb(Database, "Database", "MariaDB", "Contains all data surounding the application")
 
-Rel(User, Frontend, "")
 Rel(Frontend, AuthController, "HTTP")
 Rel(Frontend, DeclarationController, "HTTP")
 Rel(AuthController, AuthService, "")
