@@ -1,10 +1,12 @@
 @startuml
 
-!include https://raw.githubusercontent.com/craft-coder/plantuml-styles/main/styles/modern-style.plantuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
 top to bottom direction
+
+Actor(user, "User", "Handles user login")
+
 
 Container_Boundary(Frontend, "Frontend component-diagram") {
 
@@ -13,6 +15,7 @@ Component(Login, "Login", "React Component", "Handles user login")
 Component(Logout, "Logout", "React Component", "Handles user logout")
 Component(RetrieveExpenseClaim, "Retrieve Expense Claim", "React Component", "Handles expense claim retrieval")
 
+
 Rel(enterExpenseClaim, Login, "Uses")
 Rel(Login, RetrieveExpenseClaim, "Uses")
 Rel(RetrieveExpenseClaim, Logout, "Uses")
@@ -20,5 +23,7 @@ Rel(RetrieveExpenseClaim, Logout, "Uses")
 
 
 }
+
+Container(backend, "Backend", "Java Spring Boot")
 
 @enduml
