@@ -1,4 +1,4 @@
-# Open/Closed Principle (OCP)
+# Open/Closed Principle
 
 Het Open/Closed Principle, bedacht door Bertrand Meyer in 1988, is een fundamenteel principe in object-georiënteerd ontwerp. De kern van dit principe is dat software entiteiten - zoals classes, modules en functies - open moeten zijn voor uitbreiding, maar gesloten voor modificatie. Dit betekent dat je nieuwe functionaliteit kunt toevoegen zonder bestaande code aan te passen.
 
@@ -21,7 +21,7 @@ Het OCP is gebaseerd op vier belangrijke design properties:
 
 Laten we het Open/Closed Principle illustreren met een praktisch voorbeeld van een betalingssysteem. In het bestand `main.java` zien we twee verschillende implementaties:
 
-### Slechte Implementatie (schendt OCP)
+### Slechte Implementatie
 
 ```java
 class Betaling {
@@ -62,7 +62,7 @@ Dit is problematisch omdat:
 3. We moeten de hele methode opnieuw testen
 4. Het schendt het "gesloten voor modificatie" principe
 
-### Goede Implementatie (volgt OCP)
+### Goede Implementatie
 
 ```java
 interface BetaalMethode {
