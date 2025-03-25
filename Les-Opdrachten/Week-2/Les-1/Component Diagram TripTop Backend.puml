@@ -19,7 +19,10 @@ Component(IdentityProvider, "Identity Provider", "External system", "Allows logg
 Component(PaymentProvider, "Payment Provider", "External system", "Allows a user to pay using external means")
 
 Rel(Frontend, BookingController, "")
-Rel(Frontend, )
+Rel(Frontend, TripplanningController, "")
+Rel(Frontend, SupportController, "")
+Rel(Frontend, PaymentController, "")
+Rel(Frontend, IdentityProviderController, "")
 
 
 @enduml
