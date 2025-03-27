@@ -10,9 +10,9 @@ Component(ErrorHandler, "External API Error Handler", "custom Error handler", "V
 Boundary_End()
 Component(ExternalAPI, "External API")
 
-Rel(Frontend, Controller, "")
-Rel(Controller, Service, "")
-Rel(Service, ExternalController, "")
+Rel(Frontend, Controller, "Fetch ofzo")
+Rel(Controller, Service, "Delegeert logica naar")
+Rel(Service, ExternalController, "Delegeert ophalen/versturen van data naar externe API via")
 Rel(ExternalController, ExternalAPI , "Called")
 Rel(ExternalAPI, ExternalController, "Responds (or doesnt) with error")
 Rel(ExternalController, ErrorHandler, "Delegeert error handling naar")
