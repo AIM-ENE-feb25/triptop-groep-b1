@@ -1,5 +1,5 @@
-
-//Niet goed -> Deze functie regelt processing en save
+//cohesion
+//Niet goed -> Deze functie regelt processing en save dat zijn 2 processen
 function multiplyAndSave(number){
     // Processing data
     var newNumber = number * 2;

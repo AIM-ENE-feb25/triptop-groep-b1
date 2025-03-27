@@ -1,0 +1,21 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+Container_Boundary(Backend, "backend"){
+Component(Controller, "controller (bv. booking)", "Java Spring Controller", "Een controller die gebruik maakt van een externe API in zijn process")
+Component(Service, "Service", "Java Spring Service", "het service component dat gebruikt wordt in dit process")
+Component(ExternalController, "External API Controller", "Java Spring Controller", "Controller die verantwoordelijk is voor externe API calls")
+Component(ErrorHandler, "External API Error Handler", "custom Error handler", "Verwerkt wat de error is en geeft een waardevolle response element terug")
+}
+Container(Frontend, "Frontend", "JS", "Frontend ofzo")
+Component(ExternalAPI, "External API")
+Rel(Service, ExternalController, "")
+Rel( Frontend, Controller, "")
+Rel(ExternalController, ExternalAPI , "")
+Rel(ExternalController, ErrorHandler, "Indien error bij api call")
+Rel(Controller, Service, "")
+@enduml
+
