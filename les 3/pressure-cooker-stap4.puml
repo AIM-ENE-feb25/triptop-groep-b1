@@ -1,0 +1,77 @@
+@startuml "Class Diagram - Externe Service Architectuur"
+
+skinparam class {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+}
+
+title "Class Diagram: Toevoegen van nieuwe externe services"
+
+package "Core" {
+  class ServiceClient {
+    + executeServiceRequest(serviceId: String, operation: String): Object
+    + addExternalService(serviceType: String, serviceId: String): Boolean
+  }
+}
+
+package "Service Gateway" {
+  interface IServiceGateway {
+    + executeServiceRequest(serviceId: String, request: Object): Object
+    + registerAdapter(serviceId: String, adapter: IExternalService): void
+  }
+
+  class ServiceGateway implements IServiceGateway {
+    - adapters: Map<String, IExternalService>
+    + executeServiceRequest(serviceId: String, request: Object): Object
+    + registerAdapter(serviceId: String, adapter: IExternalService): void
+  }
+}
+
+package "Service Adapters" {
+  interface IExternalService {
+    + executeRequest(request: Object): Object
+  }
+
+  abstract class BaseServiceAdapter implements IExternalService {
+    + executeRequest(request: Object): Object
+  }
+
+  class TransportServiceAdapter extends BaseServiceAdapter {
+    + executeRequest(request: Object): Object
+  }
+
+  class HotelServiceAdapter extends BaseServiceAdapter {
+    + executeRequest(request: Object): Object
+  }
+
+  class NewServiceAdapter extends BaseServiceAdapter {
+    + executeRequest(request: Object): Object
+  }
+}
+
+' Relationships
+ServiceClient --> IServiceGateway
+IServiceGateway <|.. ServiceGateway
+IExternalService <|.. BaseServiceAdapter
+BaseServiceAdapter <|-- TransportServiceAdapter
+BaseServiceAdapter <|-- HotelServiceAdapter
+BaseServiceAdapter <|-- NewServiceAdapter
+
+' Toevoegingsproces annotaties
+note right of NewServiceAdapter
+  1. Maak een nieuwe adapter die
+  BaseServiceAdapter uitbreidt
+endnote
+
+note right of ServiceGateway
+  2. Registreer de adapter in de
+  ServiceGateway
+endnote
+
+note bottom of ServiceClient
+  3. Gebruik de client om een nieuwe
+  service toe te voegen
+endnote
+
+@enduml

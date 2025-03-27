@@ -1,0 +1,30 @@
+@startuml "Service Adapter Toevoeging"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Scenario: Toevoegen van een nieuwe externe service"
+
+Person(client, "Client", "Gebruiker van het systeem")
+Container(coreApp, "Core Application", "Java", "Bevat de hoofdfunctionaliteit")
+
+Component(factory, "ServiceAdapterFactory", "Java", "Maakt service adapters aan")
+Component(registry, "ServiceAdapterRegistry", "Java", "Beheert service adapters")
+Component(configManager, "ConfigurationManager", "Java", "Beheert configuraties")
+Component(transportAdapter, "TransportAdapter", "Java", "Communiceert met Transport API")
+Component(healthMonitor, "HealthMonitor", "Java", "Bewaakt service status")
+
+Rel(client, coreApp, "1. Verzoek nieuwe service")
+Rel(coreApp, configManager, "2. getConfiguration")
+Rel_Back(configManager, coreApp, "3. Configuratie")
+Rel(coreApp, factory, "4. createAdapter")
+Rel(factory, transportAdapter, "5. <<create>>")
+Rel_Back(transportAdapter, factory, "6. adapter instance")
+Rel_Back(factory, coreApp, "7. Adapter")
+Rel(coreApp, registry, "8. registerAdapter")
+Rel_Back(registry, coreApp, "9. bevestiging")
+Rel(coreApp, healthMonitor, "10. startMonitoring")
+Rel_Back(healthMonitor, coreApp, "11. bevestiging")
+Rel_Back(coreApp, client, "12. Bevestiging toegevoegd")
+
+SHOW_LEGEND()
+@enduml 

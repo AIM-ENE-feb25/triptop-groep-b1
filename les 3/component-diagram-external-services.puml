@@ -1,0 +1,55 @@
+@startuml "Simplified Component Diagram - External Services"
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title "Adding New External Services - Simple Component Diagram"
+
+Person(user, "User", "Uses the TripTop app")
+
+System_Boundary(tripTop, "TripTop Application") {
+    Component(coreApp, "Core Application", "Java", "Contains main functionality")
+    Component(serviceGateway, "Service Gateway", "Java", "Acts as gateway to external services")
+    
+    Component(transportAdapter, "Transport Service Adapter", "Java", "Communicates with Transport API")
+    Component(hotelAdapter, "Hotel Service Adapter", "Java", "Communicates with Hotel API")
+    Component(newAdapter, "New Service Adapter", "Java", "Communicates with a new API", $tags="new")
+}
+
+System_Ext(transportAPI, "Transport API", "External service for transport information")
+System_Ext(hotelAPI, "Hotel API", "External service for hotel information")
+System_Ext(newAPI, "New API", "Newly added external service", $tags="new")
+
+Rel(user, coreApp, "Uses")
+Rel(coreApp, serviceGateway, "Requests data through")
+
+Rel(serviceGateway, transportAdapter, "Sends transport requests to")
+Rel(serviceGateway, hotelAdapter, "Sends hotel requests to")
+Rel(serviceGateway, newAdapter, "Sends new requests to")
+
+Rel(transportAdapter, transportAPI, "Calls")
+Rel(hotelAdapter, hotelAPI, "Calls")
+Rel(newAdapter, newAPI, "Calls")
+
+note as InterfaceNote
+  <b>Common Interface</b>
+  
+  interface IExternalService {
+    + connect()
+    + executeRequest()
+    + handleError()
+    + disconnect()
+  }
+endnote
+
+Rel_Right(InterfaceNote, serviceGateway, "All adapters implement this interface")
+
+note as ExplanationNote
+  <b>To add a new external service:</b>
+  1. Create a new adapter that implements IExternalService
+  2. Register this adapter with the Service Gateway
+  3. No changes needed to the Core Application!
+endnote
+
+SHOW_LEGEND()
+
+@enduml 
