@@ -1,4 +1,4 @@
-# ADR 001: Use of Two Databases for Security Reasons
+# ADR 002: Use of Two Databases for Security Reasons
 
 ## Status
 Accepted
