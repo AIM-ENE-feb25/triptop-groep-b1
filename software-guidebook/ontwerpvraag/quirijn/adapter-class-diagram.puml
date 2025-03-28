@@ -1,0 +1,69 @@
+@startuml "Adapter Pattern - Externe Service Architectuur"
+
+skinparam class {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+}
+
+title "Class Diagram: Adapter Pattern voor Externe Services"
+
+' Target interface
+interface IExternalService {
+  + executeRequest(request: Object): Object
+}
+
+' Concrete adapters
+class TransportServiceAdapter implements IExternalService {
+  - transportService: TransportAPI
+  + executeRequest(request: Object): Object
+}
+
+class HotelServiceAdapter implements IExternalService {
+  - hotelService: HotelAPI
+  + executeRequest(request: Object): Object
+}
+
+' External services (Adaptees)
+class TransportAPI {
+  + searchRoutes(from: String, to: String): Route[]
+}
+
+class HotelAPI {
+  + findRooms(location: String, dates: DateRange): Room[]
+}
+
+' Client
+class ServiceClient {
+  - services: Map<String, IExternalService>
+  + executeServiceRequest(serviceId: String, request: Object): Object
+  + addService(serviceId: String, service: IExternalService): void
+}
+
+' Relationships
+ServiceClient o--> IExternalService
+TransportServiceAdapter --> TransportAPI
+HotelServiceAdapter --> HotelAPI
+
+' Notes
+note right of IExternalService
+  Gemeenschappelijke interface voor
+  alle externe services
+end note
+
+note right of TransportServiceAdapter
+  Vertaalt generieke requests naar
+  transport-specifieke calls
+end note
+
+note right of HotelServiceAdapter
+  Vertaalt generieke requests naar
+  hotel-specifieke calls
+end note
+
+note bottom of ServiceClient
+  Werkt alleen met IExternalService
+  Onafhankelijk van concrete implementaties
+end note
+
+@enduml 
