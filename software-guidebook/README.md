@@ -14,6 +14,7 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 ### context diagram
 
 ![context diagram](context-diagram/context-triptop.puml)
+[View context diagram source](context-diagram/context-triptop.puml)
 
 Toelichting op de context van de software inclusief System Context Diagram:
 * Functionaliteit
@@ -108,13 +109,19 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ###     7.1. Containers
 
-> [!IMPORTANT]
-> Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
+![Container Diagram](container-diagram/container-triptop.puml)
+[View container diagram source](container-diagram/container-triptop.puml)
 
 ###     7.2. Components
 
-> [!IMPORTANT]
-> Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief begeleidende tekst.
+![Database Component Diagram](component-diagram/database-component-diagram-triptop.puml)
+[View database component diagram source](component-diagram/database-component-diagram-triptop.puml)
+
+![Backend Component Diagram](component-diagram/backend-component-diagram-triptop.puml)
+[View backend component diagram source](component-diagram/backend-component-diagram-triptop.puml)
+
+![Frontend Component Diagram](component-diagram/frontend-component-diagram-triptop.puml)
+[View frontend component diagram source](component-diagram/frontend-component-diagram-triptop.puml)
 
 ###     7.3. Design & Code
 
