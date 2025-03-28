@@ -10,11 +10,6 @@ end title
 !include <C4/C4_Component>
 
 
-LAYOUT_TOP_DOWN()
-LAYOUT_WITH_LEGEND()
-
-
-
     Container(webApplication, "<Container>\nTripTop Web Application", "JavaScript, React", "Provides users with the ability to plan trips, combine building blocks, and manage their vacation plans through a web browser")
     Container(mobileApp, "<Container>\nTripTop Mobile App", "React Native", "Provides users with the ability to plan trips, combine building blocks, and manage their vacation plans on mobile devices")
 
@@ -45,5 +40,7 @@ Container(database, "<Container>\nDatabase", "MongoDB", "Stores information abou
 
 Rel_R(tripPlanningService, database, "Stores and retrieves trip plans and building blocks from", "MongoDB Driver")
 
+
+SHOW_LEGEND()
 
 @enduml

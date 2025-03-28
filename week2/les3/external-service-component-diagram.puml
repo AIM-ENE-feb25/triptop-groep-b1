@@ -1,0 +1,28 @@
+@startuml
+
+!include https://raw.githubusercontent.com/craft-coder/plantuml-styles/main/styles/modern-style.plantuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container_Boundary(backend, "Backend") {
+    Component(gateway, "ExternalServiceGateway", "Java Spring Component", "Handles all external service communication")
+    Component(orchestrator, "ExternalServiceOrchestrator", "Java Spring Service", "Coordinates external service calls")
+    Component(security, "SecurityManager", "Java Spring Service", "Manages API keys and credentials")
+    
+    Component(tripAdapter, "TripAdvisorAdapter", "Java Spring Component", "Handles TripAdvisor specific integration")
+    Component(bookingAdapter, "BookingAdapter", "Java Spring Component", "Handles Booking.com specific integration")
+}
+
+Container(frontend, "Frontend", "React", "User Interface")
+Container(tripAdvisor, "TripAdvisor API", "External System", "Travel activities and reviews")
+Container(bookingCom, "Booking.com API", "External System", "Hotel bookings")
+
+Rel(frontend, orchestrator, "Uses", "HTTP/REST")
+Rel(orchestrator, gateway, "Uses")
+Rel(orchestrator, security, "Gets credentials")
+Rel(gateway, tripAdapter, "Uses")
+Rel(gateway, bookingAdapter, "Uses")
+Rel(tripAdapter, tripAdvisor, "Calls", "HTTP/REST")
+Rel(bookingAdapter, bookingCom, "Calls", "HTTP/REST")
+
+@enduml 
