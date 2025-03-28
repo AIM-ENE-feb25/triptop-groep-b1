@@ -13,7 +13,7 @@ LAYOUT_WITH_LEGEND()
 Container_Ext(apiGateway, "API Gateway", "Backend API Gateway", "Routes requests to appropriate services")
 
 ' Trip Database Layer
-Container(tripDatabase, "Trip Database", "MongoDB", "Stores trip-related information") {
+Container_Boundary(tripDatabase, "Trip Database", "MongoDB", "Stores trip-related information") {
     Component(tripCollection, "Trip Collection", "MongoDB Collection", "Stores trip plans and configurations")
     Component(bookingCollection, "Booking Collection", "MongoDB Collection", "Stores booking records and status")
 
@@ -22,7 +22,7 @@ Container(tripDatabase, "Trip Database", "MongoDB", "Stores trip-related informa
 }
 
 ' User Database Layer
-Container(userDatabase, "User Database", "MongoDB", "Stores user-related information") {
+Container_Boundary(userDatabase, "User Database", "MongoDB", "Stores user-related information") {
     Component(userCollection, "User Collection", "MongoDB Collection", "Stores user profiles and preferences")
     Component(authCollection, "Auth Collection", "MongoDB Collection", "Stores authentication details")
     Component(savedTripCollection, "Saved Trip Collection", "MongoDB Collection", "Stores user's saved trips")
