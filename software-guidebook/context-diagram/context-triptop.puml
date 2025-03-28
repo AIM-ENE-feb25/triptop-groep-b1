@@ -11,20 +11,20 @@ end title
 'LAYOUT_WITH_LEGEND()
 
 ' People/Actors
-Person(travelAgent, "<Person>\nTravelAgent", "Person who can assist a traveler with planning their trip")
-Person(traveler, "<Person>\nTraveler", "Person planning and booking a vacation trip")
+Person(travelAgent, "TravelAgent", "Person who can assist a traveler with planning their trip")
+Person(traveler, "Traveler", "Person planning and booking a vacation trip")
 
 ' Systems
-System(triptop, "<System>\nTriptop", "Vacation Planning Application. Allows users to plan, book, and manage their vacation trips")
+System(triptop, "Triptop", "Vacation Planning Application. Allows users to plan, book, and manage their vacation trips")
 
 ' External Systems
-System_Ext(bookingService, "<External API>\nBooking Services", "Allows Triptop to search for and book accommodations (e.g., Booking.com, Airbnb)")
-System_Ext(transportService, "<External API>\nTransport Services", "Allows Triptop to search for and book transportation (e.g., NS, Deutsche Bahn, KLM)")
-System_Ext(carRentalService, "<External API>\nCar Rental Services", "Allows Triptop to search for and book car rentals (e.g., Sixt, Hertz)")
-System_Ext(activityService, "<External API>\nActivity Services", "Allows Triptop to search for and book activities and excursions (e.g., GetYourGuide, Tripadvisor)")
-System_Ext(foodService, "<External API>\nFood Services", "Allows Triptop to search for and book restaurants (e.g., Takeaway, Eet.nu)")
-System_Ext(identityProvider, "<External API>\nIdentity Providers", "Allows Triptop to authenticate users (e.g., Google, Microsoft, Airbnb)")
-System_Ext(paymentSystem, "<External API>\nPayment Systems", "Allows Triptop to process payments")
+System_Ext(bookingService, "Booking Services", "Allows Triptop to search for and book accommodations (e.g., Booking.com, Airbnb)")
+System_Ext(transportService, "nTransport Services", "Allows Triptop to search for and book transportation (e.g., NS, Deutsche Bahn, KLM)")
+System_Ext(carRentalService, "Car Rental Services", "Allows Triptop to search for and book car rentals (e.g., Sixt, Hertz)")
+System_Ext(activityService, "Activity Services", "Allows Triptop to search for and book activities and excursions (e.g., GetYourGuide, Tripadvisor)")
+System_Ext(foodService, "Food Services", "Allows Triptop to search for and book restaurants (e.g., Takeaway, Eet.nu)")
+System_Ext(identityProvider, "Identity Providers", "Allows Triptop to authenticate users (e.g., Google, Microsoft, Airbnb)")
+System_Ext(paymentSystem, "Payment Systems", "Allows Triptop to process payments")
 
 ' Relationships
 Rel(traveler, triptop, "Plans trips, makes bookings")
