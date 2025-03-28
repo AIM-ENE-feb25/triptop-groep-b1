@@ -13,8 +13,8 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 > Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 ### context diagram
 
-![context diagram](context-diagram/context-triptop.puml)
-[View context diagram source](context-diagram/context-triptop.puml)
+![context diagram](context-diagram/context-triptop.svg)
+[View context diagram source](context-diagram/context-triptop.svg)
 
 Toelichting op de context van de software inclusief System Context Diagram:
 * Functionaliteit
@@ -109,19 +109,19 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ###     7.1. Containers
 
-![Container Diagram](container-diagram/container-triptop.puml)
-[View container diagram source](container-diagram/container-triptop.puml)
+![Container Diagram](container-diagram/container-triptop.svg)
+[View container diagram source](container-diagram/container-triptop.svg)
 
 ###     7.2. Components
 
-![Database Component Diagram](component-diagram/database-component-diagram-triptop.puml)
-[View database component diagram source](component-diagram/database-component-diagram-triptop.puml)
+![Database Component Diagram](component-diagram/database-component-diagram-triptop.svg)
+[View database component diagram source](component-diagram/database-component-diagram-triptop.svg)
 
-![Backend Component Diagram](component-diagram/backend-component-diagram-triptop.puml)
-[View backend component diagram source](component-diagram/backend-component-diagram-triptop.puml)
+![Backend Component Diagram](component-diagram/backend-component-diagram-triptop.svg)
+[View backend component diagram source](component-diagram/backend-component-diagram-triptop.svg)
 
-![Frontend Component Diagram](component-diagram/frontend-component-diagram-triptop.puml)
-[View frontend component diagram source](component-diagram/frontend-component-diagram-triptop.puml)
+![Frontend Component Diagram](component-diagram/frontend-component-diagram-triptop.svg)
+[View frontend component diagram source](component-diagram/frontend-component-diagram-triptop.svg)
 
 ###     7.3. Design & Code
 
