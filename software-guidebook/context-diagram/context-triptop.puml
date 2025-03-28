@@ -11,6 +11,7 @@ end title
 'LAYOUT_WITH_LEGEND()
 
 ' People/Actors
+Person(travelAgent, "<Person>\nTravelAgent", "Person who can assist a traveler with planning their trip")
 Person(traveler, "<Person>\nTraveler", "Person planning and booking a vacation trip")
 
 ' Systems
@@ -34,6 +35,7 @@ Rel(triptop, activityService, "Books activities and excursions")
 Rel(triptop, foodService, "Provides restaurant recommendations")
 Rel(triptop, identityProvider, "Allows users to login")
 Rel(triptop, paymentSystem, "Processes payments")
+Rel(travelAgent, triptop, "Plans trips, makes bookings for traveler")
 
 SHOW_LEGEND()
 
