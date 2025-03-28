@@ -1,0 +1,108 @@
+@startuml
+
+title
+TripTop - Backend Component Diagram
+<font size="12">Component diagram showing the internal structure of TripTop's backend services</font>
+end title
+
+!include <C4/C4_Component>
+
+LAYOUT_WITH_LEGEND()
+
+' External Systems
+Container_Ext(identityProviderExt, "Identity Providers", "External API", "External identity providers (Google, Microsoft, Airbnb)")
+Container_Ext(paymentSystemExt, "Payment Systems", "External API", "External payment processing systems")
+Container_Ext(bookingServiceExt, "Booking Services", "External API", "External booking services (Booking.com, Airbnb)")
+Container_Ext(transportServiceExt, "Transport Services", "External API", "External transport services (NS, Deutsche Bahn, KLM)")
+Container_Ext(carRentalServiceExt, "Car Rental Services", "External API", "External car rental services (Sixt, Hertz)")
+Container_Ext(activityServiceExt, "Activity Services", "External API", "External activity services (GetYourGuide, Tripadvisor)")
+Container_Ext(foodServiceExt, "Food Services", "External API", "External food services (Takeaway, Eet.nu)")
+
+' Backend Services
+Container_Boundary(backend, "Backend Services", "Spring Boot", "All backend services") {
+    ' API Gateway
+    Component(apiGateway, "API Gateway", "Spring Cloud Gateway", "Routes requests to appropriate services")
+
+    ' Authentication Components
+    Component(authController, "Auth Controller", "REST Controller", "Handles authentication endpoints")
+    Component(authService, "Auth Service", "Spring Service", "Authentication business logic")
+    Component(authRepository, "Auth Repository", "Spring Data", "User authentication data access")
+
+    ' Trip Components
+    Component(tripController, "Trip Controller", "REST Controller", "Handles trip endpoints")
+    Component(tripService, "Trip Service", "Spring Service", "Trip planning business logic")
+    Component(tripRepository, "Trip Repository", "Spring Data", "Trip data access")
+
+    ' Booking Components
+    Component(bookingController, "Booking Controller", "REST Controller", "Handles booking endpoints")
+    Component(bookingService, "Booking Service", "Spring Service", "Booking business logic")
+    Component(bookingRepository, "Booking Repository", "Spring Data", "Booking data access")
+
+    ' Payment Components
+    Component(paymentController, "Payment Controller", "REST Controller", "Handles payment endpoints")
+    Component(paymentService, "Payment Service", "Spring Service", "Payment business logic")
+    Component(paymentRepository, "Payment Repository", "Spring Data", "Payment data access")
+
+    ' Integration Components
+    Component(integrationController, "Integration Controller", "REST Controller", "Handles integration endpoints")
+    Component(integrationService, "Integration Service", "Spring Service", "Integration business logic")
+    Component(integrationRepository, "Integration Repository", "Spring Data", "Integration data access")
+
+    ' User Components
+    Component(userController, "User Controller", "REST Controller", "Handles user endpoints")
+    Component(userService, "User Service", "Spring Service", "User management business logic")
+    Component(userRepository, "User Repository", "Spring Data", "User data access")
+}
+
+' Database Components
+ContainerDb(tripDatabase, "Trip Database", "MongoDB", "Stores trip plans and building blocks")
+ContainerDb(userDatabase, "User Database", "MongoDB", "Stores user data and preferences")
+
+' Relationships with External Services
+Rel(bookingService, bookingServiceExt, "Books accommodations through")
+Rel(bookingService, transportServiceExt, "Books transport through")
+Rel(bookingService, carRentalServiceExt, "Books car rentals through")
+Rel(bookingService, activityServiceExt, "Books activities through")
+Rel(bookingService, foodServiceExt, "Books food services through")
+Rel(authService, identityProviderExt, "Authenticates with")
+Rel(paymentService, paymentSystemExt, "Processes payments through")
+
+' Internal Relationships - API Gateway to Controllers
+Rel(apiGateway, authController, "Routes to")
+Rel(apiGateway, tripController, "Routes to")
+Rel(apiGateway, bookingController, "Routes to")
+Rel(apiGateway, paymentController, "Routes to")
+Rel(apiGateway, userController, "Routes to")
+Rel(apiGateway, integrationController, "Routes to")
+
+' Internal Relationships - Controller to Service
+Rel(authController, authService, "Uses")
+Rel(tripController, tripService, "Uses")
+Rel(bookingController, bookingService, "Uses")
+Rel(paymentController, paymentService, "Uses")
+Rel(userController, userService, "Uses")
+Rel(integrationController, integrationService, "Uses")
+
+' Internal Relationships - Service to Repository
+Rel(authService, authRepository, "Uses")
+Rel(tripService, tripRepository, "Uses")
+Rel(bookingService, bookingRepository, "Uses")
+Rel(paymentService, paymentRepository, "Uses")
+Rel(userService, userRepository, "Uses")
+Rel(integrationService, integrationRepository, "Uses")
+
+' Repository to Database Relationships
+Rel(authRepository, userDatabase, "Stores data in")
+Rel(userRepository, userDatabase, "Stores data in")
+Rel(tripRepository, tripDatabase, "Stores data in")
+Rel(bookingRepository, tripDatabase, "Stores data in")
+Rel(paymentRepository, tripDatabase, "Stores data in")
+Rel(integrationRepository, tripDatabase, "Stores data in")
+
+' Service Layer Integration
+Rel(bookingService, integrationService, "Uses for external service integration")
+Rel(paymentService, integrationService, "Uses for payment processing")
+
+SHOW_LEGEND()
+
+@enduml
