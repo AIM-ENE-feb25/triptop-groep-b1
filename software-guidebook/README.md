@@ -231,65 +231,89 @@ One alternative considered was using a single database for all data, applying st
 Given the need for heightened security, isolating sensitive data into a separate database is the best option. This approach allows for more controlled access, increased encryption, and a stronger overall security model while balancing the added complexity and performance considerations
 
 
-### 8.3. ADR-003 TITLE
+# 8.3. ADR-003: State Management
 
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
+## Status
+Accepted
 
-#### Context
+## Context
+The TripTop application requires robust state management to handle complex user interactions, booking processes, and real-time updates across both web and mobile platforms. We need a solution that can efficiently manage application state, handle side effects, and maintain consistency across different components.
 
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
+## Decision
+We will implement Redux as our state management solution for both the web and mobile applications. Redux provides a predictable state container that will help us manage the application's state in a centralized store. This includes managing authentication state, booking information, trip planning data, and payment processing states.
 
-#### Considered Options
+The decision to use Redux is based on several key factors. Redux offers centralized state management that allows us to maintain a single source of truth for our application state. The predictable state updates through reducers ensure that state changes are handled consistently and are easy to debug. The strong ecosystem and community support means we have access to a wealth of resources, middleware, and tools. Redux's excellent integration with React and React Native makes it a natural choice for our tech stack, while the built-in developer tools provide powerful debugging capabilities.
 
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
+## Consequences
+Using Redux will provide several significant benefits to our application. The predictable state updates and debugging capabilities will make it easier to track and fix issues in our application. The centralized state management across components will help maintain consistency and reduce the complexity of state synchronization. This approach will lead to better code organization and maintainability, making it easier for our team to work on the codebase. The enhanced developer experience with Redux DevTools will further improve our development workflow.
 
-#### Decision
+However, implementing Redux also introduces certain challenges. The additional boilerplate code required for actions and reducers can make simple state changes more complex than necessary. New developers will need to learn Redux's concepts and patterns, which can slow down initial development. There's also the risk of over-engineering for simple state changes, and we'll need to carefully plan our state structure to avoid unnecessary complexity.
 
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+## Considered Options
 
-#### Status
+| Option                     | Redux | Context API | MobX |
+| -------------------------- | ----- | ----------- | ---- |
+| **Scalability**            | ++    | +           | +    |
+| **Learning Curve**         | -     | ++          | -    |
+| **Developer Experience**   | +     | +           | +    |
+| **Community Support**      | ++    | +           | +    |
+| **Integration**            | ++    | +           | +    |
 
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
+Legend:
+- ++ : Excellent fit / Strong advantage
+- + : Good fit / Advantage
+- 0 : Neutral / Average
+- - : Poor fit / Disadvantage
+- -- : Very poor fit / Strong disadvantage
 
-#### Consequences
+## Alternatives Considered
+We carefully evaluated several alternatives before choosing Redux. The React Context API was considered for its simplicity and built-in nature, but it lacks the robust state management features needed for our complex application. MobX was another option that provides good state management capabilities, but it has a steeper learning curve and less community support compared to Redux.
 
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
+## Conclusion
+Redux is the optimal choice for our state management needs, providing the right balance of features, community support, and integration capabilities for both our web and mobile applications. While it introduces some complexity, the benefits of predictable state management, strong ecosystem support, and excellent developer tools outweigh the initial learning curve and additional boilerplate code.
 
-### 8.4. ADR-004 TITLE
+# 8.4. ADR-004: Database Type
 
-> [!TIP]
-> These documents have names that are short noun phrases. For example, "ADR 1: Deployment on Ruby on Rails 3.0.10" or "ADR 9: LDAP for Multitenant Integration". The whole ADR should be one or two pages long. We will write each ADR as if it is a conversation with a future developer. This requires good writing style, with full sentences organized into paragraphs. Bullets are acceptable only for visual style, not as an excuse for writing sentence fragments. (Bullets kill people, even PowerPoint bullets.)
+## Status
+Accepted
 
-#### Context
+## Context
+The TripTop application requires a flexible and scalable database solution that can handle various types of data, including user profiles, trip information, bookings, and authentication details. The data structure may evolve over time as we add new features and requirements. We need a database that can efficiently handle both structured and semi-structured data while maintaining good performance and scalability.
 
-> [!TIP]
-> This section describes the forces at play, including technological, political, social, and project local. These forces are probably in tension, and should be called out as such. The language in this section is value-neutral. It is simply describing facts about the problem we're facing and points out factors to take into account or to weigh when making the final decision.
+## Decision
+We will implement MongoDB as our primary database solution for both the trip and user databases. MongoDB's document-based architecture aligns perfectly with our needs, allowing us to store data in flexible, JSON-like documents. This structure is particularly well-suited for our trip planning and booking system, where data structures may vary and evolve over time.
 
-#### Considered Options
+The decision to use MongoDB is based on several key factors. MongoDB's schema-less design provides the flexibility we need to adapt our data models as the application evolves. The document-based structure naturally represents our trip and user data, making it easier to model complex relationships. MongoDB's horizontal scaling capabilities through sharding will allow us to scale our application as our user base grows. The rich query language and aggregation framework will enable us to perform complex queries and data analysis efficiently.
 
-> [!TIP]
-> This section describes the options that were considered, and gives some indication as to why the chosen option was selected.
+## Consequences
+Using MongoDB will provide several significant benefits to our application. The flexible schema design will make it easier to iterate on our data models without requiring complex migrations. The document-based structure will simplify the representation of nested data, which is common in travel and booking information. MongoDB's built-in support for geospatial queries will be valuable for location-based features in our trip planning system. The ability to scale horizontally will ensure our application can handle growing data volumes and user loads.
 
-#### Decision
+However, implementing MongoDB also introduces certain challenges. The lack of strict schema validation requires careful application-level validation to ensure data integrity. The eventual consistency model may require additional consideration for certain use cases where strong consistency is crucial. We'll need to carefully design our indexes to optimize query performance, and the memory usage can be higher compared to traditional relational databases.
 
-> [!TIP]
-> This section describes our response to the forces/problem. It is stated in full sentences, with active voice. "We will …"
+## Considered Options
 
-#### Status
+| Option                     | MongoDB | PostgreSQL | MySQL | CouchDB |
+| -------------------------- | -------- | ---------- | ----- | -------- |
+| **Schema Flexibility**     | ++       | -          | -     | ++       |
+| **Scalability**            | ++       | +          | +     | +        |
+| **Query Performance**      | +        | ++         | +     | -        |
+| **Data Consistency**       | -        | ++         | ++    | -        |
+| **Development Speed**      | ++       | +          | +     | +        |
+| **Offline Support**        | -        | -          | -     | ++       |
+| **Community Size**         | ++       | ++         | ++    | -        |
 
-> [!TIP]
-> A decision may be "proposed" if the project stakeholders haven't agreed with it yet, or "accepted" once it is agreed. If a later ADR changes or reverses a decision, it may be marked as "deprecated" or "superseded" with a reference to its replacement.
+Legend:
+- ++ : Excellent fit / Strong advantage
+- + : Good fit / Advantage
+- 0 : Neutral / Average
+- - : Poor fit / Disadvantage
+- -- : Very poor fit / Strong disadvantage
 
-#### Consequences
+## Alternatives Considered
+We carefully evaluated several alternatives before choosing MongoDB. PostgreSQL was considered for its strong ACID compliance and robust relational features, but its rigid schema structure would make it more difficult to adapt to our evolving data requirements. MySQL was another option that offers good performance and reliability, but it lacks the flexibility and scalability features we need for our growing application. CouchDB was evaluated for its excellent offline support and eventual consistency model, but its limited query capabilities and smaller community size made it less suitable for our needs, despite its strong document-based architecture.
 
-> [!TIP]
-> This section describes the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences, but all of them affect the team and project in the future.
+## Conclusion
+MongoDB is the optimal choice for our database needs, providing the right balance of flexibility, scalability, and performance for both our trip and user databases. While it requires careful consideration of data consistency and schema design, the benefits of flexible data modeling, horizontal scaling, and rich query capabilities outweigh the challenges. This choice will allow us to build a robust and scalable application that can adapt to changing requirements and growing user needs.
 
 ### 8.5. ADR-005 TITLE
 
