@@ -1,0 +1,30 @@
+@startuml
+
+class Controller{
+
+}
+
+class Service{
+
+}
+
+class ExternalController{
++ ErrorHandlerImplementation
++ makeAPICall()
+}
+
+interface ExternalErrorHandler{
+- returnAPIErrorResponse()
+}
+
+class ExternalErrorHandlerImpl{
+- returnAPIErrorResponse()
+}
+
+Controller "1" --> "1" Service
+Service "1" --> "1" ExternalController
+
+ExternalController "1" --> "1..*" ExternalErrorHandlerImpl
+ExternalErrorHandlerImpl ..|> ExternalErrorHandler
+
+@enduml
