@@ -1,11 +1,11 @@
 @startuml
-
-class Controller{
-
+'Booking is een voorbeeld in deze diagram; het kan een ander externe api zjn
+class BookingController{
+    + getBookingData()
 }
 
-class Service{
-
+class BookingService{
+ + getBookingData()
 }
 
 class ExternalController{
@@ -13,18 +13,18 @@ class ExternalController{
 + makeAPICall()
 }
 
-interface ExternalErrorHandler{
+interface ExternalErrorStrategy{
 - returnAPIErrorResponse()
 }
 
-class ExternalErrorHandlerImpl{
+class BookingErrorHandler{
 - returnAPIErrorResponse()
 }
 
-Controller "1" --> "1" Service
-Service "1" --> "1" ExternalController
+BookingController "1" --> "1" BookingService
+BookingService "1" --> "1" ExternalController
 
-ExternalController "1" --> "1..*" ExternalErrorHandlerImpl
-ExternalErrorHandlerImpl ..|> ExternalErrorHandler
+ExternalController "1" --> "1..*" BookingErrorHandler
+BookingErrorHandler ..|> ExternalErrorStrategy
 
 @enduml
