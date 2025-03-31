@@ -10,11 +10,7 @@ Accepted
 
 The Triptop application needs to provide accommodation search functionality to allow users to find and book hotels as part of their trip planning. Instead of building and maintaining our own accommodation database, we need to integrate with an existing service that provides comprehensive and up-to-date accommodation data.
 
-Key requirements:
-- Access to a large database of accommodations worldwide
-- Ability to search by location, dates, and other filters
-- Detailed information about each accommodation, including photos, prices, and reviews
-- Support for different languages and currencies
+Some key requirements are access to a large database of accommodations worldwide, the ability to search by location, dates, and other filters, and detailed information about each accommodation, including photos, prices, and reviews. Additionally, support for different languages and currencies is needed.
 
 ## Considered Options
 
@@ -49,15 +45,7 @@ We will integrate with the Booking.com API via RapidAPI to provide accommodation
 ## Consequences
 
 ### Positive
-
-- Access to a comprehensive, up-to-date database of accommodations worldwide
-- Professionally managed data with regular updates
-- Reduced development and maintenance effort compared to maintaining our own accommodation database
-- Standardized interface for accommodation search across different parts of the application
+Access to a comprehensive, up-to-date database of accommodations worldwide is one benefit. The data is professionally managed with regular updates. There is also reduced development and maintenance effort compared to maintaining our own accommodation database. Additionally, the application benefits from a standardized interface for accommodation search across different parts of the system.
 
 ### Negative
-
-- Dependency on an external service that could change or become unavailable
-- Potential costs associated with API usage as the application scales
-- Need to adapt our domain model to fit the API requirements
-- Limited control over the data and features available
+However, there is a dependency on an external service, which could change or become unavailable. Potential costs associated with API usage may arise as the application scales. The domain model would also need to be adapted to fit the API requirements. Finally, there is limited control over the data and features available.

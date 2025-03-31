@@ -1,0 +1,84 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface IExternalServiceFacade {
+  + searchTrips(SearchCriteria): List<TripResult>
+  + bookTrip(BookingRequest): BookingConfirmation
+  + cancelTrip(String bookingId): CancellationResult
+}
+
+class ExternalServiceFacade {
+  - securityManager: SecurityManager
+  - rateLimiter: RateLimiter
+  - errorHandler: ErrorHandler
+  - cache: ResponseCache
+  + searchTrips(SearchCriteria): List<TripResult>
+  + bookTrip(BookingRequest): BookingConfirmation
+  + cancelTrip(String bookingId): CancellationResult
+  - validateRequest(Request): void
+  - handleError(ServiceError): void
+  - cacheResponse(Response): void
+}
+
+interface IExternalService {
+  + execute(Request): Response
+  + validate(Response): boolean
+}
+
+class TripAdvisorService {
+  - apiClient: HttpClient
+  - credentials: Credentials
+  + execute(Request): Response
+  + validate(Response): boolean
+  - mapResponse(RawResponse): Response
+}
+
+class BookingService {
+  - apiClient: HttpClient
+  - credentials: Credentials
+  + execute(Request): Response
+  + validate(Response): boolean
+  - mapResponse(RawResponse): Response
+}
+
+class SecurityManager {
+  - credentialStore: Map<String, Credentials>
+  + getCredentials(String service): Credentials
+  + validateCredentials(Credentials): boolean
+}
+
+class RateLimiter {
+  - limits: Map<String, Rate>
+  + checkLimit(String service): boolean
+  + updateCount(String service): void
+}
+
+class ErrorHandler {
+  - retryPolicy: RetryPolicy
+  + handleError(ServiceError): Resolution
+  + shouldRetry(ServiceError): boolean
+}
+
+class ResponseCache {
+  - cache: Map<String, CachedResponse>
+  + get(String key): Optional<Response>
+  + put(String key, Response value): void
+}
+
+IExternalServiceFacade <|.. ExternalServiceFacade
+IExternalService <|.. TripAdvisorService
+IExternalService <|.. BookingService
+
+ExternalServiceFacade --> SecurityManager
+ExternalServiceFacade --> RateLimiter
+ExternalServiceFacade --> ErrorHandler
+ExternalServiceFacade --> ResponseCache
+ExternalServiceFacade --> IExternalService
+
+note "Facade Pattern hides complexity\nof external service interactions" as N1
+ExternalServiceFacade .. N1
+
+note "Single Responsibility Principle:\nEach class has one reason to change" as N2
+IExternalService .. N2
+
+@enduml 
