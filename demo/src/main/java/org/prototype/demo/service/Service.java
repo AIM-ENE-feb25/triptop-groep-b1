@@ -1,18 +1,29 @@
 package org.prototype.demo.service;
 
-import org.prototype.demo.externalcontroller.ExternalController;
+import org.prototype.demo.API.FallbackStrategy;
+import org.prototype.demo.API.ServiceContext;
 import org.springframework.http.ResponseEntity;
+
+import javax.naming.ServiceUnavailableException;
+import java.io.IOException;
 
 @org.springframework.stereotype.Service
 public class Service {
-    ExternalController externalController;
-    public Service(ExternalController externalController){
-        this.externalController = externalController;
+
+    ServiceContext serviceContext;
+    Service(ServiceContext serviceContext){
+        this.serviceContext = serviceContext;
     }
-
-
-    //regelt logica
-    public ResponseEntity getResponse(){
-        return null;
+    public String getData()  {
+        try {
+            try {
+                return serviceContext.getData();
+            } catch (ServiceUnavailableException e) {
+                serviceContext.setApiServiceActionStrategy(new FallbackStrategy());
+                return serviceContext.getData();
+            }
+        }catch(Exception e){
+            return "womp womp";
+        }
     }
 }
