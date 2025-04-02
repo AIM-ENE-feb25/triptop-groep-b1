@@ -12,11 +12,7 @@ import java.net.http.HttpResponse;
 public class APICallStrategyStrategy implements APIServiceActionStrategy {
     @Override
     public String getData() throws ServiceUnavailableException {
-        try {
             return makeAPICall();
-        }catch(ServiceUnavailableException e){
-            throw new ServiceUnavailableException();
-        }
     }
 
     public String makeAPICall() throws ServiceUnavailableException {

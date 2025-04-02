@@ -23,7 +23,7 @@ public class Service {
                 return serviceContext.getData();
             }
         }catch(Exception e){
-            return "womp womp";
+            return "unexpected error has occurred";
         }
     }
 }

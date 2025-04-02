@@ -10,7 +10,7 @@ import java.io.IOException;
 public class ServiceContext {
     APIServiceActionStrategy apiServiceActionStrategy;
 
-    ServiceContext(@Qualifier("APICallStrategyStrategy") APIServiceActionStrategy apiServiceActionStrategy) {
+    ServiceContext( APIServiceActionStrategy apiServiceActionStrategy) {
         this.apiServiceActionStrategy = apiServiceActionStrategy;
     }
     public void setApiServiceActionStrategy(APIServiceActionStrategy apiServiceActionStrategy) {
