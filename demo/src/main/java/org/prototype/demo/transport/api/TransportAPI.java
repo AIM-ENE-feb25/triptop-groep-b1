@@ -8,6 +8,7 @@ import org.prototype.demo.config.ApiConfig;
 import org.prototype.demo.transport.adapter.FlightTransportAdapter;
 import org.prototype.demo.transport.adapter.TransportAdapter;
 import org.prototype.demo.transport.model.Transport;
+import org.prototype.demo.transport.model.TripAdvisorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,11 +65,9 @@ public class TransportAPI {
                 return List.of();
             }
 
-            // Parse the response into our TripAdvisorResponse model
-            Object tripAdvisorResponse = objectMapper.readValue(responseBody,
-                    FlightTransportAdapter.TripAdvisorResponse.class);
+            TripAdvisorResponse tripAdvisorResponse = objectMapper.readValue(responseBody,
+                    TripAdvisorResponse.class);
 
-            // Use the adapter to transform the data
             return transportAdapter.adapt(tripAdvisorResponse);
         } catch (Exception e) {
             log.error("Error handling response: ", e);
