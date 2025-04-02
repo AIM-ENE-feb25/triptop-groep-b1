@@ -8,16 +8,12 @@ interface IExternalServiceFacade {
 }
 
 class ExternalServiceFacade {
-  - securityManager: SecurityManager
-  - rateLimiter: RateLimiter
-  - errorHandler: ErrorHandler
-  - cache: ResponseCache
+  - externalServices: List<IExternalService>
+  + constructor(externalServices: List<IExternalService>)
   + searchTrips(SearchCriteria): List<TripResult>
   + bookTrip(BookingRequest): BookingConfirmation
   + cancelTrip(String bookingId): CancellationResult
   - validateRequest(Request): void
-  - handleError(ServiceError): void
-  - cacheResponse(Response): void
 }
 
 interface IExternalService {
@@ -41,40 +37,12 @@ class BookingService {
   - mapResponse(RawResponse): Response
 }
 
-class SecurityManager {
-  - credentialStore: Map<String, Credentials>
-  + getCredentials(String service): Credentials
-  + validateCredentials(Credentials): boolean
-}
-
-class RateLimiter {
-  - limits: Map<String, Rate>
-  + checkLimit(String service): boolean
-  + updateCount(String service): void
-}
-
-class ErrorHandler {
-  - retryPolicy: RetryPolicy
-  + handleError(ServiceError): Resolution
-  + shouldRetry(ServiceError): boolean
-}
-
-class ResponseCache {
-  - cache: Map<String, CachedResponse>
-  + get(String key): Optional<Response>
-  + put(String key, Response value): void
-}
-
 
 
 IExternalServiceFacade <|.. ExternalServiceFacade
 IExternalService <|.. TripAdvisorService
 IExternalService <|.. BookingService
 
-ExternalServiceFacade --> SecurityManager
-ExternalServiceFacade --> RateLimiter
-ExternalServiceFacade --> ErrorHandler
-ExternalServiceFacade --> ResponseCache
 ExternalServiceFacade --> IExternalService
 
 note "Facade Pattern hides complexity\nof external service interactions" as N1
