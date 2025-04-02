@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Response;
-import org.prototype.demo.common.client.ServiceClient;
-import org.prototype.demo.common.service.IExternalService;
+import org.prototype.demo.config.ApiConfig;
 import org.prototype.demo.transport.model.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,26 +14,27 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class TransportAPI implements IExternalService {
+public class TransportAPI {
     private final AsyncHttpClient httpClient;
     private final ObjectMapper objectMapper;
-    private final String apiKey;
-    private final String apiHost;
+    private final ApiConfig apiConfig;
 
     @Autowired
-    public TransportAPI(AsyncHttpClient httpClient, ObjectMapper objectMapper, String apiKey, String apiHost) {
+    public TransportAPI(
+            AsyncHttpClient httpClient,
+            ObjectMapper objectMapper,
+            ApiConfig apiConfig) {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
-        this.apiKey = apiKey;
-        this.apiHost = apiHost;
+        this.apiConfig = apiConfig;
     }
 
     public CompletableFuture<List<Route>> searchAirports(String location) {
-        String url = String.format("https://%s/airports/search?query=%s", apiHost, location);
+        String url = String.format("https://%s/airports/search?query=%s", apiConfig.getApiHost(), location);
         
         return httpClient.prepareGet(url)
-                .setHeader("X-RapidAPI-Key", apiKey)
-                .setHeader("X-RapidAPI-Host", apiHost)
+                .setHeader("X-RapidAPI-Key", apiConfig.getApiKey())
+                .setHeader("X-RapidAPI-Host", apiConfig.getApiHost())
                 .execute()
                 .toCompletableFuture()
                 .thenApply(this::handleResponse);
@@ -52,9 +52,9 @@ public class TransportAPI implements IExternalService {
                         Route route = new Route();
                         route.setFrom(airport.path("name").asText());
                         route.setTo(airport.path("city").asText());
+                        route.setTransportType("AIRPORT");
                         route.setPrice(0.0);
-                        route.setDepartureTime(null);
-                        route.setArrivalTime(null);
+                        route.setDuration(0);
                         routes.add(route);
                     }
                 }
@@ -64,13 +64,5 @@ public class TransportAPI implements IExternalService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse airport search response", e);
         }
-    }
-
-    @Override
-    public Object executeRequest(Object request) {
-        if (request instanceof String) {
-            return searchAirports((String) request);
-        }
-        throw new IllegalArgumentException("Request must be a String containing the location to search for");
     }
 } 

@@ -16,6 +16,9 @@ public class Route {
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
 
+    public Route() {
+    }
+
     public Route(String from, String to, String transportType, double price, int duration) {
         this.from = from;
         this.to = to;
