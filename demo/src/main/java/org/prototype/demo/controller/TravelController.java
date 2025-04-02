@@ -37,12 +37,12 @@ public class TravelController {
 
     @GetMapping("/hotels/search")
     public CompletableFuture<ResponseEntity<List<Room>>> searchHotels(
-            @RequestParam String location,
+            @RequestParam String geoId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
-        
+
         DateRange dates = new DateRange(checkIn, checkOut);
-        return hotelAPI.findRooms(location, dates)
-            .thenApply(ResponseEntity::ok);
+        return hotelAPI.findRooms(geoId, dates)
+                .thenApply(ResponseEntity::ok);
     }
-} 
+}
