@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Response;
 import org.prototype.demo.config.ApiConfig;
+import org.prototype.demo.hotel.adapter.HotelAdapter;
 import org.prototype.demo.hotel.model.DateRange;
 import org.prototype.demo.hotel.model.Room;
 import org.prototype.demo.hotel.model.TripAdvisorHotelResponse;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -22,13 +22,18 @@ public class HotelAPI {
     private final AsyncHttpClient asyncHttpClient;
     private final ApiConfig apiConfig;
     private final ObjectMapper objectMapper;
+    private final HotelAdapter hotelAdapter;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
-    public HotelAPI(AsyncHttpClient asyncHttpClient, ApiConfig apiConfig, ObjectMapper objectMapper) {
+    public HotelAPI(AsyncHttpClient asyncHttpClient,
+            ApiConfig apiConfig,
+            ObjectMapper objectMapper,
+            HotelAdapter hotelAdapter) {
         this.asyncHttpClient = asyncHttpClient;
         this.apiConfig = apiConfig;
         this.objectMapper = objectMapper;
+        this.hotelAdapter = hotelAdapter;
     }
 
     public CompletableFuture<List<Room>> findRooms(String geoId, DateRange dates) {
@@ -62,38 +67,10 @@ public class HotelAPI {
                     responseBody,
                     TripAdvisorHotelResponse.class);
 
-            if (!hotelResponse.isStatus()) {
-                String errorMessage = formatErrorMessage(hotelResponse.getMessage());
-                log.error("API returned error: {}", errorMessage);
-                throw new RuntimeException(errorMessage);
-            }
-
-            if (hotelResponse.getData() == null || hotelResponse.getData().getData() == null
-                    || hotelResponse.getData().getData().isEmpty()) {
-                log.warn("No hotel data found in response");
-                return List.of();
-            }
-
-            return hotelResponse.getData().getData().stream()
-                    .map(hotelData -> new Room(
-                            hotelData.getTitle(),
-                            hotelData.getCommerceInfo().getPriceForDisplay().getText(),
-                            hotelData.getBubbleRating().getRating(),
-                            hotelData.getSecondaryInfo()))
-                    .collect(Collectors.toList());
+            return hotelAdapter.adapt(hotelResponse);
         } catch (Exception e) {
             log.error("Error handling response: ", e);
             throw new RuntimeException("Failed to process response: " + e.getMessage(), e);
         }
-    }
-
-    private String formatErrorMessage(Object message) {
-        if (message instanceof List) {
-            List<?> errors = (List<?>) message;
-            return errors.stream()
-                    .map(error -> error.toString())
-                    .collect(Collectors.joining(", "));
-        }
-        return message != null ? message.toString() : "Unknown error";
     }
 }

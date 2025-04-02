@@ -5,7 +5,7 @@ import org.prototype.demo.hotel.api.HotelAPI;
 import org.prototype.demo.hotel.model.DateRange;
 import org.prototype.demo.hotel.model.Room;
 import org.prototype.demo.transport.api.TransportAPI;
-import org.prototype.demo.transport.model.Route;
+import org.prototype.demo.transport.model.Transport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class TravelController {
     }
 
     @GetMapping("/airports")
-    public CompletableFuture<ResponseEntity<List<Route>>> searchAirports(@RequestParam String location) {
+    public CompletableFuture<ResponseEntity<List<Transport>>> searchAirports(@RequestParam String location) {
         return transportAPI.searchAirports(location)
                 .thenApply(ResponseEntity::ok);
     }

@@ -17,10 +17,9 @@ public class HotelServiceAdapter implements IExternalService {
         if (request instanceof HotelRequest) {
             HotelRequest hotelRequest = (HotelRequest) request;
             return hotelService.findRooms(
-                hotelRequest.getLocation(),
-                hotelRequest.getDates()
-            );
+                    hotelRequest.getLocation(),
+                    hotelRequest.getDates());
         }
         throw new IllegalArgumentException("Invalid request type for HotelServiceAdapter");
     }
-} 
+}
