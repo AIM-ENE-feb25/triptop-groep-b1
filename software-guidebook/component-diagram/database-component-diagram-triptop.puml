@@ -1,0 +1,41 @@
+@startuml
+
+title
+TripTop - Database Component Diagram
+<font size="12">Component diagram showing the internal structure of TripTop's database components</font>
+end title
+
+!include <C4/C4_Component>
+
+LAYOUT_WITH_LEGEND()
+
+' External Systems (Top Layer)
+Container_Ext(apiGateway, "API Gateway", "Backend API Gateway", "Routes requests to appropriate services")
+
+' Trip Database Layer
+Container_Boundary(tripDatabase, "Trip Database", "MongoDB", "Stores trip-related information") {
+    Component(tripCollection, "Trip Collection", "MongoDB Collection", "Stores trip plans and configurations")
+    Component(bookingCollection, "Booking Collection", "MongoDB Collection", "Stores booking records and status")
+
+    ' Internal Trip Database relationships
+    Rel(tripCollection, bookingCollection, "Has")
+}
+
+' User Database Layer
+Container_Boundary(userDatabase, "User Database", "MongoDB", "Stores user-related information") {
+    Component(userCollection, "User Collection", "MongoDB Collection", "Stores user profiles and preferences")
+    Component(authCollection, "Auth Collection", "MongoDB Collection", "Stores authentication details")
+    Component(savedTripCollection, "Saved Trip Collection", "MongoDB Collection", "Stores user's saved trips")
+
+    ' Internal User Database relationships
+    Rel(userCollection, authCollection, "Has")
+    Rel(userCollection, savedTripCollection, "Contains")
+}
+
+' External Relationships
+Rel_U(tripDatabase, apiGateway, "Receives requests from")
+Rel_U(userDatabase, apiGateway, "Receives requests from")
+
+SHOW_LEGEND()
+
+@enduml
