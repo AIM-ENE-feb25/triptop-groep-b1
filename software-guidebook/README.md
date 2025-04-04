@@ -177,7 +177,6 @@ Door Separation of Concerns strikt toe te passen, zorgen we ervoor dat wijziging
 
 ### 8.1. ADR-001 Integration with TripAdvisor API for Accommodation Search
 
-
 Date: 2024-03-21
 
 ## Status
@@ -186,9 +185,9 @@ Accepted
 
 ## Context
 
-The Triptop application needs to provide accommodation search functionality to allow users to find and book hotels as part of their trip planning. Instead of building and maintaining our own accommodation database, we need to integrate with an existing service that provides comprehensive and up-to-date accommodation data.
+De Triptop-applicatie moet accommodatiezoekfunctionaliteit bieden zodat gebruikers hotels kunnen vinden en boeken als onderdeel van hun reisplanning. In plaats van onze eigen accommodatiedatabase te bouwen en te onderhouden, moeten we integreren met een bestaande service die uitgebreide en actuele accommodatiegegevens biedt.
 
-Some key requirements are access to a large database of accommodations worldwide, the ability to search by location, dates, and other filters, and detailed information about each accommodation, including photos, prices, and reviews. Additionally, support for different languages and currencies is needed.
+Enkele belangrijke vereisten zijn toegang tot een grote database van accommodaties wereldwijd, de mogelijkheid om te zoeken op locatie, data en andere filters, en gedetailleerde informatie over elke accommodatie, inclusief foto's, prijzen en recensies. Daarnaast is ondersteuning voor verschillende talen en valuta's nodig.
 
 ## Considered Options
 
@@ -214,19 +213,19 @@ Legend:
 
 ## Decision
 
-We will integrate with the TripAdvisor API via RapidAPI to provide accommodation search functionality. The integration will consist of:
+We zullen integreren met de TripAdvisor API via RapidAPI om accommodatiezoekfunctionaliteit te bieden. De integratie zal bestaan uit:
 
-1. A client-side wrapper (`BookingApiClient`) that handles API requests and response mapping
-2. Extension of our domain model to support the TripAdvisor API requirements
-3. Mapping between our domain model and the TripAdvisor API data structures
+1. Een client-side wrapper (`BookingApiClient`) die API-verzoeken en responsemapping afhandelt
+2. Uitbreiding van ons domeinmodel om aan de TripAdvisor API-vereisten te voldoen
+3. Mapping tussen ons domeinmodel en de TripAdvisor API-datastructuren
 
 ## Consequences
 
 ### Positive
-Access to a comprehensive, up-to-date database of accommodations worldwide is one benefit. The data is professionally managed with regular updates. There is also reduced development and maintenance effort compared to maintaining our own accommodation database. Additionally, the application benefits from a standardized interface for accommodation search across different parts of the system.
+Toegang tot een uitgebreide, actuele database van accommodaties wereldwijd is een voordeel. De gegevens worden professioneel beheerd met regelmatige updates. Er is ook minder ontwikkelings- en onderhoudsinspanning in vergelijking met het onderhouden van onze eigen accommodatiedatabase. Bovendien profiteert de applicatie van een gestandaardiseerde interface voor accommodatiezoeken in verschillende delen van het systeem.
 
 ### Negative
-However, there is a dependency on an external service, which could change or become unavailable. Potential costs associated with API usage may arise as the application scales. The domain model would also need to be adapted to fit the API requirements. Finally, there is limited control over the data and features available.
+Er is echter een afhankelijkheid van een externe service, die kan veranderen of onbeschikbaar kan worden. Mogelijke kosten verbonden aan API-gebruik kunnen ontstaan naarmate de applicatie schaalt. Het domeinmodel zou ook moeten worden aangepast aan de API-vereisten. Ten slotte is er beperkte controle over de beschikbare gegevens en functies.
 
 ### 8.2. ADR-002 Use of Two Databases for Security Reasons
 
@@ -234,7 +233,7 @@ However, there is a dependency on an external service, which could change or bec
 Accepted
 
 ## Context
-The traveling application needs to handle sensitive data, including personal information, payment details, and travel itineraries. To ensure enhanced security and minimize risk in case of a breach, we are considering using two separate databases. One will store general application data, and the other will store sensitive data. This approach aims to isolate the sensitive data to add an additional layer of security.
+De reisapplicatie moet gevoelige gegevens verwerken, inclusief persoonlijke informatie, betalingsgegevens en reisroutes. Om de beveiliging te verbeteren en het risico bij een inbreuk te minimaliseren, overwegen we het gebruik van twee aparte databases. Eén zal algemene applicatiegegevens opslaan en de andere zal gevoelige gegevens opslaan. Deze aanpak is gericht op het isoleren van de gevoelige gegevens om een extra beveiligingslaag toe te voegen.
 
 ## Considered Options
 
@@ -253,31 +252,29 @@ Legend:
 - -- : Very poor fit / Strong disadvantage
 
 ## Decision
-We will implement two databases: 
-The first database will store non-sensitive user data, such as user preferences, general travel information, and non-sensitive logs. The second database will store sensitive information like personal details, payment data, travel documents, and other high-risk data. By separating these two types of data, we can implement more granular security controls on the sensitive database, improve the overall security posture of the application by limiting access to sensitive data, and apply stricter encryption policies for the sensitive database.
+We zullen twee databases implementeren: 
+De eerste database zal niet-gevoelige gebruikersgegevens opslaan, zoals gebruikersvoorkeuren, algemene reisinformatie en niet-gevoelige logs. De tweede database zal gevoelige informatie opslaan zoals persoonlijke gegevens, betalingsgegevens, reisdocumenten en andere hoogrisicogegevens. Door deze twee soorten gegevens te scheiden, kunnen we meer gedetailleerde beveiligingscontroles implementeren op de gevoelige database, de algehele beveiligingspositie van de applicatie verbeteren door de toegang tot gevoelige gegevens te beperken, en strengere encryptiebeleid toepassen voor de gevoelige database.
 
-For the sensitive database, encryption at rest will be enforced using strong encryption algorithms, access control will be finely tuned, and data masking will be applied where needed. For the non-sensitive database, the encryption will be less stringent, but access will still be restricted.
+Voor de gevoelige database zal encryptie in rust worden afgedwongen met behulp van sterke encryptie-algoritmen, zal toegangscontrole nauwkeurig worden afgesteld en zal gegevensmaskering worden toegepast waar nodig. Voor de niet-gevoelige database zal de encryptie minder streng zijn, maar zal de toegang nog steeds beperkt zijn.
 
 ## Consequences
-Managing two databases will introduce additional operational complexity, including database synchronization, backup management, and maintenance overhead. There may also be performance impacts due to the need to access data across two databases, which could introduce latency. However, with careful design and optimization, these impacts can be minimized.
+Het beheren van twee databases zal extra operationele complexiteit introduceren, inclusief databasesynchronisatie, backupbeheer en onderhoudsoverhead. Er kunnen ook prestatie-effecten zijn door de noodzaak om gegevens over twee databases te benaderen, wat latentie kan introduceren. Met zorgvuldig ontwerp en optimalisatie kunnen deze effecten echter worden geminimaliseerd.
 
-By isolating sensitive data into a separate database, we minimize the risk of exposure in case of a database breach. If an attacker compromises the non-sensitive database, they will still not have access to the sensitive data. However, maintaining two databases may incur additional costs related to infrastructure, backup, and data synchronization.
-
+Door gevoelige gegevens te isoleren in een aparte database, minimaliseren we het risico op blootstelling in geval van een database-inbreuk. Als een aanvaller de niet-gevoelige database compromitteert, hebben ze nog steeds geen toegang tot de gevoelige gegevens. Het onderhouden van twee databases kan echter extra kosten met zich meebrengen gerelateerd aan infrastructuur, backup en gegevenssynchronisatie.
 
 ## Alternatives Considered
-One alternative considered was using a single database for all data, applying stricter access control and encryption. While this would simplify the architecture, it would expose all data to higher risks if the database is compromised. Another alternative was database sharding, where multiple shards would be used for scalability while keeping all data in the same database. However, this would not provide the same level of isolation and security for sensitive data as two separate databases.
+Een overwogen alternatief was het gebruik van een enkele database voor alle gegevens, met strengere toegangscontrole en encryptie. Hoewel dit de architectuur zou vereenvoudigen, zou het alle gegevens blootstellen aan hogere risico's als de database wordt gecompromitteerd. Een ander alternatief was databasesharding, waarbij meerdere shards zouden worden gebruikt voor schaalbaarheid terwijl alle gegevens in dezelfde database blijven. Dit zou echter niet hetzelfde niveau van isolatie en beveiliging bieden voor gevoelige gegevens als twee aparte databases.
 
 ## Conclusion
-Given the need for heightened security, isolating sensitive data into a separate database is the best option. This approach allows for more controlled access, increased encryption, and a stronger overall security model while balancing the added complexity and performance considerations
+Gezien de behoefte aan verhoogde beveiliging, is het isoleren van gevoelige gegevens in een aparte database de beste optie. Deze aanpak maakt meer gecontroleerde toegang, verhoogde encryptie en een sterker algeheel beveiligingsmodel mogelijk, terwijl de toegevoegde complexiteit en prestatieoverwegingen in balans worden gehouden.
 
-
-# 8.3. ADR-003: State Management
+### 8.3. ADR-003: State Management
 
 ## Status
 Accepted
 
 ## Context
-The TripTop application requires robust state management to handle complex user interactions, booking processes, and real-time updates across both web and mobile platforms. We need a solution that can efficiently manage application state, handle side effects, and maintain consistency across different components.
+De TripTop-applicatie vereist robuust state management om complexe gebruikersinteracties, boekingsprocessen en real-time updates over zowel web- als mobiele platforms te kunnen verwerken. We hebben een oplossing nodig die efficiënt de applicatiestatus kan beheren, neveneffecten kan afhandelen en consistentie kan behouden over verschillende componenten.
 
 ## Considered Options
 
@@ -297,28 +294,28 @@ Legend:
 - -- : Very poor fit / Strong disadvantage
 
 ## Decision
-We will implement Redux as our state management solution for both the web and mobile applications. Redux provides a predictable state container that will help us manage the application's state in a centralized store. This includes managing authentication state, booking information, trip planning data, and payment processing states.
+We zullen Redux implementeren als onze state management-oplossing voor zowel de web- als mobiele applicaties. Redux biedt een voorspelbare state container die ons zal helpen de status van de applicatie in een gecentraliseerde store te beheren. Dit omvat het beheren van authenticatiestatus, boekingsinformatie, reisplanninggegevens en betalingsverwerkingsstatussen.
 
-The decision to use Redux is based on several key factors. Redux offers centralized state management that allows us to maintain a single source of truth for our application state. The predictable state updates through reducers ensure that state changes are handled consistently and are easy to debug. The strong ecosystem and community support means we have access to a wealth of resources, middleware, and tools. Redux's excellent integration with React and React Native makes it a natural choice for our tech stack, while the built-in developer tools provide powerful debugging capabilities.
+De beslissing om Redux te gebruiken is gebaseerd op verschillende belangrijke factoren. Redux biedt gecentraliseerd state management dat ons in staat stelt een enkele bron van waarheid te behouden voor onze applicatiestatus. De voorspelbare statusupdates via reducers zorgen ervoor dat statuswijzigingen consistent worden afgehandeld en gemakkelijk te debuggen zijn. Het sterke ecosysteem en community support betekent dat we toegang hebben tot een schat aan bronnen, middleware en tools. Redux's uitstekende integratie met React en React Native maakt het een natuurlijke keuze voor onze tech stack, terwijl de ingebouwde ontwikkelaarstools krachtige debugmogelijkheden bieden.
 
 ## Consequences
-Using Redux will provide several significant benefits to our application. The predictable state updates and debugging capabilities will make it easier to track and fix issues in our application. The centralized state management across components will help maintain consistency and reduce the complexity of state synchronization. This approach will lead to better code organization and maintainability, making it easier for our team to work on the codebase. The enhanced developer experience with Redux DevTools will further improve our development workflow.
+Het gebruik van Redux zal verschillende significante voordelen bieden aan onze applicatie. De voorspelbare statusupdates en debugmogelijkheden zullen het gemakkelijker maken om problemen in onze applicatie op te sporen en op te lossen. Het gecentraliseerde state management over componenten zal helpen consistentie te behouden en de complexiteit van statussynchronisatie te verminderen. Deze aanpak zal leiden tot betere codeorganisatie en onderhoudbaarheid, wat het voor ons team gemakkelijker maakt om aan de codebase te werken. De verbeterde ontwikkelaarservaring met Redux DevTools zal onze ontwikkelworkflow verder verbeteren.
 
-However, implementing Redux also introduces certain challenges. The additional boilerplate code required for actions and reducers can make simple state changes more complex than necessary. New developers will need to learn Redux's concepts and patterns, which can slow down initial development. There's also the risk of over-engineering for simple state changes, and we'll need to carefully plan our state structure to avoid unnecessary complexity.
+Het implementeren van Redux introduceert echter ook bepaalde uitdagingen. De extra boilerplate-code die nodig is voor actions en reducers kan eenvoudige statuswijzigingen onnodig complex maken. Nieuwe ontwikkelaars zullen Redux's concepten en patronen moeten leren, wat de initiële ontwikkeling kan vertragen. Er is ook het risico van over-engineering voor eenvoudige statuswijzigingen, en we zullen onze statusstructuur zorgvuldig moeten plannen om onnodige complexiteit te voorkomen.
 
 ## Alternatives Considered
-We carefully evaluated several alternatives before choosing Redux. The React Context API was considered for its simplicity and built-in nature, but it lacks the robust state management features needed for our complex application. MobX was another option that provides good state management capabilities, but it has a steeper learning curve and less community support compared to Redux.
+We hebben verschillende alternatieven zorgvuldig geëvalueerd voordat we voor Redux kozen. De React Context API werd overwogen vanwege zijn eenvoud en ingebouwde aard, maar mist de robuuste state management-functies die nodig zijn voor onze complexe applicatie. MobX was een andere optie die goede state management-mogelijkheden biedt, maar heeft een steilere leercurve en minder community support in vergelijking met Redux.
 
 ## Conclusion
-Redux is the optimal choice for our state management needs, providing the right balance of features, community support, and integration capabilities for both our web and mobile applications. While it introduces some complexity, the benefits of predictable state management, strong ecosystem support, and excellent developer tools outweigh the initial learning curve and additional boilerplate code.
+Redux is de optimale keuze voor onze state management-behoeften, die de juiste balans biedt tussen functies, community support en integratiemogelijkheden voor zowel onze web- als mobiele applicaties. Hoewel het enige complexiteit introduceert, wegen de voordelen van voorspelbaar state management, sterk ecosysteem support en uitstekende ontwikkelaarstools op tegen de initiële leercurve en extra boilerplate-code.
 
-# 8.4. ADR-004: Database Type
+### 8.4. ADR-004: Database Type
 
 ## Status
 Accepted
 
 ## Context
-The TripTop application requires a flexible and scalable database solution that can handle various types of data, including user profiles, trip information, bookings, and authentication details. The data structure may evolve over time as we add new features and requirements. We need a database that can efficiently handle both structured and semi-structured data while maintaining good performance and scalability.
+De TripTop-applicatie vereist een flexibele en schaalbare database-oplossing die verschillende soorten gegevens kan verwerken, inclusief gebruikersprofielen, reisinformatie, boekingen en authenticatiegegevens. De datastructuur kan in de loop van de tijd evolueren naarmate we nieuwe functies en vereisten toevoegen. We hebben een database nodig die zowel gestructureerde als semi-gestructureerde gegevens efficiënt kan verwerken terwijl goede prestaties en schaalbaarheid worden behouden.
 
 ## Considered Options
 
@@ -340,20 +337,20 @@ Legend:
 - -- : Very poor fit / Strong disadvantage
 
 ## Decision
-We will implement MongoDB as our primary database solution for both the trip and user databases. MongoDB's document-based architecture aligns perfectly with our needs, allowing us to store data in flexible, JSON-like documents. This structure is particularly well-suited for our trip planning and booking system, where data structures may vary and evolve over time.
+We zullen MongoDB implementeren als onze primaire database-oplossing voor zowel de reis- als gebruikersdatabases. MongoDB's document-gebaseerde architectuur sluit perfect aan bij onze behoeften, waardoor we gegevens kunnen opslaan in flexibele, JSON-achtige documenten. Deze structuur is bijzonder goed geschikt voor ons reisplanning- en boekingssysteem, waar datastructuren kunnen variëren en evolueren in de loop van de tijd.
 
-The decision to use MongoDB is based on several key factors. MongoDB's schema-less design provides the flexibility we need to adapt our data models as the application evolves. The document-based structure naturally represents our trip and user data, making it easier to model complex relationships. MongoDB's horizontal scaling capabilities through sharding will allow us to scale our application as our user base grows. The rich query language and aggregation framework will enable us to perform complex queries and data analysis efficiently.
+De beslissing om MongoDB te gebruiken is gebaseerd op verschillende belangrijke factoren. MongoDB's schema-loze ontwerp biedt de flexibiliteit die we nodig hebben om onze datamodellen aan te passen naarmate de applicatie evolueert. De document-gebaseerde structuur vertegenwoordigt natuurlijk onze reis- en gebruikersgegevens, waardoor het gemakkelijker wordt om complexe relaties te modelleren. MongoDB's horizontale schaalbaarheidsmogelijkheden via sharding zullen ons in staat stellen onze applicatie te schalen naarmate onze gebruikersbasis groeit. De rijke querytaal en aggregatieframework zullen ons in staat stellen complexe queries en data-analyse efficiënt uit te voeren.
 
 ## Consequences
-Using MongoDB will provide several significant benefits to our application. The flexible schema design will make it easier to iterate on our data models without requiring complex migrations. The document-based structure will simplify the representation of nested data, which is common in travel and booking information. MongoDB's built-in support for geospatial queries will be valuable for location-based features in our trip planning system. The ability to scale horizontally will ensure our application can handle growing data volumes and user loads.
+Het gebruik van MongoDB zal verschillende significante voordelen bieden aan onze applicatie. Het flexibele schema-ontwerp zal het gemakkelijker maken om te itereren op onze datamodellen zonder complexe migraties te vereisen. De document-gebaseerde structuur zal de representatie van geneste gegevens vereenvoudigen, wat gebruikelijk is in reis- en boekingsinformatie. MongoDB's ingebouwde ondersteuning voor georuimtelijke queries zal waardevol zijn voor locatie-gebaseerde functies in ons reisplanning systeem. De mogelijkheid om horizontaal te schalen zal ervoor zorgen dat onze applicatie groeiende datavolumes en gebruikersbelasting aankan.
 
-However, implementing MongoDB also introduces certain challenges. The lack of strict schema validation requires careful application-level validation to ensure data integrity. The eventual consistency model may require additional consideration for certain use cases where strong consistency is crucial. We'll need to carefully design our indexes to optimize query performance, and the memory usage can be higher compared to traditional relational databases.
+Het implementeren van MongoDB introduceert echter ook bepaalde uitdagingen. Het ontbreken van strikte schema-validatie vereist zorgvuldige validatie op applicatieniveau om gegevensintegriteit te waarborgen. Het uiteindelijke consistentiemodel kan extra overweging vereisen voor bepaalde use cases waar sterke consistentie cruciaal is. We zullen onze indexen zorgvuldig moeten ontwerpen om queryprestaties te optimaliseren, en het geheugengebruik kan hoger zijn in vergelijking met traditionele relationele databases.
 
 ## Alternatives Considered
-We carefully evaluated several alternatives before choosing MongoDB. PostgreSQL was considered for its strong ACID compliance and robust relational features, but its rigid schema structure would make it more difficult to adapt to our evolving data requirements. MySQL was another option that offers good performance and reliability, but it lacks the flexibility and scalability features we need for our growing application. CouchDB was evaluated for its excellent offline support and eventual consistency model, but its limited query capabilities and smaller community size made it less suitable for our needs, despite its strong document-based architecture.
+We hebben verschillende alternatieven zorgvuldig geëvalueerd voordat we voor MongoDB kozen. PostgreSQL werd overwogen vanwege zijn sterke ACID-compliance en robuuste relationele functies, maar zijn rigide schemastructuur zou het moeilijker maken om aan te passen aan onze evoluerende gegevensvereisten. MySQL was een andere optie die goede prestaties en betrouwbaarheid biedt, maar mist de flexibiliteit en schaalbaarheidsfuncties die we nodig hebben voor onze groeiende applicatie. CouchDB werd geëvalueerd vanwege zijn uitstekende offline ondersteuning en uiteindelijke consistentiemodel, maar zijn beperkte querymogelijkheden en kleinere community maakten het minder geschikt voor onze behoeften, ondanks zijn sterke document-gebaseerde architectuur.
 
 ## Conclusion
-MongoDB is the optimal choice for our database needs, providing the right balance of flexibility, scalability, and performance for both our trip and user databases. While it requires careful consideration of data consistency and schema design, the benefits of flexible data modeling, horizontal scaling, and rich query capabilities outweigh the challenges. This choice will allow us to build a robust and scalable application that can adapt to changing requirements and growing user needs.
+MongoDB is de optimale keuze voor onze database-behoeften, die de juiste balans biedt tussen flexibiliteit, schaalbaarheid en prestaties voor zowel onze reis- als gebruikersdatabases. Hoewel het zorgvuldige overweging van gegevensconsistentie en schemadesign vereist, wegen de voordelen van flexibele datamodellering, horizontale schaling en rijke querymogelijkheden op tegen de uitdagingen. Deze keuze zal ons in staat stellen een robuuste en schaalbare applicatie te bouwen die zich kan aanpassen aan veranderende vereisten en groeiende gebruikersbehoeften.
 
 ## 9. Deployment, Operation and Support
 
