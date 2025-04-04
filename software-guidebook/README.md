@@ -9,8 +9,6 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 
 ## 2. Context
 
-> [!IMPORTANT]
-> Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de software.
 ### context diagram
 
 ![context diagram](context-diagram/context-triptop.svg)
@@ -129,9 +127,6 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
 
 ## 8. Architectural Decision Records
-
-> [!IMPORTANT]
-> Voeg toe: 3 tot 5 ADR's die beslissingen beschrijven die zijn genomen tijdens het ontwerpen en bouwen van de software.
 
 ### 8.1. ADR-001 TITLE
 
