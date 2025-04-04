@@ -14,10 +14,6 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 ![context diagram](context-diagram/context-triptop.svg)
 [View context diagram source](context-diagram/context-triptop.svg)
 
-Toelichting op de context van de software inclusief System Context Diagram:
-* Functionaliteit
-* Gebruikers
-* Externe systemen
 
 ## 3. Functional Overview
 
@@ -326,15 +322,15 @@ De TripTop-applicatie vereist een flexibele en schaalbare database-oplossing die
 
 ## Considered Options
 
-| Option                     | MongoDB | PostgreSQL | MySQL | CouchDB |
-| -------------------------- | -------- | ---------- | ----- | -------- |
-| **Schema Flexibility**     | ++       | -          | -     | ++       |
-| **Scalability**            | ++       | +          | +     | +        |
-| **Query Performance**      | +        | ++         | +     | -        |
-| **Data Consistency**       | -        | ++         | ++    | -        |
-| **Development Speed**      | ++       | +          | +     | +        |
-| **Offline Support**        | -        | -          | -     | ++       |
-| **Community Size**         | ++       | ++         | ++    | -        |
+| Option                     | MongoDB   | PostgreSQL | MySQL | CouchDB  |
+| -------------------------- |-----------| ---------- | ----- |----------|
+| **Schema Flexibility**     | ++        | -          | -     | ++       |
+| **Scalability**            | ++        | +          | +     | +        |
+| **Query Performance**      | +         | ++         | +     | -        |
+| **Data Consistency**       | -         | ++         | ++    | -        |
+| **Development Speed**      | ++        | +          | +     | +        |
+| **Offline Support**        | -         | -          | -     | ++       |
+| **Community Size**         | ++        | ++         | ++    | -        |
 
 Legend:
 - ++ : Excellent fit / Strong advantage
@@ -360,4 +356,5 @@ We hebben verschillende alternatieven zorgvuldig geëvalueerd voordat we voor Mo
 MongoDB is de optimale keuze voor onze database-behoeften, die de juiste balans biedt tussen flexibiliteit, schaalbaarheid en prestaties voor zowel onze reis- als gebruikersdatabases. Hoewel het zorgvuldige overweging van gegevensconsistentie en schemadesign vereist, wegen de voordelen van flexibele datamodellering, horizontale schaling en rijke querymogelijkheden op tegen de uitdagingen. Deze keuze zal ons in staat stellen een robuuste en schaalbare applicatie te bouwen die zich kan aanpassen aan veranderende vereisten en groeiende gebruikersbehoeften.
 
 ## 9. Deployment, Operation and Support
+
 
