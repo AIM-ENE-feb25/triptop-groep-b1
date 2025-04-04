@@ -174,15 +174,41 @@ Door het Open/Closed Principle toe te passen, zorgen we ervoor dat onze codebase
 #### class diagram
 ![facade class Diagram](class-diagram/facade-class-diagram.svg)
 
+Het Facade patroon is geïmplementeerd om een vereenvoudigde interface te bieden voor een complex subsysteem van services. In dit diagram:
+- `TripFacade` fungeert als de hoofdinterface voor clients, waarbij de complexiteit van de onderliggende services wordt verborgen
+- `HotelService`, `TransportService` en `ExcursionService` zijn de subsysteemcomponenten die specifieke aspecten van reisplanning afhandelen
+- De facade coördineert deze services en biedt een uniforme interface voor reisgerelateerde operaties
+- Dit patroon helpt de koppeling tussen clients en het subsysteem te verminderen, waardoor het systeem beter onderhoudbaar en gebruiksvriendelijker wordt
+
 #### sequence diagram
 ![facade sequence Diagram](sequence-diagram/facade.sequence.diagram.svg)
+
+Het sequentiediagram illustreert hoe het Facade patroon een reisplanning verzoek afhandelt:
+1. De client communiceert alleen met de `TripFacade`, die fungeert als enig contactpunt
+2. De facade coördineert de benodigde operaties over meerdere services
+3. Elke service (`HotelService`, `TransportService`, `ExcursionService`) handelt zijn specifieke domein af
+4. De facade combineert de resultaten en retourneert een uniform antwoord aan de client
+5. Deze flow toont aan hoe de facade complexe interacties vereenvoudigt terwijl de scheiding van verantwoordelijkheden behouden blijft
 
 ### Adapter
 #### class diagram
 ![adapter class Diagram](class-diagram/adapter-class-diagram.svg)
 
+Het Adapter patroon is geïmplementeerd om incompatibele interfaces tussen ons systeem en externe services te overbruggen:
+- `IExternalService` definieert de interface die ons systeem verwacht
+- `HotelAdapter` en `TransportAdapter` implementeren deze interface en passen de interfaces van externe services aan
+- De adapters vertalen verzoeken en antwoorden tussen het formaat van ons systeem en de formaten van externe services
+- Dit patroon stelt ons in staat om te integreren met verschillende externe services zonder ons kernsysteem te wijzigen
+
 #### sequence diagram
 ![adapter sequence Diagram](sequence-diagram/adapter-sequence.diagram.svg)
+
+Het sequentiediagram toont hoe het Adapter patroon de communicatie met externe services afhandelt:
+1. De client doet een verzoek via de interface van ons systeem
+2. De adapter ontvangt het verzoek en vertaalt het naar het formaat dat de externe service verwacht
+3. De externe service verwerkt het verzoek en retourneert een antwoord
+4. De adapter vertaalt het antwoord terug naar het formaat van ons systeem
+5. Dit proces zorgt voor naadloze integratie tussen ons systeem en externe services met verschillende interfaces
 
 ### factory
 
