@@ -100,8 +100,43 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 ## 6. Principles
 
-> [!IMPORTANT]
-> Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
+
+In softwareontwikkeling is het belangrijk om een duidelijke en gestructureerde codebase te behouden. Dit zorgt niet alleen voor betere onderhoudbaarheid en schaalbaarheid, maar ook voor een efficiëntere samenwerking binnen het team. In dit hoofdstuk bespreken we twee fundamentele principes die bijdragen aan goed gestructureerde software: het Single Responsibility Principle (SRP) en Separation of Concerns (SoC). Door deze principes toe te passen, zorgen we ervoor dat onze code overzichtelijk, flexibel en robuust blijft.
+
+# Single Responsibility Principle (SRP)
+
+Het Single Responsibility Principle stelt dat een klasse slechts één duidelijke verantwoordelijkheid moet hebben. Dit betekent dat elke klasse slechts één reden mag hebben om te veranderen. Door dit principe toe te passen, voorkomen we dat een klasse te veel verschillende taken uitvoert, wat de code complex en moeilijk te onderhouden maakt.
+
+Voorbeelden van SRP in onze codebase:
+
+HotelService: Verantwoordelijk voor alle hotelgerelateerde operaties, zoals het ophalen van hotelgegevens en het verwerken van reserveringen.
+
+TransportService: Verantwoordelijk voor transportgerelateerde operaties, zoals het regelen van vervoer voor een reis.
+
+ApiConfig: Verantwoordelijk voor de configuratie van de API, zoals authenticatie en verbindingen met externe services.
+
+TripController: Verantwoordelijk voor het afhandelen van HTTP-verzoeken met betrekking tot reizen.
+
+Door deze scheiding zorgen we ervoor dat elke klasse een duidelijke focus heeft, wat leidt tot betere testbaarheid en herbruikbaarheid van code.
+
+# Separation of Concerns (SoC)
+
+Het Separation of Concerns-principe benadrukt het belang van het opdelen van software in aparte onderdelen met elk een eigen verantwoordelijkheid. Dit voorkomt dat verschillende lagen van de applicatie in elkaar overlopen, wat kan leiden tot een onoverzichtelijke codebase.
+
+Een duidelijke scheiding in onze architectuur:
+
+API-configuratie: Wordt beheerd door ApiConfig, waarin alle instellingen en connecties met externe systemen worden vastgelegd.
+
+Business logic: Behandeld door services zoals HotelService en TransportService, waarin de kernfunctionaliteit van de applicatie wordt geïmplementeerd.
+
+HTTP endpoints: Gehandeld door controllers, zoals TripController, die verantwoordelijk is voor het verwerken van inkomende verzoeken en het aanroepen van de juiste services.
+
+Data modellen: Worden gebruikt om de structuur van gegevens te definiëren en om dataoverdracht binnen de applicatie mogelijk te maken.
+
+Door Separation of Concerns strikt toe te passen, zorgen we ervoor dat wijzigingen in één onderdeel van de applicatie minimale impact hebben op de rest van het systeem. Dit maakt het makkelijker om nieuwe functionaliteiten toe te voegen en bestaande code te onderhouden.
+
+
+
 
 ## 7. Software Architecture
 
