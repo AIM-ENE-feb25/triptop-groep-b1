@@ -135,8 +135,19 @@ Data modellen: Worden gebruikt om de structuur van gegevens te definiëren en om
 
 Door Separation of Concerns strikt toe te passen, zorgen we ervoor dat wijzigingen in één onderdeel van de applicatie minimale impact hebben op de rest van het systeem. Dit maakt het makkelijker om nieuwe functionaliteiten toe te voegen en bestaande code te onderhouden.
 
+### Open/Closed Principle (OCP)
 
+Het Open/Closed Principle stelt dat software-entiteiten (klassen, modules, functies, etc.) open moeten staan voor uitbreiding, maar gesloten voor modificatie. Dit betekent dat we bestaande code niet moeten wijzigen om nieuwe functionaliteit toe te voegen, maar in plaats daarvan nieuwe code moeten toevoegen die de bestaande code uitbreidt.
 
+Voorbeelden van OCP in onze codebase:
+
+Adapter Interfaces: De `HotelAdapter` en `TransportAdapter` interfaces zijn open voor uitbreiding door nieuwe implementaties toe te voegen, zonder dat de bestaande code hoeft te worden gewijzigd.
+
+Service Interfaces: De `IExternalService` interface maakt het mogelijk om nieuwe services toe te voegen zonder de bestaande service-implementaties te wijzigen.
+
+Controller Endpoints: Onze controllers zijn ontworpen om nieuwe endpoints toe te voegen zonder bestaande endpoints te wijzigen.
+
+Door het Open/Closed Principle toe te passen, zorgen we ervoor dat onze codebase flexibel en uitbreidbaar blijft, terwijl we het risico op het introduceren van bugs in bestaande functionaliteit minimaliseren. Dit maakt het mogelijk om nieuwe features toe te voegen zonder de stabiliteit van het systeem in gevaar te brengen.
 
 ## 7. Software Architecture
 
