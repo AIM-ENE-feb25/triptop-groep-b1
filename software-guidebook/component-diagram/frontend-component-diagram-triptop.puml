@@ -1,0 +1,68 @@
+@startuml
+
+title
+TripTop - Frontend Component Diagram
+<font size="12">Component diagram showing the internal structure of TripTop's frontend applications</font>
+end title
+
+!include <C4/C4_Component>
+
+LAYOUT_WITH_LEGEND()
+
+' External Actors (Top Layer)
+Person(traveler, "Traveler", "End user of the application")
+Person(travelAgent, "Travel Agent", "Professional travel planner")
+
+' External Systems
+Container_Ext(apiGateway, "API Gateway", "Backend API Gateway", "Backend API Gateway")
+
+' Web Application Layer
+Container_Boundary(webApp, "Web Application", "React", "Main web application") {
+    Component(webAuthManager, "Auth Manager", "React", "Manages authentication state")
+    Component(webRouter, "Router", "React Router", "Handles web application routing")
+    Component(webStateManager, "State Manager", "Redux", "Manages application state")
+    Component(webUI, "UI Components", "React", "User interface components")
+    Component(webTripPlanner, "Trip Planner", "React", "Main trip planning interface")
+    Component(webBooking, "Booking Manager", "React", "Manages booking process")
+    Component(webPayment, "Payment Processor", "React", "Handles payment processing")
+
+    ' Web Internal Relationships
+    Rel_D(webAuthManager, webRouter, "Controls access")
+    Rel_D(webRouter, webStateManager, "Updates state")
+    Rel_D(webStateManager, webUI, "Provides data")
+    Rel_D(webUI, webTripPlanner, "Shows")
+    Rel_D(webTripPlanner, webBooking, "Creates booking")
+    Rel_D(webBooking, webPayment, "Initiates payment")
+}
+
+' Mobile Application Layer
+Container_Boundary(mobileApp, "Mobile Application", "React Native", "Mobile version of the application") {
+    Component(mobileAuthManager, "Auth Manager", "React Native", "Manages mobile authentication")
+    Component(mobileRouter, "Router", "React Navigation", "Handles mobile navigation")
+    Component(mobileStateManager, "State Manager", "Redux", "Manages mobile app state")
+    Component(mobileUI, "UI Components", "React Native", "User interface components")
+    Component(mobileTripPlanner, "Trip Planner", "React Native", "Main trip planning interface")
+    Component(mobileBooking, "Booking Manager", "React Native", "Manages booking process")
+    Component(mobilePayment, "Payment Processor", "React Native", "Handles payment processing")
+
+    ' Mobile Internal Relationships
+    Rel_D(mobileAuthManager, mobileRouter, "Controls access")
+    Rel_D(mobileRouter, mobileStateManager, "Updates state")
+    Rel_D(mobileStateManager, mobileUI, "Provides data")
+    Rel_D(mobileUI, mobileTripPlanner, "Shows")
+    Rel_D(mobileTripPlanner, mobileBooking, "Creates booking")
+    Rel_D(mobileBooking, mobilePayment, "Initiates payment")
+}
+
+' External Relationships - Users
+Rel_D(traveler, webApp, "Books trips, makes payments, views booking status")
+Rel_D(traveler, mobileApp, "Books on-the-go, tracks active trips")
+Rel_D(travelAgent, webApp, "Creates custom trips, manages bookings, handles customer requests")
+
+' External Relationships - API
+Rel_D(webApp, apiGateway, "Communicates with backend through")
+Rel_D(mobileApp, apiGateway, "Communicates with backend through")
+
+SHOW_LEGEND()
+
+@enduml

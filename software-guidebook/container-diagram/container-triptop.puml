@@ -1,0 +1,69 @@
+@startuml
+
+title
+TripTop - Container Diagram
+<font size="12">Container diagram for the TripTop vacation planning application</font>
+end title
+
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+' Layout settings
+LAYOUT_TOP_DOWN()
+LAYOUT_WITH_LEGEND()
+
+
+' People/Actors
+Person(traveler, "Traveler", "Person planning and booking a vacation trip")
+Person(travelAgent, "Travel Agent", "Second-line support who assists travelers with complex planning and discusses risks")
+
+' External Systems - Top/Bottom Rows
+System_Ext(identityProviderExt, "Identity Providers", "Allows TripTop to authenticate users (e.g., Google, Microsoft, Airbnb)")
+System_Ext(paymentSystemExt, "Payment Systems", "Allows TripTop to process payments")
+
+' External Systems - Grouped at Bottom
+System_Ext(bookingServiceExt, "Booking Services", "Allows TripTop to search for and book accommodations (e.g., Booking.com, Airbnb)")
+System_Ext(transportServiceExt, "Transport Services", "Allows TripTop to search for and book transportation (e.g., NS, Deutsche Bahn, KLM)")
+System_Ext(carRentalServiceExt, "Car Rental Services", "Allows TripTop to search for and book car rentals (e.g., Sixt, Hertz)")
+System_Ext(activityServiceExt, "Activity Services", "Allows TripTop to search for and book activities and excursions (e.g., GetYourGuide, Tripadvisor)")
+System_Ext(foodServiceExt, "Food Services", "Allows TripTop to search for and book restaurants (e.g., Takeaway, Eet.nu)")
+
+' TripTop System Boundary
+System_Boundary(triptop, "TripTop Vacation Planning System") {
+    ' Front-end layer 
+    Container(webApplication, "TripTop Web Application", "JavaScript, React", "Provides users with the ability to plan trips, combine building blocks, and manage their vacation plans through a web browser")
+    Container(mobileApp, "TripTop Mobile App", "React Native", "Provides users with the ability to plan trips, combine building blocks, and manage their vacation plans on mobile devices")
+    
+    ' Backend layer
+    Container(backend, "Backend", "Java, Spring Boot", "Handles all server-side functionality including API routing, authentication, business logic, and external service integrations")
+    
+    ' Database layer
+    ContainerDb(tripDatabase, "Trip Database", "MongoDB", "Stores information about trip plans, building blocks, and their status as documents")
+    ContainerDb(userDatabase, "User Database", "MongoDB", "Stores user preferences and saved trips as documents")
+}
+
+' Relationships - External User to TripTop
+Rel_D(traveler, webApplication, "Plans and books trips through", "HTTPS")
+Rel_D(traveler, mobileApp, "Plans and manages trips on-the-go with", "HTTPS")
+Rel_D(travelAgent, webApplication, "Reviews travelers' plans and provides advice through", "HTTPS")
+
+' Web and Mobile App to Backend
+Rel_D(webApplication, backend, "Sends trip planning and booking requests to", "JSON/HTTPS")
+Rel_D(mobileApp, backend, "Sends trip planning and booking requests to", "JSON/HTTPS")
+
+' Backend to Databases
+Rel_D(backend, tripDatabase, "Stores and retrieves trip plans and building blocks from", "MongoDB Driver")
+Rel_D(backend, userDatabase, "Stores and retrieves user data from", "MongoDB Driver")
+
+' External Services Integration
+Rel_D(backend, bookingServiceExt, "Fetches accommodation availability and processes bookings with", "REST/HTTPS")
+Rel_D(backend, transportServiceExt, "Searches transportation options and books tickets with", "REST/HTTPS")
+Rel_D(backend, carRentalServiceExt, "Checks car availability and processes rental bookings with", "REST/HTTPS")
+Rel_D(backend, activityServiceExt, "Discovers activities and books excursions through", "REST/HTTPS")
+Rel_D(backend, foodServiceExt, "Searches dining options and makes reservations via", "REST/HTTPS")
+Rel_U(backend, identityProviderExt, "Verifies user identity and retrieves authentication tokens from", "OAuth/HTTPS")
+Rel_U(backend, paymentSystemExt, "Securely processes customer payments through", "REST/HTTPS")
+
+SHOW_LEGEND()
+
+@enduml
