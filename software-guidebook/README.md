@@ -103,7 +103,7 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 
 In softwareontwikkeling is het belangrijk om een duidelijke en gestructureerde codebase te behouden. Dit zorgt niet alleen voor betere onderhoudbaarheid en schaalbaarheid, maar ook voor een efficiëntere samenwerking binnen het team. In dit hoofdstuk bespreken we twee fundamentele principes die bijdragen aan goed gestructureerde software: het Single Responsibility Principle (SRP) en Separation of Concerns (SoC). Door deze principes toe te passen, zorgen we ervoor dat onze code overzichtelijk, flexibel en robuust blijft.
 
-# Single Responsibility Principle (SRP)
+### Single Responsibility Principle (SRP)
 
 Het Single Responsibility Principle stelt dat een klasse slechts één duidelijke verantwoordelijkheid moet hebben. Dit betekent dat elke klasse slechts één reden mag hebben om te veranderen. Door dit principe toe te passen, voorkomen we dat een klasse te veel verschillende taken uitvoert, wat de code complex en moeilijk te onderhouden maakt.
 
@@ -119,7 +119,7 @@ TripController: Verantwoordelijk voor het afhandelen van HTTP-verzoeken met betr
 
 Door deze scheiding zorgen we ervoor dat elke klasse een duidelijke focus heeft, wat leidt tot betere testbaarheid en herbruikbaarheid van code.
 
-# Separation of Concerns (SoC)
+### Separation of Concerns (SoC)
 
 Het Separation of Concerns-principe benadrukt het belang van het opdelen van software in aparte onderdelen met elk een eigen verantwoordelijkheid. Dit voorkomt dat verschillende lagen van de applicatie in elkaar overlopen, wat kan leiden tot een onoverzichtelijke codebase.
 
@@ -163,9 +163,8 @@ Door Separation of Concerns strikt toe te passen, zorgen we ervoor dat wijziging
 
 ## 8. Architectural Decision Records
 
-### 8.1. ADR-001 TITLE
+### 8.1. ADR-001 Integration with TripAdvisor API for Accommodation Search
 
-# Integration with Booking.com API for Accommodation Search
 
 Date: 2024-03-21
 
@@ -181,7 +180,7 @@ Some key requirements are access to a large database of accommodations worldwide
 
 ## Considered Options
 
-| Force | Booking.com API | Expedia API | Hotels.com API | Airbnb API |
+| Force | TripAdvisor API | Expedia API | Hotels.com API | Airbnb API |
 |-------|----------------|-------------|---------------|------------|
 | **Data Completeness** | ++ | + | + | 0 |
 | **Global Coverage** | ++ | + | + | 0 |
@@ -203,11 +202,11 @@ Legend:
 
 ## Decision
 
-We will integrate with the Booking.com API via RapidAPI to provide accommodation search functionality. The integration will consist of:
+We will integrate with the TripAdvisor API via RapidAPI to provide accommodation search functionality. The integration will consist of:
 
 1. A client-side wrapper (`BookingApiClient`) that handles API requests and response mapping
-2. Extension of our domain model to support the Booking.com API requirements
-3. Mapping between our domain model and the Booking.com API data structures
+2. Extension of our domain model to support the TripAdvisor API requirements
+3. Mapping between our domain model and the TripAdvisor API data structures
 
 ## Consequences
 
@@ -217,26 +216,13 @@ Access to a comprehensive, up-to-date database of accommodations worldwide is on
 ### Negative
 However, there is a dependency on an external service, which could change or become unavailable. Potential costs associated with API usage may arise as the application scales. The domain model would also need to be adapted to fit the API requirements. Finally, there is limited control over the data and features available.
 
-### 8.2. ADR-002 TITLE
-
-# Use of Two Databases for Security Reasons
+### 8.2. ADR-002 Use of Two Databases for Security Reasons
 
 ## Status
 Accepted
 
 ## Context
 The traveling application needs to handle sensitive data, including personal information, payment details, and travel itineraries. To ensure enhanced security and minimize risk in case of a breach, we are considering using two separate databases. One will store general application data, and the other will store sensitive data. This approach aims to isolate the sensitive data to add an additional layer of security.
-
-## Decision
-We will implement two databases: 
-The first database will store non-sensitive user data, such as user preferences, general travel information, and non-sensitive logs. The second database will store sensitive information like personal details, payment data, travel documents, and other high-risk data. By separating these two types of data, we can implement more granular security controls on the sensitive database, improve the overall security posture of the application by limiting access to sensitive data, and apply stricter encryption policies for the sensitive database.
-
-For the sensitive database, encryption at rest will be enforced using strong encryption algorithms, access control will be finely tuned, and data masking will be applied where needed. For the non-sensitive database, the encryption will be less stringent, but access will still be restricted.
-
-## Consequences
-Managing two databases will introduce additional operational complexity, including database synchronization, backup management, and maintenance overhead. There may also be performance impacts due to the need to access data across two databases, which could introduce latency. However, with careful design and optimization, these impacts can be minimized.
-
-By isolating sensitive data into a separate database, we minimize the risk of exposure in case of a database breach. If an attacker compromises the non-sensitive database, they will still not have access to the sensitive data. However, maintaining two databases may incur additional costs related to infrastructure, backup, and data synchronization.
 
 ## Considered Options
 
@@ -254,6 +240,18 @@ Legend:
 - - : Poor fit / Disadvantage
 - -- : Very poor fit / Strong disadvantage
 
+## Decision
+We will implement two databases: 
+The first database will store non-sensitive user data, such as user preferences, general travel information, and non-sensitive logs. The second database will store sensitive information like personal details, payment data, travel documents, and other high-risk data. By separating these two types of data, we can implement more granular security controls on the sensitive database, improve the overall security posture of the application by limiting access to sensitive data, and apply stricter encryption policies for the sensitive database.
+
+For the sensitive database, encryption at rest will be enforced using strong encryption algorithms, access control will be finely tuned, and data masking will be applied where needed. For the non-sensitive database, the encryption will be less stringent, but access will still be restricted.
+
+## Consequences
+Managing two databases will introduce additional operational complexity, including database synchronization, backup management, and maintenance overhead. There may also be performance impacts due to the need to access data across two databases, which could introduce latency. However, with careful design and optimization, these impacts can be minimized.
+
+By isolating sensitive data into a separate database, we minimize the risk of exposure in case of a database breach. If an attacker compromises the non-sensitive database, they will still not have access to the sensitive data. However, maintaining two databases may incur additional costs related to infrastructure, backup, and data synchronization.
+
+
 ## Alternatives Considered
 One alternative considered was using a single database for all data, applying stricter access control and encryption. While this would simplify the architecture, it would expose all data to higher risks if the database is compromised. Another alternative was database sharding, where multiple shards would be used for scalability while keeping all data in the same database. However, this would not provide the same level of isolation and security for sensitive data as two separate databases.
 
@@ -268,16 +266,6 @@ Accepted
 
 ## Context
 The TripTop application requires robust state management to handle complex user interactions, booking processes, and real-time updates across both web and mobile platforms. We need a solution that can efficiently manage application state, handle side effects, and maintain consistency across different components.
-
-## Decision
-We will implement Redux as our state management solution for both the web and mobile applications. Redux provides a predictable state container that will help us manage the application's state in a centralized store. This includes managing authentication state, booking information, trip planning data, and payment processing states.
-
-The decision to use Redux is based on several key factors. Redux offers centralized state management that allows us to maintain a single source of truth for our application state. The predictable state updates through reducers ensure that state changes are handled consistently and are easy to debug. The strong ecosystem and community support means we have access to a wealth of resources, middleware, and tools. Redux's excellent integration with React and React Native makes it a natural choice for our tech stack, while the built-in developer tools provide powerful debugging capabilities.
-
-## Consequences
-Using Redux will provide several significant benefits to our application. The predictable state updates and debugging capabilities will make it easier to track and fix issues in our application. The centralized state management across components will help maintain consistency and reduce the complexity of state synchronization. This approach will lead to better code organization and maintainability, making it easier for our team to work on the codebase. The enhanced developer experience with Redux DevTools will further improve our development workflow.
-
-However, implementing Redux also introduces certain challenges. The additional boilerplate code required for actions and reducers can make simple state changes more complex than necessary. New developers will need to learn Redux's concepts and patterns, which can slow down initial development. There's also the risk of over-engineering for simple state changes, and we'll need to carefully plan our state structure to avoid unnecessary complexity.
 
 ## Considered Options
 
@@ -296,6 +284,16 @@ Legend:
 - - : Poor fit / Disadvantage
 - -- : Very poor fit / Strong disadvantage
 
+## Decision
+We will implement Redux as our state management solution for both the web and mobile applications. Redux provides a predictable state container that will help us manage the application's state in a centralized store. This includes managing authentication state, booking information, trip planning data, and payment processing states.
+
+The decision to use Redux is based on several key factors. Redux offers centralized state management that allows us to maintain a single source of truth for our application state. The predictable state updates through reducers ensure that state changes are handled consistently and are easy to debug. The strong ecosystem and community support means we have access to a wealth of resources, middleware, and tools. Redux's excellent integration with React and React Native makes it a natural choice for our tech stack, while the built-in developer tools provide powerful debugging capabilities.
+
+## Consequences
+Using Redux will provide several significant benefits to our application. The predictable state updates and debugging capabilities will make it easier to track and fix issues in our application. The centralized state management across components will help maintain consistency and reduce the complexity of state synchronization. This approach will lead to better code organization and maintainability, making it easier for our team to work on the codebase. The enhanced developer experience with Redux DevTools will further improve our development workflow.
+
+However, implementing Redux also introduces certain challenges. The additional boilerplate code required for actions and reducers can make simple state changes more complex than necessary. New developers will need to learn Redux's concepts and patterns, which can slow down initial development. There's also the risk of over-engineering for simple state changes, and we'll need to carefully plan our state structure to avoid unnecessary complexity.
+
 ## Alternatives Considered
 We carefully evaluated several alternatives before choosing Redux. The React Context API was considered for its simplicity and built-in nature, but it lacks the robust state management features needed for our complex application. MobX was another option that provides good state management capabilities, but it has a steeper learning curve and less community support compared to Redux.
 
@@ -309,16 +307,6 @@ Accepted
 
 ## Context
 The TripTop application requires a flexible and scalable database solution that can handle various types of data, including user profiles, trip information, bookings, and authentication details. The data structure may evolve over time as we add new features and requirements. We need a database that can efficiently handle both structured and semi-structured data while maintaining good performance and scalability.
-
-## Decision
-We will implement MongoDB as our primary database solution for both the trip and user databases. MongoDB's document-based architecture aligns perfectly with our needs, allowing us to store data in flexible, JSON-like documents. This structure is particularly well-suited for our trip planning and booking system, where data structures may vary and evolve over time.
-
-The decision to use MongoDB is based on several key factors. MongoDB's schema-less design provides the flexibility we need to adapt our data models as the application evolves. The document-based structure naturally represents our trip and user data, making it easier to model complex relationships. MongoDB's horizontal scaling capabilities through sharding will allow us to scale our application as our user base grows. The rich query language and aggregation framework will enable us to perform complex queries and data analysis efficiently.
-
-## Consequences
-Using MongoDB will provide several significant benefits to our application. The flexible schema design will make it easier to iterate on our data models without requiring complex migrations. The document-based structure will simplify the representation of nested data, which is common in travel and booking information. MongoDB's built-in support for geospatial queries will be valuable for location-based features in our trip planning system. The ability to scale horizontally will ensure our application can handle growing data volumes and user loads.
-
-However, implementing MongoDB also introduces certain challenges. The lack of strict schema validation requires careful application-level validation to ensure data integrity. The eventual consistency model may require additional consideration for certain use cases where strong consistency is crucial. We'll need to carefully design our indexes to optimize query performance, and the memory usage can be higher compared to traditional relational databases.
 
 ## Considered Options
 
@@ -338,6 +326,16 @@ Legend:
 - 0 : Neutral / Average
 - - : Poor fit / Disadvantage
 - -- : Very poor fit / Strong disadvantage
+
+## Decision
+We will implement MongoDB as our primary database solution for both the trip and user databases. MongoDB's document-based architecture aligns perfectly with our needs, allowing us to store data in flexible, JSON-like documents. This structure is particularly well-suited for our trip planning and booking system, where data structures may vary and evolve over time.
+
+The decision to use MongoDB is based on several key factors. MongoDB's schema-less design provides the flexibility we need to adapt our data models as the application evolves. The document-based structure naturally represents our trip and user data, making it easier to model complex relationships. MongoDB's horizontal scaling capabilities through sharding will allow us to scale our application as our user base grows. The rich query language and aggregation framework will enable us to perform complex queries and data analysis efficiently.
+
+## Consequences
+Using MongoDB will provide several significant benefits to our application. The flexible schema design will make it easier to iterate on our data models without requiring complex migrations. The document-based structure will simplify the representation of nested data, which is common in travel and booking information. MongoDB's built-in support for geospatial queries will be valuable for location-based features in our trip planning system. The ability to scale horizontally will ensure our application can handle growing data volumes and user loads.
+
+However, implementing MongoDB also introduces certain challenges. The lack of strict schema validation requires careful application-level validation to ensure data integrity. The eventual consistency model may require additional consideration for certain use cases where strong consistency is crucial. We'll need to carefully design our indexes to optimize query performance, and the memory usage can be higher compared to traditional relational databases.
 
 ## Alternatives Considered
 We carefully evaluated several alternatives before choosing MongoDB. PostgreSQL was considered for its strong ACID compliance and robust relational features, but its rigid schema structure would make it more difficult to adapt to our evolving data requirements. MySQL was another option that offers good performance and reliability, but it lacks the flexibility and scalability features we need for our growing application. CouchDB was evaluated for its excellent offline support and eventual consistency model, but its limited query capabilities and smaller community size made it less suitable for our needs, despite its strong document-based architecture.
