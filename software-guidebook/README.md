@@ -158,7 +158,14 @@ Door Separation of Concerns strikt toe te passen, zorgen we ervoor dat wijziging
 
 ###     7.3. Design & Code
 
-![facade class Diagram]()
+![facade class Diagram](class-diagram/facade-class-diagram.svg)
+
+### toelichting op de facade class diagram
+
+
+![adapter class Diagram](class-diagram/adapter-class-diagram.svg)
+
+![factory class Diagram](class-diagram/factory-class-diagram.svg)
 
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.

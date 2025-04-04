@@ -51,33 +51,5 @@ ExternalServiceFacade .. N1
 note "Single Responsibility Principle:\nEach class has one reason to change" as N2
 IExternalService .. N2
 
-note "Waarom Backend Calls via Facade Pattern?\n\
-1. Security voordelen:\n\
-   - API keys & credentials veilig in backend\n\
-   - Centrale authenticatie via SecurityManager\n\
-   - Geen gevoelige data exposure in frontend\n\
-\n\
-2. Performance optimalisatie:\n\
-   - Centrale caching via ResponseCache\n\
-   - Rate limiting controle via RateLimiter\n\
-   - Efficiënt hergebruik van responses\n\
-\n\
-3. Error Management:\n\
-   - Gecentraliseerde error handling\n\
-   - Consistent retry mechanisme\n\
-   - Uniforme error responses\n\
-\n\
-4. Onderhoud & Flexibiliteit:\n\
-   - Eenvoudig nieuwe services toevoegen\n\
-   - Frontend onafhankelijk van externe services\n\
-   - Centrale plek voor monitoring en logging" as N3
-N3 .. ExternalServiceFacade
-
-note "Frontend Nadelen zonder Facade:\n\
-- Security risico's door API key exposure\n\
-- Geen centrale rate limiting mogelijk\n\
-- Duplicatie van logica in frontend\n\
-- Complexere frontend code\n\
-- Geen gecentraliseerde caching" as N4
 
 @enduml 
