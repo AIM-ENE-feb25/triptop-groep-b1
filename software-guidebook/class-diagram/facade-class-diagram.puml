@@ -52,4 +52,6 @@ note "Single Responsibility Principle:\nEach class has one reason to change" as 
 IExternalService .. N2
 
 
+
+
 @enduml 

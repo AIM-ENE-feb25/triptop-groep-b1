@@ -160,11 +160,18 @@ Door Separation of Concerns strikt toe te passen, zorgen we ervoor dat wijziging
 
 ### facade 
 
+#### class diagram
 ![facade class Diagram](class-diagram/facade-class-diagram.svg)
 
-### Adapter
+#### sequence diagram
+![facade sequence Diagram](sequence-diagram/facade.sequence.diagram.svg)
 
+### Adapter
+#### class diagram
 ![adapter class Diagram](class-diagram/adapter-class-diagram.svg)
+
+#### sequence diagram
+![adapter sequence Diagram](sequence-diagram/adapter-sequence.diagram.svg)
 
 ### factory
 
