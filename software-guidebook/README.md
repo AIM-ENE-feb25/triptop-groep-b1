@@ -169,12 +169,22 @@ Door het Open/Closed Principle toe te passen, zorgen we ervoor dat onze codebase
 
 ###     7.3. Design & Code
 
+### facade 
+
+#### class diagram
 ![facade class Diagram](class-diagram/facade-class-diagram.svg)
 
-### toelichting op de facade class diagram
+#### sequence diagram
+![facade sequence Diagram](sequence-diagram/facade.sequence.diagram.svg)
 
-
+### Adapter
+#### class diagram
 ![adapter class Diagram](class-diagram/adapter-class-diagram.svg)
+
+#### sequence diagram
+![adapter sequence Diagram](sequence-diagram/adapter-sequence.diagram.svg)
+
+### factory
 
 ![factory class Diagram](class-diagram/factory-class-diagram.svg)
 
@@ -362,5 +372,3 @@ MongoDB is de optimale keuze voor onze database-behoeften, die de juiste balans 
 
 ## 9. Deployment, Operation and Support
 
-> [!TIP]
-> Zelf beschrijven van wat je moet doen om de software te installeren en te kunnen runnen.
