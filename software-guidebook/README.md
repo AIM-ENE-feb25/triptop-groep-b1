@@ -167,6 +167,8 @@ Door het Open/Closed Principle toe te passen, zorgen we ervoor dat onze codebase
 
 ### facade 
 
+Ontwerpvraag: "Wie roept een specifieke externe service aan, gebeurt dat vanuit de front-end of vanuit de back-end? Welke redenen zijn er om voor de ene of de andere aanpak te kiezen?"
+
 #### class diagram
 ![facade class Diagram](class-diagram/facade-class-diagram.svg)
 
