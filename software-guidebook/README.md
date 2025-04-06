@@ -167,7 +167,35 @@ Door het Open/Closed Principle toe te passen, zorgen we ervoor dat onze codebase
 
 ### facade 
 
-Ontwerpvraag: "Wie roept een specifieke externe service aan, gebeurt dat vanuit de front-end of vanuit de back-end? Welke redenen zijn er om voor de ene of de andere aanpak te kiezen?"
+#### Ontwerpvraag
+"Wie roept een specifieke externe service aan, gebeurt dat vanuit de front-end of vanuit de back-end? Welke redenen zijn er om voor de ene of de andere aanpak te kiezen?" 
+
+#### Toelichting op de Facade Pattern
+Om de complexiteit van directe communicatie tussen de front-end en externe services te verminderen, heb ik gekozen voor het Facade design pattern. Dit patroon biedt een vereenvoudigde interface voor een complex subsysteem van services, waardoor de front-end alleen met de facade hoeft te communiceren in plaats van met elke individuele service.
+
+Dit maakt de architectuur overzichtelijker en vermindert de afhankelijkheid van de front-end van specifieke implementatiedetails van de externe services. De facade coördineert ook de interacties tussen verschillende services, wat het onderhoud en de uitbreiding van het systeem vergemakkelijkt. 
+
+Wij hebben in het klassen-diagram dat hieronder te zien is ervoor gekozen om de services via de backend aan te roepen. Dit zijn de redenen waarom we dit hebben gedaan:
+
+#### Security Voordelen:  
+API keys en credentials worden veilig in de backend bewaard. <br>
+Centrale authenticatie via SecurityManager. <br>
+Geen gevoelige data exposure in de frontend. <br>
+
+#### Performance Optimalisatie:  
+Centrale caching via ResponseCache. <br>
+Rate limiting controle via RateLimiter. <br>
+Efficiënt hergebruik van responses. <br>
+
+#### Error Management:  
+Gecentraliseerde error handling. <br>
+Consistent retry mechanisme. <br>
+Uniforme error responses. <br>
+
+#### Onderhoud & Flexibiliteit:  
+Eenvoudig nieuwe services toevoegen.
+Frontend onafhankelijk van externe services.
+Centrale plek voor monitoring en logging.
 
 #### class diagram
 ![facade class Diagram](class-diagram/facade-class-diagram.svg)
@@ -187,6 +215,8 @@ Het sequentiediagram illustreert hoe het Facade patroon een reisplanning verzoek
 3. Elke service (`HotelService`, `TransportService`, `ExcursionService`) handelt zijn specifieke domein af
 4. De facade combineert de resultaten en retourneert een uniform antwoord aan de client
 5. Deze flow toont aan hoe de facade complexe interacties vereenvoudigt terwijl de scheiding van verantwoordelijkheden behouden blijft
+
+Door het gebruik van het Facade design pattern wordt de front-end ontlast van de directe communicatie met externe services, wat leidt tot een veiliger, beter presterend en onderhoudbaar systeem.
 
 ### Adapter
 #### class diagram
@@ -209,11 +239,16 @@ Het sequentiediagram toont hoe het Adapter patroon de communicatie met externe s
 5. Dit proces zorgt voor naadloze integratie tussen ons systeem en externe services met verschillende interfaces
 
 ### factory
-
+#### class diagram
 ![factory class Diagram](class-diagram/factory-class-diagram.svg)
 
-> [!IMPORTANT]
-> Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
+#### sequence diagram
+
+
+### dynamic diagrams
+
+![dynamic class Diagram](dynamic-diagram/dynamic-booking-diagram.svg)
+
 
 ## 8. Architectural Decision Records
 
