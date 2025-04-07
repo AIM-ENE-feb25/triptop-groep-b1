@@ -1,5 +1,8 @@
 package org.prototype.demo.Facade;
 
+import org.prototype.demo.Facade.Interfaces.IExternalService;
+import org.prototype.demo.Facade.Interfaces.IExternalServiceFacade;
+
 import java.util.List;
 
 

@@ -1,4 +1,4 @@
-package org.prototype.demo.Facade;
+package org.prototype.demo.Facade.Interfaces;
 
 public interface IExternalService {
     Response execute(Request request);

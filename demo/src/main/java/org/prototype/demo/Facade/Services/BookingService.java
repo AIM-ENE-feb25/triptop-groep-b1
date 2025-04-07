@@ -1,6 +1,10 @@
-package org.prototype.demo.Facade;
+package org.prototype.demo.Facade.Services;
 
-public class TripAdvisorService implements IExternalService {
+import org.prototype.demo.Facade.Interfaces.IExternalService;
+
+import java.net.http.HttpClient;
+
+public class BookingService implements IExternalService {
     private HttpClient apiClient;
     private Credentials credentials;
 
