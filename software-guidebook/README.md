@@ -467,22 +467,22 @@ Centrale plek voor monitoring en logging.
 
 Het Facade patroon is geïmplementeerd om een vereenvoudigde interface te bieden voor een complex subsysteem van services. In dit diagram:
 
--   `TripFacade` fungeert als de hoofdinterface voor clients, waarbij de complexiteit van de onderliggende services wordt verborgen
--   `HotelService`, `TransportService` en `ExcursionService` zijn de subsysteemcomponenten die specifieke aspecten van reisplanning afhandelen
--   De facade coördineert deze services en biedt een uniforme interface voor reisgerelateerde operaties
+-   `ExternalServiceFacade` fungeert als de hoofdinterface voor clients, waarbij de complexiteit van de onderliggende services wordt verborgen
+-   `TripAdvisorService` en `BookingService` zijn de subsysteemcomponenten die specifieke externe service integraties afhandelen
+-   De facade coördineert deze services via de `IExternalService` interface en biedt een uniforme interface voor reisgerelateerde operaties zoals zoeken, boeken en annuleren
 -   Dit patroon helpt de koppeling tussen clients en het subsysteem te verminderen, waardoor het systeem beter onderhoudbaar en gebruiksvriendelijker wordt
 
 #### sequence diagram
 
 ![facade sequence Diagram](sequence-diagram/facade.sequence.diagram.svg)
 
-Het sequentiediagram illustreert hoe het Facade patroon een reisplanning verzoek afhandelt:
+Het sequentiediagram illustreert hoe het Facade patroon een transport service verzoek afhandelt:
 
-1. De client communiceert alleen met de `TripFacade`, die fungeert als enig contactpunt
-2. De facade coördineert de benodigde operaties over meerdere services
-3. Elke service (`HotelService`, `TransportService`, `ExcursionService`) handelt zijn specifieke domein af
+1. De client communiceert alleen met de `TransportFacade`, die fungeert als enig contactpunt
+2. De facade coördineert de benodigde operaties over meerdere transport services
+3. Elke service (`TrainService`, `BusService`, `FlightService`) handelt zijn specifieke transport type af
 4. De facade combineert de resultaten en retourneert een uniform antwoord aan de client
-5. Deze flow toont aan hoe de facade complexe interacties vereenvoudigt terwijl de scheiding van verantwoordelijkheden behouden blijft
+5. Deze flow toont aan hoe de facade complexe transport service interacties vereenvoudigt terwijl de scheiding van verantwoordelijkheden behouden blijft
 
 Door het gebruik van het Facade design pattern wordt de front-end ontlast van de directe communicatie met externe services, wat leidt tot een veiliger, beter presterend en onderhoudbaar systeem.
 
