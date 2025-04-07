@@ -486,9 +486,7 @@ Het sequentiediagram toont hoe het Adapter patroon de communicatie met externe s
 
 ### factory
 
-#### class diagram
-
-![factory class Diagram](class-diagram/factory-class-diagram.svg)
+![factory class Diagram](class-diagram/strategy-class-diagram.svg)
 
 #### sequence diagram
 

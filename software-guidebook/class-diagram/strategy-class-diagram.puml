@@ -1,0 +1,39 @@
+@startuml
+class ExternalController{
++ strategyContext: StrategyContext
++ makeAPICall(): Response
++ setStrategy(): void
+}
+
+class StrategyContext{
++ setStrategy(): void
+- strategy: ExternalErrorStrategy
+}
+
+interface APIStrategy{
+- getData(): any
+}
+
+class BookingAPICall{
+- getData(): any
+}
+
+class BookingErrorHandler{
+- getData(): any
+}
+class FlightErrorHandler{
+- getData(): any
+}
+class FlightAPICall{
+- getData(): any
+}
+
+ExternalController --|> StrategyContext
+StrategyContext --|> APIStrategy
+
+BookingErrorHandler ..|> APIStrategy
+BookingAPICall ..|> APIStrategy
+FlightAPICall ..|> APIStrategy
+FlightErrorHandler ..|> APIStrategy
+
+@enduml
