@@ -14,6 +14,13 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 ![context diagram](context-diagram/context-triptop.svg)
 [View context diagram source](context-diagram/context-triptop.svg)
 
+Het context diagram geeft een overzicht van de Triptop-applicatie en de interacties met externe systemen en gebruikers. Het toont de belangrijkste componenten van de applicatie en hoe deze met elkaar en met externe entiteiten communiceren. <br> <br>
+Customer: De eindgebruiker die de Triptop-applicatie gebruikt om reizen te plannen, boeken en beheren. <br>
+Frontend (SPA): De Single Page Application gebouwd met React, waarmee de klant interactie heeft. <br>
+Backend Services: De Spring Boot services die de business logic en communicatie met externe services afhandelen. <br>
+External Services: Externe API's zoals TripAdvisor, die worden gebruikt voor het ophalen van reisgerelateerde gegevens zoals hotels, vluchten en excursies. <br>
+Database: De opslagplaats voor alle applicatiegegevens, inclusief gebruikersinformatie, boekingen en reisplannen. <br> <br>
+Dit diagram helpt bij het begrijpen van de hoge niveaus van interactie en afhankelijkheden binnen het systeem, en hoe de verschillende onderdelen samenwerken om de functionaliteit van de Triptop-applicatie te leveren.
 
 ## 3. Functional Overview
 
@@ -152,16 +159,130 @@ Door het Open/Closed Principle toe te passen, zorgen we ervoor dat onze codebase
 ![Container Diagram](container-diagram/container-triptop.svg)
 [View container diagram source](container-diagram/container-triptop.svg)
 
+Het container diagram geeft een overzicht van de verschillende containers die deel uitmaken van de Triptop-applicatie. Het toont hoe de applicatie is opgedeeld in verschillende onderdelen en hoe deze onderdelen met elkaar communiceren.  <br> <br>
+Frontend (SPA): Een Single Page Application gebouwd met React, waarmee de klant interactie heeft. <br>
+Backend Services: Spring Boot services die de business logic en communicatie met externe services afhandelen. <br>
+Database: De opslagplaats voor alle applicatiegegevens, inclusief gebruikersinformatie, boekingen en reisplannen. <br>
+External Services: Externe API's zoals TripAdvisor, die worden gebruikt voor het ophalen van reisgerelateerde gegevens zoals hotels, vluchten en excursies. <br> <br>
+
 ###     7.2. Components
+
+### databases
 
 ![Database Component Diagram](component-diagram/database-component-diagram-triptop.svg)
 [View database component diagram source](component-diagram/database-component-diagram-triptop.svg)
 
+Het database component diagram geeft een gedetailleerd overzicht van de interne structuur van de database componenten van TripTop. Het toont de belangrijkste componenten binnen de databases en hun interacties. <br> <br>
+##### Trip Database Layer
+Trip Database: MongoDB database die reisgerelateerde informatie opslaat. <br>
+Trip Collection: Slaat reisplannen en configuraties op. <br>
+Booking Collection: Slaat boekingsrecords en status op.<br>
+Interne Relatie: De Trip Collection heeft een relatie met de Booking Collection. <br>
+##### User Database Layer
+User Database: MongoDB database die gebruikersgerelateerde informatie opslaat. <br>
+User Collection: Slaat gebruikersprofielen en voorkeuren op. <br>
+Auth Collection: Slaat authenticatiegegevens op. <br>
+Saved Trip Collection: Slaat opgeslagen reizen van gebruikers op. <br>
+Interne Relaties: De User Collection heeft een relatie met de Auth Collection en bevat de Saved Trip Collection. <br>
+##### Externe Relaties
+Trip Database: Ontvangt verzoeken van de API Gateway. <br>
+User Database: Ontvangt verzoeken van de API Gateway. <br>
+
+### backend
+
 ![Backend Component Diagram](component-diagram/backend-component-diagram-triptop.svg)
 [View backend component diagram source](component-diagram/backend-component-diagram-triptop.svg)
 
+Het backend component diagram geeft een gedetailleerd overzicht van de interne structuur van de backend services van TripTop. Het toont de belangrijkste componenten binnen de backend en hun interacties.
+
+<br><br>
+
+##### Externe Systemen
+
+- **Identity Providers**: Externe identiteitsproviders (Google, Microsoft, Airbnb).
+- **Payment Systems**: Externe betalingsverwerkende systemen.
+- **Booking Services**: Externe boekingsservices (Booking.com, Airbnb).
+- **Transport Services**: Externe transportservices (NS, Deutsche Bahn, KLM).
+- **Car Rental Services**: Externe autoverhuurdiensten (Sixt, Hertz).
+- **Activity Services**: Externe activiteitenservices (GetYourGuide, Tripadvisor).
+- **Food Services**: Externe voedselservices (Takeaway, Eet.nu).
+
+<br>
+
+##### Backend Services
+
+- **API Gateway**: Routeert verzoeken naar de juiste services.
+- **Auth Controller**: Behandelt authenticatie endpoints.
+- **Auth Service**: Business logic voor authenticatie.
+- **Auth Repository**: Toegang tot gebruikersauthenticatiegegevens.
+- **Trip Controller**: Behandelt reis endpoints.
+- **Trip Service**: Business logic voor reisplanning.
+- **Trip Repository**: Toegang tot reisgegevens.
+- **Booking Controller**: Behandelt boekings endpoints.
+- **Booking Service**: Business logic voor boekingen.
+- **Booking Repository**: Toegang tot boekingsgegevens.
+- **Payment Controller**: Behandelt betalings endpoints.
+- **Payment Service**: Business logic voor betalingen.
+- **Payment Repository**: Toegang tot betalingsgegevens.
+- **Integration Controller**: Behandelt integratie endpoints.
+- **Integration Service**: Business logic voor integraties.
+- **Integration Repository**: Toegang tot integratiegegevens.
+- **User Controller**: Behandelt gebruikers endpoints.
+- **User Service**: Business logic voor gebruikersbeheer.
+- **User Repository**: Toegang tot gebruikersgegevens.
+
+<br>
+
+##### Database Componenten
+
+- **Trip Database**: Slaat reisplannen en bouwstenen op.
+- **User Database**: Slaat gebruikersgegevens en voorkeuren op.
+
+<br>
+
+##### Relaties met Externe Services
+
+- **Booking Service**: Boekt accommodaties, transport, autoverhuur, activiteiten en voedselservices via respectievelijke externe services.
+- **Auth Service**: Authenticeert met identiteitsproviders.
+- **Payment Service**: Verwerkt betalingen via betalingssystemen.
+
+<br>
+
+#### Interne Relaties
+
+- **API Gateway**: Routeert verzoeken naar verschillende controllers.
+- **Controllers**: Gebruiken respectievelijke services.
+- **Services**: Gebruiken respectievelijke repositories.
+- **Repositories**: Slaan gegevens op in respectievelijke databases.
+- **Service Layer Integration**: Booking en payment services gebruiken de integration service voor externe service integratie en betalingsverwerking.
+
+### frontend
+
 ![Frontend Component Diagram](component-diagram/frontend-component-diagram-triptop.svg)
 [View frontend component diagram source](component-diagram/frontend-component-diagram-triptop.svg)
+
+Het frontend component diagram geeft een gedetailleerd overzicht van de interne structuur van de TripTop frontend applicaties. Het toont de belangrijkste componenten binnen de frontend en hun interacties.  <br> <br>
+Traveler: Eindgebruiker van de applicatie die reizen boekt, betalingen doet en de status van boekingen bekijkt. <br>
+Travel Agent: Professionele reisplanner die aangepaste reizen maakt, boekingen beheert en klantverzoeken afhandelt. <br>
+
+##### Web Application Layer
+Auth Manager: Beheert de authenticatiestatus van de gebruiker. <br>
+Router: Behandelt de routing binnen de webapplicatie. <br>
+State Manager: Beheert de applicatiestatus met behulp van Redux. <br>
+UI Components: Gebruikersinterfacecomponenten die de visuele elementen van de applicatie vormen. <br>
+Trip Planner: Hoofdinterface voor het plannen van reizen. <br>
+Booking Manager: Beheert het boekingsproces. <br>
+Payment Processor: Verwerkt betalingen. <br>
+##### Mobile Application Layer
+Auth Manager: Beheert de authenticatie op mobiele apparaten.
+Router: Behandelt de navigatie binnen de mobiele applicatie. <br>
+State Manager: Beheert de applicatiestatus op mobiele apparaten met behulp van Redux. <br>
+UI Components: Gebruikersinterfacecomponenten voor de mobiele applicatie. <br>
+Trip Planner: Hoofdinterface voor het plannen van reizen op mobiele apparaten. <br>
+Booking Manager: Beheert het boekingsproces op mobiele apparaten. <br>
+Payment Processor: Verwerkt betalingen op mobiele apparaten. <br>
+##### Externe Systemen
+API Gateway: Backend API Gateway waarmee zowel de web- als mobiele applicaties communiceren.
 
 ###     7.3. Design & Code
 
