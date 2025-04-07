@@ -6,9 +6,5 @@ import java.util.List;
 
 
 public interface IExternalService {
-    List<TripResult> searchTrips(SearchCriteria criteria);
-
-    BookingConfirmation bookTrip(BookingRequest request);
-
-    CancellationResult cancelTrip(String bookingId);
+    
 }
