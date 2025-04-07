@@ -1,4 +1,4 @@
-@startuml facade-class-diagram
+@startuml
 skinparam classAttributeIconSize 0
 
 interface IExternalServiceFacade {
