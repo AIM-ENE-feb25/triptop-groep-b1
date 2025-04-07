@@ -1,0 +1,46 @@
+@startuml
+
+title
+TripTop - backend component Diagram
+<font size="12">Container diagram for the TripTop vacation planning application</font>
+end title
+
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+
+    Container(webApplication, "<Container>\nTripTop Web Application", "JavaScript, React", "Provides users with the ability to plan trips, combine building blocks, and manage their vacation plans through a web browser")
+    Container(mobileApp, "<Container>\nTripTop Mobile App", "React Native", "Provides users with the ability to plan trips, combine building blocks, and manage their vacation plans on mobile devices")
+
+Container_Boundary(Backend, "backend") {
+
+    Component(apiGateway, "<Component>\nAPI Gateway", "Spring Cloud Gateway", "Serves as a central entry point for API requests, handles routing, rate limiting, and authentication")
+
+    Component(identityService, "<Component>\nIdentity Service", "Java, Spring Boot", "Manages user authentication through external identity providers")
+    Component(supportService, "<Component>\nSupport Service", "Java, Spring Boot", "Facilitates communication between travelers and travel agents for assistance with complex trip planning")
+    Component(tripPlanningService, "<Component>\nTrip Planning Service", "Java, Spring Boot", "Allows users to create and manage trip plans by combining different building blocks (accommodations, transport, activities)")
+    Component(bookingService, "<Component>\nBooking Service", "Java, Spring Boot", "Handles the booking process for all building blocks, manages booking status")
+    Component(paymentService, "<Component>\nPayment Service", "Java, Spring Boot", "Handles payment processing for bookings")
+    Component(integrationsService, "<Component>\nIntegrations Service", "Java, Spring Boot", "Manages communication with external services through service adapters and translators")
+}
+
+
+Rel_R(webApplication, apiGateway, "Sends trip planning and booking requests to", "JSON/HTTPS")
+Rel_R(mobileApp, apiGateway, "Sends trip planning and booking requests to", "JSON/HTTPS")
+
+Rel_R(apiGateway, identityService, "Forwards authentication requests to", "JSON/HTTPS")
+Rel_R(apiGateway, supportService, "Forwards support and consultation requests to", "JSON/HTTPS")
+Rel_R(apiGateway, tripPlanningService, "Forwards trip creation and management requests to", "JSON/HTTPS")
+Rel_R(apiGateway, bookingService, "Forwards booking creation and status requests to", "JSON/HTTPS")
+Rel_R(apiGateway, paymentService, "Forwards payment processing requests to", "JSON/HTTPS")
+Rel_R(apiGateway, integrationsService, "Forwards external service requests to", "JSON/HTTPS")
+
+Container(database, "<Container>\nDatabase", "MongoDB", "Stores information about trip plans, building blocks, and their status as documents")
+
+Rel_R(tripPlanningService, database, "Stores and retrieves trip plans and building blocks from", "MongoDB Driver")
+
+
+SHOW_LEGEND()
+
+@enduml
