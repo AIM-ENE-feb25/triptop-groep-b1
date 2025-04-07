@@ -10,8 +10,7 @@ public class CancellationResult {
     private LocalDateTime cancellationDateTime;
     private double refundAmount;
 
-    public CancellationResult(String bookingId, boolean success, String message,
-                            LocalDateTime cancellationDateTime, double refundAmount) {
+    public CancellationResult(String bookingId, boolean success, String message) {
         this.bookingId = bookingId;
         this.success = success;
         this.message = message;
