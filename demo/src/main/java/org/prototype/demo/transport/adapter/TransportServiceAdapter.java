@@ -16,10 +16,7 @@ public class TransportServiceAdapter implements IExternalService {
     public Object executeRequest(Object request) {
         if (request instanceof TransportRequest) {
             TransportRequest transportRequest = (TransportRequest) request;
-            return transportService.searchRoutes(
-                transportRequest.getFrom(),
-                transportRequest.getTo()
-            );
+            return transportService.searchAirports(transportRequest.getFrom());
         }
         throw new IllegalArgumentException("Invalid request type for TransportServiceAdapter");
     }

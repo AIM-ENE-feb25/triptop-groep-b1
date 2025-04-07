@@ -1,0 +1,28 @@
+@startuml "Adapter Pattern Sequence Diagram"
+
+skinparam sequenceMessageAlign center
+skinparam style strictuml
+
+title "Adapter Pattern: Service Client Interaction"
+
+actor "Service Client" as client
+participant "TransportServiceAdapter" as adapter <<Adapter>>
+participant "TransportAPI" as api <<External System>>
+
+client -> adapter: executeRequest(request)
+activate adapter
+
+adapter -> api: searchRoutes(from, to)
+activate api
+api --> adapter: Route[]
+deactivate api
+
+adapter --> client: Object
+deactivate adapter
+
+note right of adapter
+  Adapter translates generic request
+  into transport-specific API call
+end note
+
+@enduml

@@ -1,76 +1,77 @@
 package org.prototype.demo.transport.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Response;
-import org.prototype.demo.common.client.ServiceClient;
-import org.prototype.demo.common.service.IExternalService;
-import org.prototype.demo.transport.model.Route;
+import org.prototype.demo.config.ApiConfig;
+import org.prototype.demo.transport.adapter.FlightTransportAdapter;
+import org.prototype.demo.transport.adapter.TransportAdapter;
+import org.prototype.demo.transport.model.Transport;
+import org.prototype.demo.transport.model.TripAdvisorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 @Service
-public class TransportAPI implements IExternalService {
+public class TransportAPI {
     private final AsyncHttpClient httpClient;
     private final ObjectMapper objectMapper;
-    private final String apiKey;
-    private final String apiHost;
+    private final ApiConfig apiConfig;
+    private final TransportAdapter transportAdapter;
 
     @Autowired
-    public TransportAPI(AsyncHttpClient httpClient, ObjectMapper objectMapper, String apiKey, String apiHost) {
+    public TransportAPI(
+            AsyncHttpClient httpClient,
+            ObjectMapper objectMapper,
+            ApiConfig apiConfig,
+            TransportAdapter transportAdapter) {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
-        this.apiKey = apiKey;
-        this.apiHost = apiHost;
+        this.apiConfig = apiConfig;
+        this.transportAdapter = transportAdapter;
     }
 
-    public CompletableFuture<List<Route>> searchAirports(String location) {
-        String url = String.format("https://%s/airports/search?query=%s", apiHost, location);
-        
+    public CompletableFuture<List<Transport>> searchAirports(String location) {
+        log.info("Searching airports for location: {}", location);
+
+        String url = String.format("https://%s/api/v1/flights/searchAirport?query=%s",
+                apiConfig.getApiHost(), location);
+        log.info("Making API request to: {}", url);
+
         return httpClient.prepareGet(url)
-                .setHeader("X-RapidAPI-Key", apiKey)
-                .setHeader("X-RapidAPI-Host", apiHost)
+                .setHeader("x-rapidapi-key", apiConfig.getApiKey())
+                .setHeader("x-rapidapi-host", apiConfig.getApiHost())
                 .execute()
                 .toCompletableFuture()
-                .thenApply(this::handleResponse);
+                .thenApply(this::handleResponse)
+                .exceptionally(ex -> {
+                    log.error("Error searching airports: ", ex);
+                    return List.of();
+                });
     }
 
-    private List<Route> handleResponse(Response response) {
+    private List<Transport> handleResponse(Response response) {
         try {
-            JsonNode root = objectMapper.readTree(response.getResponseBody());
-            List<Route> routes = new ArrayList<>();
-            
-            if (root.has("data")) {
-                JsonNode data = root.get("data");
-                if (data.isArray()) {
-                    for (JsonNode airport : data) {
-                        Route route = new Route();
-                        route.setFrom(airport.path("name").asText());
-                        route.setTo(airport.path("city").asText());
-                        route.setPrice(0.0);
-                        route.setDepartureTime(null);
-                        route.setArrivalTime(null);
-                        routes.add(route);
-                    }
-                }
-            }
-            
-            return routes;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to parse airport search response", e);
-        }
-    }
+            log.info("Response status: {}", response.getStatusCode());
+            String responseBody = response.getResponseBody();
+            log.info("Response size: {} bytes", responseBody.length());
 
-    @Override
-    public Object executeRequest(Object request) {
-        if (request instanceof String) {
-            return searchAirports((String) request);
+            if (response.getStatusCode() != 200) {
+                log.error("API request failed with status {}: {}", response.getStatusCode(), responseBody);
+                return List.of();
+            }
+
+            TripAdvisorResponse tripAdvisorResponse = objectMapper.readValue(responseBody,
+                    TripAdvisorResponse.class);
+
+            return transportAdapter.adapt(tripAdvisorResponse);
+        } catch (Exception e) {
+            log.error("Error handling response: ", e);
+            return List.of();
         }
-        throw new IllegalArgumentException("Request must be a String containing the location to search for");
     }
-} 
+}
