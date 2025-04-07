@@ -396,8 +396,13 @@ kunnen rekenen op een consistente, veilige en gebruiksvriendelijke ervaring bij 
 
 ### dynamic diagrams
 
+![dynamic class Diagram](dynamic-diagram/dynamic-auth-diagram.svg)
+
 ![dynamic class Diagram](dynamic-diagram/dynamic-booking-diagram.svg)
 
+![dynamic class Diagram](dynamic-diagram/dynamic-payment-diagram.svg)
+
+![dynamic class Diagram](dynamic-diagram/dynamic-trip-planning-diagram.svg)
 
 
 ### 7.3. Design & Code
@@ -559,7 +564,7 @@ Het Adapter patroon is geïmplementeerd om incompatibele interfaces tussen ons s
 
 #### sequence diagram
 
-![adapter sequence Diagram](sequence-diagram/adapter-sequence.diagram.svg)
+![adapter sequence Diagram](sequence-diagram/Adapter_Pattern_sequence_Diagram.svg)
 
 Het sequentiediagram toont hoe het Adapter patroon de communicatie met externe services afhandelt:
 

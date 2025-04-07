@@ -5,17 +5,18 @@ title Dynamic Diagram - Booking Flow
 
 Person(traveler, "Traveler", "A person wanting to book a trip")
 Container(spa, "Frontend", "React", "Single Page Application")
-Container(orchestrator, "ExternalServiceOrchestrator", "Spring Service", "Coordinates external service calls")
-Container(security, "SecurityManager", "Spring Service", "Manages API credentials")
-Container(gateway, "ExternalServiceGateway", "Spring Component", "Handles external communication")
+Container(Controller, "BookingController", "REST controller", "Coordinates external service calls")
+Container(Service, "BookingService", "Spring Service", "Handles external communication")
 Container(adapter, "BookingAdapter", "Spring Component", "Handles TripAdvisor.com specific logic")
 System_Ext(bookingApi, "TripAdvisor API", "External booking system")
 
 Rel_D(traveler, spa, "Initiates booking")
-Rel_R(spa, orchestrator, "createBooking(bookingRequest)", "HTTP/REST")
-Rel_R(orchestrator, security, "getCredentials(\TripAdvisor.com\)", "Method call")
-Rel_R(orchestrator, gateway, "sendRequest(bookingRequest)", "Method call")
-Rel_R(gateway, adapter, "book(request)", "Method call")
+Rel_R(spa, Controller, "createBooking(bookingRequest)", "HTTP/REST")
+Rel_R(Controller, Service, "sendRequest(bookingRequest)", "Method call")
+Rel_R(Service, adapter, "book(request)", "Method call")
 Rel_R(adapter, bookingApi, "POST /booking", "HTTPS")
+Rel_R(Service, Controller, "return booking confirmation", "Method call")
+Rel_R(Controller, spa, "return booking confirmation", "HTTP/REST")
+Rel_R(spa, traveler, "Display booking confirmation", "Browser")
 
 @enduml
