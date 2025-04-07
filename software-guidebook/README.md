@@ -14,13 +14,35 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 ![context diagram](context-diagram/context-triptop.svg)
 [View context diagram source](context-diagram/context-triptop.svg)
 
-Het context diagram geeft een overzicht van de Triptop-applicatie en de interacties met externe systemen en gebruikers. Het toont de belangrijkste componenten van de applicatie en hoe deze met elkaar en met externe entiteiten communiceren. <br> <br>
-Customer: De eindgebruiker die de Triptop-applicatie gebruikt om reizen te plannen, boeken en beheren. <br>
-Frontend (SPA): De Single Page Application gebouwd met React, waarmee de klant interactie heeft. <br>
-Backend Services: De Spring Boot services die de business logic en communicatie met externe services afhandelen. <br>
-External Services: Externe API's zoals TripAdvisor, die worden gebruikt voor het ophalen van reisgerelateerde gegevens zoals hotels, vluchten en excursies. <br>
-Database: De opslagplaats voor alle applicatiegegevens, inclusief gebruikersinformatie, boekingen en reisplannen. <br> <br>
-Dit diagram helpt bij het begrijpen van de hoge niveaus van interactie en afhankelijkheden binnen het systeem, en hoe de verschillende onderdelen samenwerken om de functionaliteit van de Triptop-applicatie te leveren.
+### Systeem Context Diagram
+Het systeem context diagram geeft een overzicht van de TripTop vakantieplanningsapplicatie en de interacties met externe systemen en gebruikers. Het toont de belangrijkste actoren, systemen en hun relaties.
+
+#### Personen/Actoren
+- **TravelAgent**: Persoon die een reiziger kan helpen bij het plannen van hun reis.
+- **Traveler**: Persoon die een vakantie reis plant en boekt.
+
+#### Systemen
+- **Triptop**: Vakantieplanningsapplicatie. Hiermee kunnen gebruikers hun vakanties plannen, boeken en beheren.
+
+#### Externe Systemen
+- **Booking Services**: Hiermee kan Triptop accommodaties zoeken en boeken (bijv. Booking.com, Airbnb).
+- **Transport Services**: Hiermee kan Triptop transport zoeken en boeken (bijv. NS, Deutsche Bahn, KLM).
+- **Car Rental Services**: Hiermee kan Triptop autoverhuur zoeken en boeken (bijv. Sixt, Hertz).
+- **Activity Services**: Hiermee kan Triptop activiteiten en excursies zoeken en boeken (bijv. GetYourGuide, Tripadvisor).
+- **Food Services**: Hiermee kan Triptop restaurants zoeken en boeken (bijv. Takeaway, Eet.nu).
+- **Identity Providers**: Hiermee kan Triptop gebruikers authenticeren (bijv. Google, Microsoft, Airbnb).
+- **Payment Systems**: Hiermee kan Triptop betalingen verwerken.
+
+#### Relaties
+- **Traveler**: Plant reizen, maakt boekingen met Triptop.
+- **Triptop**: Boekt accommodaties met Booking Services.
+- **Triptop**: Controleert transportopties met Transport Services.
+- **Triptop**: Controleert autoverhuur opties met Car Rental Services.
+- **Triptop**: Boekt activiteiten en excursies met Activity Services.
+- **Triptop**: Biedt restaurant aanbevelingen met Food Services.
+- **Triptop**: Laat gebruikers inloggen met Identity Providers.
+- **Triptop**: Verwerkt betalingen met Payment Systems.
+- **TravelAgent**: Plant reizen, maakt boekingen voor reiziger met Triptop.
 
 ## 3. Functional Overview
 
@@ -159,11 +181,45 @@ Door het Open/Closed Principle toe te passen, zorgen we ervoor dat onze codebase
 ![Container Diagram](container-diagram/container-triptop.svg)
 [View container diagram source](container-diagram/container-triptop.svg)
 
-Het container diagram geeft een overzicht van de verschillende containers die deel uitmaken van de Triptop-applicatie. Het toont hoe de applicatie is opgedeeld in verschillende onderdelen en hoe deze onderdelen met elkaar communiceren.  <br> <br>
-Frontend (SPA): Een Single Page Application gebouwd met React, waarmee de klant interactie heeft. <br>
-Backend Services: Spring Boot services die de business logic en communicatie met externe services afhandelen. <br>
-Database: De opslagplaats voor alle applicatiegegevens, inclusief gebruikersinformatie, boekingen en reisplannen. <br>
-External Services: Externe API's zoals TripAdvisor, die worden gebruikt voor het ophalen van reisgerelateerde gegevens zoals hotels, vluchten en excursies. <br> <br>
+### Container Diagram
+Het container diagram geeft een overzicht van de TripTop vakantieplanningsapplicatie en de interacties tussen de verschillende componenten, gebruikers en externe systemen. Het toont de belangrijkste containers binnen het systeem en hun relaties.
+
+#### Personen/Actoren
+- **Traveler**: Persoon die een vakantie reis plant en boekt.
+- **Travel Agent**: Tweedelijns ondersteuning die reizigers helpt met complexe planning en risico's bespreekt.
+
+#### Externe Systemen
+- **Identity Providers**: Hiermee kan TripTop gebruikers authenticeren (bijv. Google, Microsoft, Airbnb).
+- **Payment Systems**: Hiermee kan TripTop betalingen verwerken.
+- **Booking Services**: Hiermee kan TripTop accommodaties zoeken en boeken (bijv. Booking.com, Airbnb).
+- **Transport Services**: Hiermee kan TripTop transport zoeken en boeken (bijv. NS, Deutsche Bahn, KLM).
+- **Car Rental Services**: Hiermee kan TripTop autoverhuur zoeken en boeken (bijv. Sixt, Hertz).
+- **Activity Services**: Hiermee kan TripTop activiteiten en excursies zoeken en boeken (bijv. GetYourGuide, Tripadvisor).
+- **Food Services**: Hiermee kan TripTop restaurants zoeken en boeken (bijv. Takeaway, Eet.nu).
+
+#### TripTop Systeemgrens
+- **TripTop Web Application**: JavaScript, React - Biedt gebruikers de mogelijkheid om reizen te plannen, bouwstenen te combineren en hun vakantieplannen te beheren via een webbrowser.
+- **TripTop Mobile App**: React Native - Biedt gebruikers de mogelijkheid om reizen te plannen, bouwstenen te combineren en hun vakantieplannen te beheren op mobiele apparaten.
+- **Backend**: Java, Spring Boot - Behandelt alle server-side functionaliteit, inclusief API-routing, authenticatie, business logic en integraties met externe services.
+- **Trip Database**: MongoDB - Slaat informatie over reisplannen, bouwstenen en hun status op als documenten.
+- **User Database**: MongoDB - Slaat gebruikersvoorkeuren en opgeslagen reizen op als documenten.
+
+#### Relaties
+- **Traveler**: Plant en boekt reizen via de webapplicatie (HTTPS).
+- **Traveler**: Plant en beheert reizen onderweg met de mobiele app (HTTPS).
+- **Travel Agent**: Beoordeelt reisplannen van reizigers en geeft advies via de webapplicatie (HTTPS).
+- **Web Application**: Stuurt reisplannings- en boekingsverzoeken naar de backend (JSON/HTTPS).
+- **Mobile App**: Stuurt reisplannings- en boekingsverzoeken naar de backend (JSON/HTTPS).
+- **Backend**: Slaat reisplannen en bouwstenen op en haalt deze op uit de trip database (MongoDB Driver).
+- **Backend**: Slaat gebruikersgegevens op en haalt deze op uit de user database (MongoDB Driver).
+- **Backend**: Haalt beschikbaarheid van accommodaties op en verwerkt boekingen met Booking Services (REST/HTTPS).
+- **Backend**: Zoekt transportopties en boekt tickets met Transport Services (REST/HTTPS).
+- **Backend**: Controleert autoverhuuropties en verwerkt boekingen met Car Rental Services (REST/HTTPS).
+- **Backend**: Ontdekt activiteiten en boekt excursies via Activity Services (REST/HTTPS).
+- **Backend**: Zoekt eetgelegenheden en maakt reserveringen via Food Services (REST/HTTPS).
+- **Backend**: Verifieert gebruikersidentiteit en haalt authenticatietokens op van Identity Providers (OAuth/HTTPS).
+- **Backend**: Verwerkt veilig klantbetalingen via Payment Systems (REST/HTTPS).
+
 
 ###     7.2. Components
 
