@@ -1,8 +1,6 @@
 package org.prototype.demo.Facade.Models;
 
-/**
- * Represents a request to book a trip.
- */
+
 public class BookingRequest {
     private String tripId;
     private int passengerCount;

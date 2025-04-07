@@ -2,9 +2,7 @@ package org.prototype.demo.Facade.Models;
 
 import java.time.LocalDate;
 
-/**
- * Represents the criteria used to search for available trips.
- */
+
 public class SearchCriteria {
     private String destination;
     private LocalDate startDate;
@@ -32,7 +30,7 @@ public class SearchCriteria {
     public LocalDate getEndDate() {
         return endDate;
     }
-
+ 
     public int getPassengerCount() {
         return passengerCount;
     }

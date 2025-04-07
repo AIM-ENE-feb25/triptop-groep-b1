@@ -2,9 +2,6 @@ package org.prototype.demo.Facade.Models;
 
 import java.time.LocalDateTime;
 
-/**
- * Represents a confirmation of a successful trip booking.
- */
 public class BookingConfirmation {
     private String bookingId;
     private String tripId;

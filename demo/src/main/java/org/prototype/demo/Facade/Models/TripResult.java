@@ -2,9 +2,7 @@ package org.prototype.demo.Facade.Models;
 
 import java.time.LocalDate;
 
-/**
- * Represents a trip result from a search operation.
- */
+
 public class TripResult {
     private String tripId;
     private String destination;
@@ -30,7 +28,7 @@ public class TripResult {
     }
 
     public String getDestination() {
-        return destination;
+        return destination; 
     }
 
     public LocalDate getStartDate() {

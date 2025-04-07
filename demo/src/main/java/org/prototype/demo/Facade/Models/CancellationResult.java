@@ -2,9 +2,7 @@ package org.prototype.demo.Facade.Models;
 
 import java.time.LocalDateTime;
 
-/**
- * Represents the result of a trip cancellation operation.
- */
+
 public class CancellationResult {
     private String bookingId;
     private boolean success;
@@ -28,7 +26,7 @@ public class CancellationResult {
     public boolean isSuccess() {
         return success;
     }
-
+ 
     public String getMessage() {
         return message;
     }
