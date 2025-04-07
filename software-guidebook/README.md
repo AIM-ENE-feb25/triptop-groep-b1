@@ -563,11 +563,26 @@ Het sequentiediagram toont hoe het Adapter patroon de communicatie met externe s
 4. De adapter vertaalt het antwoord terug naar het formaat van ons systeem
 5. Dit proces zorgt voor naadloze integratie tussen ons systeem en externe services met verschillende interfaces
 
-### factory
+### Strategy
 
-#### class diagram
+#### Class Diagram
+![strategy class Diagram](class-diagram/strategy-class-diagram.svg)
 
-![factory class Diagram](class-diagram/factory-class-diagram.svg)
+De strategy zorgt er voor dat het heel simpel is om meer api calls en bijhoorende error responses aan te maken.
+Hierbij heeft een service of controller; in dit geval de ExternalController een instantie van StrategyContext.
+Deze StrategyContext heeft een instantie van de interface APIStrategy. Deze kan (her)geinitialiseerd worden met een van de implementaties van deze interface via de setStrategy van StrategyContext.
+De data dat gereturneerd wordt bij getData is per implementatie van APIStrategy anders. Wanneer dan getData wordt aangeroepen, krijgt de StrategyContext de juiste data terug.
+
+#### Sequence Diagram
+![strategy-sequence.diagram.svg](sequence-diagram/strategy-sequence.diagram.svg)
+
+Hierboven staat de werking van de strategy stappengewijs uitgelegd. Hierin wordt Booking gebruikt als voorbeeld externe API. <br>
+Er staan hierin 2 scenario's: indien de API werkend is; en waneer de API niet werkend is.<br>
+Bij de scenatio waar het wel werkend is, wordt eerst de juiste strategy (BookingAPICall) toegepast. Daarna wordt hiermee een API call gedaan naar Booking om de data op te halen.<br>
+Deze call wordt hier dan goed uitgevoerd en de data returned.<br>
+Indien het niet werkend is, wordt aan het begin ook de BookingAPICall strategy toegepast. Bij het uitvoeren van deze API call komt er een error.<br>
+Dan wordt de andere strategy toegepast. Deze strategy returnt dan backup-data of een error message.
+
 
 #### sequence diagram
 

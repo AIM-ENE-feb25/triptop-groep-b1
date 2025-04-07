@@ -1,0 +1,39 @@
+@startuml "Sequence diagram strategy pattern"
+
+skinparam sequenceMessageAlign center
+skinparam style strictuml
+
+title "Strategy Pattern: API Error handling"
+
+@startuml
+actor Client
+
+alt "API available"
+Client -> ExternalController : getData()
+ExternalController -> StrategyContext : setStrategy(new BookingAPICall)
+StrategyContext --> ExternalController : (void)
+ExternalController -> StrategyContext : getData()
+StrategyContext -> APIStrategy : getData()
+APIStrategy --> StrategyContext : (Data: String)
+StrategyContext --> ExternalController : (Data: String)
+ExternalController -> Client : (Data: String)
+
+
+
+else "API not available"
+Client -> ExternalController : getData()
+ExternalController -> StrategyContext : setStrategy(new BookingAPICall)
+StrategyContext --> ExternalController : (void)
+ExternalController -> StrategyContext : getData()
+StrategyContext -> APIStrategy : getData()
+APIStrategy --> StrategyContext : (error)
+StrategyContext --> ExternalController : (error)
+ExternalController -> StrategyContext : setStrategy(new BookingErrorHandler)
+StrategyContext --> ExternalController : (void)
+ExternalController -> StrategyContext : getData()
+StrategyContext -> APIStrategy : getData()
+APIStrategy --> StrategyContext : (Data: String)
+StrategyContext --> ExternalController : (Data: String)
+ExternalController -> Client : (Data: String)
+end
+@enduml
