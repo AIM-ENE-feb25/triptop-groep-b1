@@ -8,18 +8,18 @@ public class TripAdvisorService implements IExternalService {
 
     @Override
     public Response execute(Request request) {
-        // Implementation here
+        
         return null;
     }
 
     @Override
     public boolean validate(Response response) {
-        // Implementation here
+        
         return false;
     }
 
     private Response mapResponse(RawResponse rawResponse) {
-        // Implementation here
+      
         return null;
     }
 }
