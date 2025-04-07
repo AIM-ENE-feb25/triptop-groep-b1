@@ -396,13 +396,29 @@ kunnen rekenen op een consistente, veilige en gebruiksvriendelijke ervaring bij 
 
 ### dynamic diagrams
 
+#### Authenticatie
+
 ![dynamic class Diagram](dynamic-diagram/dynamic-auth-diagram.svg)
+
+Het authenticatieproces begint wanneer een reiziger inlogt via de frontend. Het systeem verifieert de identiteit via een externe identity provider (zoals Google) en slaat de sessiegegevens veilig op in de gebruikersdatabase. Na succesvolle authenticatie ontvangt de gebruiker een JWT token voor verdere interacties met het systeem.
+
+#### Boeking
 
 ![dynamic class Diagram](dynamic-diagram/dynamic-booking-diagram.svg)
 
+Het boekingsproces wordt geïnitieerd door de reiziger via de frontend. Het systeem communiceert met externe boekingssystemen (zoals TripAdvisor) via een specifieke adapter die de communicatie met de externe API afhandelt. Na succesvolle boeking ontvangt de reiziger een bevestiging van de reservering.
+
+#### Betaling
+
 ![dynamic class Diagram](dynamic-diagram/dynamic-payment-diagram.svg)
 
+Het betalingsproces wordt gestart door de reiziger en verwerkt via een externe betalingsgateway (Stripe). Het systeem houdt de betalingsstatus bij in de trip database en werkt de boekingsstatus automatisch bij na succesvolle betaling. De reiziger ontvangt direct een bevestiging van de betaling.
+
+#### Reis
+
 ![dynamic class Diagram](dynamic-diagram/dynamic-trip-planning-diagram.svg)
+
+Het reisplanningsproces combineert verschillende externe services voor accommodatie, transport en activiteiten. Het systeem zoekt en combineert opties van verschillende providers (zoals TripAdvisor en NS) en slaat het uiteindelijke reisplan op in de trip database. De reiziger kan het complete reisplan bekijken en aanpassen via de frontend.
 
 
 ### 7.3. Design & Code
@@ -566,13 +582,7 @@ Het Adapter patroon is geïmplementeerd om incompatibele interfaces tussen ons s
 
 ![adapter sequence Diagram](sequence-diagram/Adapter_Pattern_sequence_Diagram.svg)
 
-Het sequentiediagram toont hoe het Adapter patroon de communicatie met externe services afhandelt:
-
-1. De client doet een verzoek via de interface van ons systeem
-2. De adapter ontvangt het verzoek en vertaalt het naar het formaat dat de externe service verwacht
-3. De externe service verwerkt het verzoek en retourneert een antwoord
-4. De adapter vertaalt het antwoord terug naar het formaat van ons systeem
-5. Dit proces zorgt voor naadloze integratie tussen ons systeem en externe services met verschillende interfaces
+Het sequentiediagram illustreert de werking van het Adapter patroon in de communicatie met externe services. Het proces begint wanneer de TravelController een verzoek initieert door de executeRequest methode aan te roepen bij de HotelServiceAdapter. Deze service adapter handelt vervolgens de asynchrone communicatie af met de HotelAPI via de findRooms methode. De HotelAPI maakt een HTTP request naar TripAdvisor en ontvangt een TripAdvisorHotelResponse. Deze externe response wordt vervolgens door de TripAdvisorHotelAdapter getransformeerd naar een List<Room> in ons domeinmodel. Het uiteindelijke resultaat wordt als een CompletableFuture<List<Room>> teruggegeven aan de controller. Dit proces demonstreert de elegante scheiding tussen de service adapter, die verantwoordelijk is voor de asynchrone communicatie met de externe API, en de data adapter, die de transformatie van externe data naar ons domeinmodel verzorgt.
 
 ### Strategy
 
