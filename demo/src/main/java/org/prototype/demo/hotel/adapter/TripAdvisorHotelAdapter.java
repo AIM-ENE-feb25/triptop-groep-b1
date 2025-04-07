@@ -11,13 +11,7 @@ import java.util.stream.Collectors;
 public class TripAdvisorHotelAdapter implements HotelAdapter {
 
     @Override
-    public List<Room> adapt(Object externalData) {
-        if (!(externalData instanceof TripAdvisorHotelResponse)) {
-            throw new IllegalArgumentException("Expected TripAdvisorHotelResponse but got " + externalData.getClass());
-        }
-
-        TripAdvisorHotelResponse response = (TripAdvisorHotelResponse) externalData;
-
+    public List<Room> adapt(TripAdvisorHotelResponse response) {
         if (!response.isStatus()) {
             throw new RuntimeException(formatErrorMessage(response.getMessage()));
         }

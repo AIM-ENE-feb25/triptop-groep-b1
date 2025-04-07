@@ -3,9 +3,11 @@ package org.prototype.demo.hotel.adapter;
 import org.prototype.demo.common.service.IExternalService;
 import org.prototype.demo.hotel.api.HotelAPI;
 import org.prototype.demo.hotel.model.HotelRequest;
+import org.prototype.demo.hotel.model.Room;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-public class HotelServiceAdapter implements IExternalService {
+public class HotelServiceAdapter implements IExternalService<HotelRequest, List<Room>> {
     private final HotelAPI hotelService;
 
     public HotelServiceAdapter(HotelAPI hotelService) {
@@ -13,13 +15,9 @@ public class HotelServiceAdapter implements IExternalService {
     }
 
     @Override
-    public Object executeRequest(Object request) {
-        if (request instanceof HotelRequest) {
-            HotelRequest hotelRequest = (HotelRequest) request;
-            return hotelService.findRooms(
-                    hotelRequest.getLocation(),
-                    hotelRequest.getDates());
-        }
-        throw new IllegalArgumentException("Invalid request type for HotelServiceAdapter");
+    public CompletableFuture<List<Room>> executeRequest(HotelRequest request) {
+        return hotelService.findRooms(
+                request.getLocation(),
+                request.getDates());
     }
 }

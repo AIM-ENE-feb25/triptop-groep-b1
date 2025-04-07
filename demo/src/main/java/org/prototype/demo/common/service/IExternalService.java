@@ -1,5 +1,7 @@
 package org.prototype.demo.common.service;
 
-public interface IExternalService {
-    Object executeRequest(Object request);
-} 
+import java.util.concurrent.CompletableFuture;
+
+public interface IExternalService<RequestType, ResponseType> {
+    CompletableFuture<ResponseType> executeRequest(RequestType request);
+}

@@ -1,0 +1,43 @@
+@startuml "Adapter Pattern Sequence Diagram"
+
+skinparam sequenceMessageAlign center
+skinparam style strictuml
+
+title "Adapter Pattern: Hotel Service Interaction"
+
+actor "TravelController" as controller
+participant "HotelServiceAdapter" as serviceAdapter <<Adapter>>
+participant "HotelAPI" as api <<External System>>
+participant "TripAdvisorHotelAdapter" as dataAdapter <<Adapter>>
+
+controller -> serviceAdapter: executeRequest(hotelRequest)
+activate serviceAdapter
+
+serviceAdapter -> api: findRooms(geoId, dates)
+activate api
+
+api -> api: make HTTP request to TripAdvisor
+api --> api: receive TripAdvisorHotelResponse
+
+api -> dataAdapter: adapt(response)
+activate dataAdapter
+dataAdapter --> api: List<Room>
+deactivate dataAdapter
+
+api --> serviceAdapter: CompletableFuture<List<Room>>
+deactivate api
+
+serviceAdapter --> controller: CompletableFuture<List<Room>>
+deactivate serviceAdapter
+
+note right of serviceAdapter
+  Service adapter handles the async
+  communication with external API
+end note
+
+note right of dataAdapter
+  Data adapter transforms external
+  response into domain model
+end note
+
+@enduml
