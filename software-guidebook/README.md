@@ -394,6 +394,12 @@ Dit zorgt voor een gestroomlijnde en beveiligde communicatie, waarbij alle verzo
 Deze architectuur zorgt ervoor dat gebruikers, of ze nu via web of mobiel toegang hebben,
 kunnen rekenen op een consistente, veilige en gebruiksvriendelijke ervaring bij het plannen en boeken van hun reizen.
 
+### dynamic diagrams
+
+![dynamic class Diagram](dynamic-diagram/dynamic-booking-diagram.svg)
+
+
+
 ### 7.3. Design & Code
 
 ### facade
@@ -582,13 +588,6 @@ Bij de scenatio waar het wel werkend is, wordt eerst de juiste strategy (Booking
 Deze call wordt hier dan goed uitgevoerd en de data returned.<br>
 Indien het niet werkend is, wordt aan het begin ook de BookingAPICall strategy toegepast. Bij het uitvoeren van deze API call komt er een error.<br>
 Dan wordt de andere strategy toegepast. Deze strategy returnt dan backup-data of een error message.
-
-
-#### sequence diagram
-
-### dynamic diagrams
-
-![dynamic class Diagram](dynamic-diagram/dynamic-booking-diagram.svg)
 
 ## 8. Architectural Decision Records
 
