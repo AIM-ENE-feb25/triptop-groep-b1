@@ -38,7 +38,7 @@ Container_Boundary(webApp, "Web Application", "React", "Main web application") {
 ' Mobile Application Layer
 Container_Boundary(mobileApp, "Mobile Application", "React Native", "Mobile version of the application") {
     Component(mobileAuthManager, "Auth Manager", "React Native", "Manages mobile authentication")
-    Component(mobileRouter, "Mobile Router", "React Navigation", "Handles mobile navigation")
+    Component(mobileRouter, "Router", "React Navigation", "Handles mobile navigation")
     Component(mobileStateManager, "State Manager", "Redux", "Manages mobile app state")
     Component(mobileUI, "UI Components", "React Native", "User interface components")
     Component(mobileTripPlanner, "Trip Planner", "React Native", "Main trip planning interface")

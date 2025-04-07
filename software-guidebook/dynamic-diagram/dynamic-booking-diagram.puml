@@ -1,0 +1,21 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+title Dynamic Diagram - Booking Flow
+
+Person(customer, "Customer", "A person wanting to book a trip")
+Container(spa, "Frontend", "React", "Single Page Application")
+Container(orchestrator, "ExternalServiceOrchestrator", "Spring Service", "Coordinates external service calls")
+Container(security, "SecurityManager", "Spring Service", "Manages API credentials")
+Container(gateway, "ExternalServiceGateway", "Spring Component", "Handles external communication")
+Container(adapter, "BookingAdapter", "Spring Component", "Handles TripAdviser.com specific logic")
+System_Ext(bookingApi, "TripAdviser.com API", "External booking system")
+
+Rel_D(customer, spa, "Initiates booking")
+Rel_R(spa, orchestrator, "createBooking(bookingRequest)", "HTTP/REST")
+Rel_R(orchestrator, security, "getCredentials(\TripAdviser.com\)", "Method call")
+Rel_R(orchestrator, gateway, "sendRequest(bookingRequest)", "Method call")
+Rel_R(gateway, adapter, "book(request)", "Method call")
+Rel_R(adapter, bookingApi, "POST /booking", "HTTPS")
+
+@enduml

@@ -1,0 +1,44 @@
+@startuml "Facade Pattern Sequence Diagram"
+
+skinparam sequenceMessageAlign center
+skinparam style strictuml
+
+title "Facade Pattern: Transport Service Integration"
+
+actor "Client" as client
+participant "TransportFacade" as facade <<Facade>>
+box "Transport Services" #LightBlue
+    participant "TrainService" as train
+    participant "BusService" as bus
+    participant "FlightService" as flight
+end box
+
+client -> facade: searchTransport(from, to, type)
+activate facade
+
+alt type == "train"
+    facade -> train: searchRoutes(from, to)
+    activate train
+    train --> facade: Route[]
+    deactivate train
+else type == "bus"
+    facade -> bus: searchRoutes(from, to)
+    activate bus
+    bus --> facade: Route[]
+    deactivate bus
+else type == "flight"
+    facade -> flight: searchRoutes(from, to)
+    activate flight
+    flight --> facade: Route[]
+    deactivate flight
+end
+
+facade --> client: Route[]
+deactivate facade
+
+note right of facade
+  Facade provides a simplified interface
+  to complex transport service system
+end note
+
+@enduml
