@@ -3,26 +3,41 @@
 skinparam sequenceMessageAlign center
 skinparam style strictuml
 
-title "Adapter Pattern: Service Client Interaction"
+title "Adapter Pattern: Hotel Service Interaction"
 
-actor "Service Client" as client
-participant "TransportServiceAdapter" as adapter <<Adapter>>
-participant "TransportAPI" as api <<External System>>
+actor "TravelController" as controller
+participant "HotelServiceAdapter" as serviceAdapter <<Adapter>>
+participant "HotelAPI" as api <<External System>>
+participant "TripAdvisorHotelAdapter" as dataAdapter <<Adapter>>
 
-client -> adapter: executeRequest(request)
-activate adapter
+controller -> serviceAdapter: executeRequest(hotelRequest)
+activate serviceAdapter
 
-adapter -> api: searchRoutes(from, to)
+serviceAdapter -> api: findRooms(geoId, dates)
 activate api
-api --> adapter: Route[]
+
+api -> api: make HTTP request to TripAdvisor
+api --> api: receive TripAdvisorHotelResponse
+
+api -> dataAdapter: adapt(response)
+activate dataAdapter
+dataAdapter --> api: List<Room>
+deactivate dataAdapter
+
+api --> serviceAdapter: CompletableFuture<List<Room>>
 deactivate api
 
-adapter --> client: Object
-deactivate adapter
+serviceAdapter --> controller: CompletableFuture<List<Room>>
+deactivate serviceAdapter
 
-note right of adapter
-  Adapter translates generic request
-  into transport-specific API call
+note right of serviceAdapter
+  Service adapter handles the async
+  communication with external API
+end note
+
+note right of dataAdapter
+  Data adapter transforms external
+  response into domain model
 end note
 
 @enduml
