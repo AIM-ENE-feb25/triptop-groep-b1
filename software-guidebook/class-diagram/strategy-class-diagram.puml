@@ -1,4 +1,5 @@
 @startuml
+title "Class diagram design pattern strategy: API error handling"
 class ExternalController{
 + strategyContext: StrategyContext
 + makeAPICall(): Response
