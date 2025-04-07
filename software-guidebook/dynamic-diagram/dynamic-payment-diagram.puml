@@ -1,0 +1,26 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+title Dynamic Diagram - Payment Processing Flow
+
+Person(traveler, "Traveler", "A person making a payment")
+Container(spa, "Frontend", "React", "Single Page Application")
+Container(paymentController, "Payment Controller", "Spring Controller", "Handles payment endpoints")
+Container(paymentService, "Payment Service", "Spring Service", "Manages payment processing")
+Container(bookingService, "Booking Service", "Spring Service", "Manages booking status")
+Container(paymentRepository, "Payment Repository", "Spring Data", "Handles payment data access")
+ContainerDb(tripDatabase, "Trip Database", "MongoDB", "Stores payment records")
+System_Ext(paymentGateway, "Stripe API", "External payment processor")
+
+Rel_D(traveler, spa, "Initiates payment")
+Rel_R(spa, paymentController, "POST /payments", "HTTP/REST")
+Rel_R(paymentController, paymentService, "processPayment(paymentRequest)", "Method call")
+Rel_R(paymentService, paymentGateway, "createPaymentIntent(amount)", "HTTPS")
+Rel_R(paymentService, paymentRepository, "createPaymentRecord(payment)", "Method call")
+Rel_R(paymentRepository, tripDatabase, "Store payment record", "MongoDB")
+Rel_R(paymentService, bookingService, "updateBookingStatus(bookingId, PAID)", "Method call")
+Rel_R(paymentService, paymentController, "return payment confirmation", "Method call")
+Rel_R(paymentController, spa, "return payment confirmation", "HTTP/REST")
+Rel_R(spa, traveler, "Display payment confirmation", "Browser")
+
+@enduml 

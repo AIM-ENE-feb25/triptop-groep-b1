@@ -1,0 +1,26 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+title Dynamic Diagram - User Authentication Flow
+
+Person(traveler, "Traveler", "A person wanting to authenticate")
+Container(spa, "Frontend", "React", "Single Page Application")
+Container(authController, "Auth Controller", "Spring Controller", "Handles authentication endpoints")
+Container(authService, "Auth Service", "Spring Service", "Manages authentication logic")
+Container(authRepository, "Auth Repository", "Spring Data", "Handles auth data access")
+ContainerDb(userDatabase, "User Database", "MongoDB", "Stores user authentication data")
+System_Ext(identityProvider, "Google Identity Provider", "External authentication service")
+
+Rel_D(traveler, spa, "Initiates login")
+Rel_R(spa, authController, "POST /auth/login", "HTTP/REST")
+Rel_R(authController, authService, "authenticateUser(credentials)", "Method call")
+Rel_R(authService, identityProvider, "verifyToken(idToken)", "HTTPS")
+Rel_R(authService, authRepository, "findUserByEmail(email)", "Method call")
+Rel_R(authRepository, userDatabase, "Query user collection", "MongoDB")
+Rel_R(authService, authRepository, "createUserSession(user)", "Method call")
+Rel_R(authRepository, userDatabase, "Store session", "MongoDB")
+Rel_R(authService, authController, "return JWT token", "Method call")
+Rel_R(authController, spa, "return JWT token", "HTTP/REST")
+Rel_R(spa, traveler, "Store token and redirect", "Browser storage")
+
+@enduml 

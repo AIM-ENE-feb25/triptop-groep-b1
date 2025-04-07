@@ -1,0 +1,30 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+title Dynamic Diagram - Trip Planning Flow
+
+Person(traveler, "Traveler", "A person planning a trip")
+Container(spa, "Frontend", "React", "Single Page Application")
+Container(tripController, "Trip Controller", "Spring Controller", "Handles trip planning endpoints")
+Container(tripService, "Trip Service", "Spring Service", "Manages trip planning logic")
+Container(integrationService, "Integration Service", "Spring Service", "Coordinates external service calls")
+Container(tripRepository, "Trip Repository", "Spring Data", "Handles trip data access")
+ContainerDb(tripDatabase, "Trip Database", "MongoDB", "Stores trip plans")
+System_Ext(accommodationService, "TripAdvisor API", "External accommodation service")
+System_Ext(transportService, "NS API", "External transport service")
+System_Ext(activityService, "TripAdvisor API", "External activity service")
+
+Rel_D(traveler, spa, "Creates new trip plan")
+Rel_R(spa, tripController, "POST /trips", "HTTP/REST")
+Rel_R(tripController, tripService, "createTrip(tripRequest)", "Method call")
+Rel_R(tripService, integrationService, "searchAccommodations(criteria)", "Method call")
+Rel_R(integrationService, accommodationService, "GET /hotels", "HTTPS")
+Rel_R(integrationService, transportService, "GET /trains", "HTTPS")
+Rel_R(integrationService, activityService, "GET /activities", "HTTPS")
+Rel_R(tripService, tripRepository, "saveTrip(trip)", "Method call")
+Rel_R(tripRepository, tripDatabase, "Store trip plan", "MongoDB")
+Rel_R(tripService, tripController, "return trip plan", "Method call")
+Rel_R(tripController, spa, "return trip plan", "HTTP/REST")
+Rel_R(spa, traveler, "Display trip plan", "Browser")
+
+@enduml 
