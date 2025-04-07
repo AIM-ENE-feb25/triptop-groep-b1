@@ -211,7 +211,7 @@ Het sequentiediagram toont hoe het Adapter patroon de communicatie met externe s
 #### Class Diagram
 ![strategy class Diagram](class-diagram/strategy-class-diagram.svg)
 
-De strategy zorgt er voor dat het heel simpel is om meer api calls en bijhoorende error responses aan te maken.
+De strategy zorgt er voor dat het heel simpel is om meer API calls en bijhoorende error responses aan te maken.
 Hierbij heeft een service of controller; in dit geval de ExternalController een instantie van StrategyContext.
 Deze StrategyContext heeft een instantie van de interface APIStrategy. Deze kan (her)geinitialiseerd worden met een van de implementaties van deze interface via de setStrategy van StrategyContext.
 De data dat gereturneerd wordt bij getData is per implementatie van APIStrategy anders. Wanneer dan getData wordt aangeroepen, krijgt de StrategyContext de juiste data terug.
