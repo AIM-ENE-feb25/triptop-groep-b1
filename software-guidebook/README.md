@@ -16,8 +16,6 @@ Dit software guidebook geeft een overzicht van de Triptop-applicatie. Het bevat 
 ![context diagram](context-diagram/context-triptop.svg)
 [View context diagram source](context-diagram/context-triptop.svg)
 
-### Functionaliteit
-
 TripTop is een vakantieplanningsapplicatie die is ontworpen om gebruikers volledige controle
 te geven over hun reisplanning. Het platform stelt gebruikers in staat om hun vakanties te plannen,
 te boeken en te beheren via een geïntegreerde interface. Door verschillende reisdiensten samen te
