@@ -15,16 +15,14 @@ import java.util.List;
 
 public class BookingService implements IExternalService {
     private static final String API_URL = "https://booking-com15.p.rapidapi.com/api/v1/cars/searchDestination";
-    private static final String API_KEY = "41f5c22de2mshb11a6744daaf9cbp1bb8dejsnadf9013ccbb2";
+    private static final String API_KEY = "1c16cead05mshb8a530ab9dd5461p1da4bajsn879932933a50";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public BookingService() {
-        // API key is already set
     }
 
     @Override
     public void setApiKey(String apiKey) {
-        // API key is already set, this method is kept for interface compliance
     }
 
     @Override
