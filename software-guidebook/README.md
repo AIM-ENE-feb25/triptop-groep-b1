@@ -53,31 +53,31 @@ Als gebruiker wil ik de bouwstenen van mijn reis flexibel kunnen uitbreiden met 
 
 ![Domain Model](../opdracht-diagrammen/Domain%20Model.png)
 
-| class: attribute | is input voor API+endpoint | wordt gevuld door API+endpoint | wordt geleverd door eindgebruiker | moet worden opgeslagen in de applicatie |
-|------------------|----------------------------|--------------------------------|-----------------------------------|-----------------------------------------|
-| Trip::startDatum | Booking /search (POST), FlightScraper /flights (GET) |  | x | x |
-| Trip::eindDatum | Booking /search (POST), FlightScraper /flights (GET) |  | x | x |
-| Trip::budget |  |  | x | x |
-| Excursie::titel |  | TripAdvisor /search |  | x |
-| Excursie::datum |  | TripAdvisor /search |  | x |
-| Excursie::startTijd |  | TripAdvisor /search |  | x |
-| Excursie::eindTijd |  | TripAdvisor /search |  | x |
-| Excursie::prijs |  | TripAdvisor /search |  | x |
-| Reis::startDatum | FlightScraper /flights (GET) |  | x | x |
-| Reis::eindDatum | FlightScraper /flights (GET) |  | x | x |
-| Reis::prijs |  | FlightScraper /flights (GET) |  | x |
-| Reis::vervoer |  |  | x | x |
-| Verblijf::startDatum | Booking /search (POST) |  | x | x |
-| Verblijf::eindDatum | Booking /search (POST) |  | x | x |
-| Verblijfplaats::locatie |  | Booking /search (POST) |  | x |
-| Verblijfplaats::prijs |  | Booking /search (POST) |  | x |
-| Locatie::lat |  | Booking /search (POST), TripAdvisor /search |  | x |
-| Locatie::lon |  | Booking /search (POST), TripAdvisor /search |  | x |
-| Reiziger::voornaam |  |  | x | x |
-| Reiziger::achternaam |  |  | x | x |
-| Reiziger::telefoonnummer |  |  | x | x |
-| Reservering::reserveringsnummer |  | Booking /confirm (POST), FlightScraper /book (POST) |  | x |
-| Reservering::status |  | Booking /status (GET), FlightScraper /status (GET) |  | x |
+| class: attribute                | is input voor API+endpoint                           | wordt gevuld door API+endpoint                      | wordt geleverd door eindgebruiker | moet worden opgeslagen in de applicatie |
+| ------------------------------- | ---------------------------------------------------- | --------------------------------------------------- | --------------------------------- | --------------------------------------- |
+| Trip::startDatum                | Booking /search (POST), FlightScraper /flights (GET) |                                                     | x                                 | x                                       |
+| Trip::eindDatum                 | Booking /search (POST), FlightScraper /flights (GET) |                                                     | x                                 | x                                       |
+| Trip::budget                    |                                                      |                                                     | x                                 | x                                       |
+| Excursie::titel                 |                                                      | TripAdvisor /search                                 |                                   | x                                       |
+| Excursie::datum                 |                                                      | TripAdvisor /search                                 |                                   | x                                       |
+| Excursie::startTijd             |                                                      | TripAdvisor /search                                 |                                   | x                                       |
+| Excursie::eindTijd              |                                                      | TripAdvisor /search                                 |                                   | x                                       |
+| Excursie::prijs                 |                                                      | TripAdvisor /search                                 |                                   | x                                       |
+| Reis::startDatum                | FlightScraper /flights (GET)                         |                                                     | x                                 | x                                       |
+| Reis::eindDatum                 | FlightScraper /flights (GET)                         |                                                     | x                                 | x                                       |
+| Reis::prijs                     |                                                      | FlightScraper /flights (GET)                        |                                   | x                                       |
+| Reis::vervoer                   |                                                      |                                                     | x                                 | x                                       |
+| Verblijf::startDatum            | Booking /search (POST)                               |                                                     | x                                 | x                                       |
+| Verblijf::eindDatum             | Booking /search (POST)                               |                                                     | x                                 | x                                       |
+| Verblijfplaats::locatie         |                                                      | Booking /search (POST)                              |                                   | x                                       |
+| Verblijfplaats::prijs           |                                                      | Booking /search (POST)                              |                                   | x                                       |
+| Locatie::lat                    |                                                      | Booking /search (POST), TripAdvisor /search         |                                   | x                                       |
+| Locatie::lon                    |                                                      | Booking /search (POST), TripAdvisor /search         |                                   | x                                       |
+| Reiziger::voornaam              |                                                      |                                                     | x                                 | x                                       |
+| Reiziger::achternaam            |                                                      |                                                     | x                                 | x                                       |
+| Reiziger::telefoonnummer        |                                                      |                                                     | x                                 | x                                       |
+| Reservering::reserveringsnummer |                                                      | Booking /confirm (POST), FlightScraper /book (POST) |                                   | x                                       |
+| Reservering::status             |                                                      | Booking /status (GET), FlightScraper /status (GET)  |                                   | x                                       |
 
 ## 4. Quality Attributes
 
@@ -208,10 +208,16 @@ Het sequentiediagram toont hoe het Adapter patroon de communicatie met externe s
 
 ### Strategy
 
+#### Onderzoeksvraag
+
+Hoe ga je om met aanroepen van externe services die niet beschikbaar zijn en toch verwacht wordt dat er waardevolle output gegeven wordt?<br>
+
+De strategy zorgt er voor dat het heel simpel is om meer api calls en bijhoorende error responses aan te maken.<br>
+Daarentegen is het misschien wel een beetje onhandig om hier te gebruiken, aangezien het je wel vastbind aan de interface, waarbij getData altijd een String retourneerd.<br>
+
 #### Class Diagram
 ![strategy class Diagram](class-diagram/strategy-class-diagram.svg)
 
-De strategy zorgt er voor dat het heel simpel is om meer API calls en bijhoorende error responses aan te maken.
 Hierbij heeft een service of controller; in dit geval de ExternalController een instantie van StrategyContext.
 Deze StrategyContext heeft een instantie van de interface APIStrategy. Deze kan (her)geinitialiseerd worden met een van de implementaties van deze interface via de setStrategy van StrategyContext.
 De data dat gereturneerd wordt bij getData is per implementatie van APIStrategy anders. Wanneer dan getData wordt aangeroepen, krijgt de StrategyContext de juiste data terug.
@@ -248,18 +254,18 @@ Enkele belangrijke vereisten zijn toegang tot een grote database van accommodati
 
 ## Considered Options
 
-| Force | TripAdvisor API | Expedia API | Hotels.com API | Airbnb API |
-|-------|----------------|-------------|---------------|------------|
-| **Data Completeness** | ++ | + | + | 0 |
-| **Global Coverage** | ++ | + | + | 0 |
-| **Development Effort** | + | 0 | 0 | - |
-| **Integration Complexity** | + | 0 | 0 | - |
-| **Maintenance Burden** | + | + | + | + |
-| **Update Frequency** | ++ | + | + | + |
-| **API Stability** | + | 0 | 0 | - |
-| **Variety of Accommodations** | + | + | 0 | ++ |
-| **Documentation Quality** | ++ | + | 0 | - |
-| **Multi-language Support** | ++ | + | + | 0 |
+| Force                         | TripAdvisor API | Expedia API | Hotels.com API | Airbnb API |
+| ----------------------------- | --------------- | ----------- | -------------- | ---------- |
+| **Data Completeness**         | ++              | +           | +              | 0          |
+| **Global Coverage**           | ++              | +           | +              | 0          |
+| **Development Effort**        | +               | 0           | 0              | -          |
+| **Integration Complexity**    | +               | 0           | 0              | -          |
+| **Maintenance Burden**        | +               | +           | +              | +          |
+| **Update Frequency**          | ++              | +           | +              | +          |
+| **API Stability**             | +               | 0           | 0              | -          |
+| **Variety of Accommodations** | +               | +           | 0              | ++         |
+| **Documentation Quality**     | ++              | +           | 0              | -          |
+| **Multi-language Support**    | ++              | +           | +              | 0          |
 
 Legend:
 - ++ : Excellent fit / Strong advantage
@@ -335,13 +341,13 @@ De TripTop-applicatie vereist robuust state management om complexe gebruikersint
 
 ## Considered Options
 
-| Option                     | Redux | Context API | MobX |
-| -------------------------- | ----- | ----------- | ---- |
-| **Scalability**            | ++    | +           | +    |
-| **Learning Curve**         | -     | ++          | -    |
-| **Developer Experience**   | +     | +           | +    |
-| **Community Support**      | ++    | +           | +    |
-| **Integration**            | ++    | +           | +    |
+| Option                   | Redux | Context API | MobX |
+| ------------------------ | ----- | ----------- | ---- |
+| **Scalability**          | ++    | +           | +    |
+| **Learning Curve**       | -     | ++          | -    |
+| **Developer Experience** | +     | +           | +    |
+| **Community Support**    | ++    | +           | +    |
+| **Integration**          | ++    | +           | +    |
 
 Legend:
 - ++ : Excellent fit / Strong advantage
@@ -376,15 +382,15 @@ De TripTop-applicatie vereist een flexibele en schaalbare database-oplossing die
 
 ## Considered Options
 
-| Option                     | MongoDB   | PostgreSQL | MySQL | CouchDB  |
-| -------------------------- |-----------| ---------- | ----- |----------|
-| **Schema Flexibility**     | ++        | -          | -     | ++       |
-| **Scalability**            | ++        | +          | +     | +        |
-| **Query Performance**      | +         | ++         | +     | -        |
-| **Data Consistency**       | -         | ++         | ++    | -        |
-| **Development Speed**      | ++        | +          | +     | +        |
-| **Offline Support**        | -         | -          | -     | ++       |
-| **Community Size**         | ++        | ++         | ++    | -        |
+| Option                 | MongoDB | PostgreSQL | MySQL | CouchDB |
+| ---------------------- | ------- | ---------- | ----- | ------- |
+| **Schema Flexibility** | ++      | -          | -     | ++      |
+| **Scalability**        | ++      | +          | +     | +       |
+| **Query Performance**  | +       | ++         | +     | -       |
+| **Data Consistency**   | -       | ++         | ++    | -       |
+| **Development Speed**  | ++      | +          | +     | +       |
+| **Offline Support**    | -       | -          | -     | ++      |
+| **Community Size**     | ++      | ++         | ++    | -       |
 
 Legend:
 - ++ : Excellent fit / Strong advantage
